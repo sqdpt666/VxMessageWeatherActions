@@ -1,9 +1,10 @@
 # VxMessageActions
 微信消息推送Gitub Actions版本
 
-1. 复制本项目到你的仓库，设置为私有项目(注意，要开启Actions，Settings->Actions->General->Allow all actions and rausabel workflows->save)
+1. 复制本项目到你的仓库，设置为私有项目
 2. 修改`VxUtil`和`MessageService`中对应的地方替换成你自己从[微信公众号测试平台](https://mp.weixin.qq.com/debug/cgi-bin/sandboxinfo?action=showinfo&t=sandbox/index)
 获取的内容即可
+3. 如果项目上方没有Actions,就要手动开启Actions，步骤为：Settings->Actions->General->Allow all actions and rausabel workflows->save
 
 > 关于微信公众号测试平台的内容的说明：
 >  1. AppID和appSecret在微信公众号测试平台网站最上方
