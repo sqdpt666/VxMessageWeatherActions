@@ -3,7 +3,7 @@ package com.pt.vx.utils;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
 import com.pt.vx.domain.TokenInfo;
-import com.sun.deploy.util.StringUtils;
+
 
 import java.util.logging.Logger;
 
@@ -24,7 +24,7 @@ public class VxUtil {
 
 
     public static void sendMessage(String message){
-        if("你的AppID".equals(AppID) || "你的appSecret".equals("你的appSecret")){
+        if("你的AppID".equals(AppID) || "你的appSecret".equals(appSecret)){
             log.warning("请先填写好你的AppID和你的appSecret");
             return;
         }
