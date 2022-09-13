@@ -5,15 +5,21 @@ import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
 import com.pt.vx.domain.weather.*;
 
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.logging.Logger;
 
 
 public class WeatherUtil {
 
-    private static final String KEY = "你的KEY";
+    //在https://lbs.amap.com/api/webservice/guide/create-project/get-key获取key
+    private static final String KEY = "高德地图的KEY";//改成你的key
 
     private static final Logger log = Logger.getAnonymousLogger();
+
+    private static final  String WEATHER_URL = "https://restapi.amap.com/v3/weather/weatherInfo";
+
+    private static final  String CODE_URL = "https://restapi.amap.com/v3/geocode/geo";
 
     public static final String TYPE_LIVE = "base";
     public static final String TYPE_ALL = "all";
@@ -29,13 +35,12 @@ public class WeatherUtil {
     }
 
     public static WeatherResponseDto getWeather(String cityCode,String type){
-        String weatherURL = "https://restapi.amap.com/v3/weather/weatherInfo?%s";
-        WeatherRequestDto dto=new WeatherRequestDto();
-        dto.setCity(cityCode);
-        dto.setKey(KEY);
-        dto.setExtensions(type);
-        String params = JSONUtil.toJsonStr(dto);
-        String result = HttpUtil.get(String.format(weatherURL, params));
+
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("key",KEY);
+        map.put("city",cityCode);
+        map.put("extensions",type);
+        String result = HttpUtil.get(WEATHER_URL,map);
         WeatherResponseDto weatherResponseDto =  JSONUtil.toBean(result, WeatherResponseDto.class);
         if(Objects.equals(0,weatherResponseDto.getStatus()) ||  !"10000".equals(weatherResponseDto.getInfocode())){
             log.warning("获取天气失败");
@@ -45,13 +50,12 @@ public class WeatherUtil {
     }
 
     public static Code getCode(String address, String city){
-        String CodeURL = "https://restapi.amap.com/v3/geocode/geo?%s";
-        CodeRequestDto dto=new CodeRequestDto();
-        dto.setKey(KEY);
-        dto.setAddress(address);
-        dto.setCity(city);
-        String params = JSONUtil.toJsonStr(dto);
-        String result = HttpUtil.get(String.format(CodeURL, params));
+
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("key",KEY);
+        map.put("address",address);
+        map.put("city",city);
+        String result = HttpUtil.get(CODE_URL,map);
         CodeResponseDto codeResponseDto = JSONUtil.toBean(result, CodeResponseDto.class);
         if(Objects.equals(0,codeResponseDto.getStatus()) ){
             log.warning("获取区域编码失败:"+codeResponseDto.getInfo());

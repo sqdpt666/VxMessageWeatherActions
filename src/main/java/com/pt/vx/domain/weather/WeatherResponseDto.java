@@ -15,7 +15,7 @@ public class WeatherResponseDto {
 
     private List<WeatherLiveDto> lives;
 
-    private WeatherForecastDto forecast;
+    private List<WeatherForecastDto> forecasts;
 
     public Integer getStatus() {
         return status;
@@ -57,11 +57,11 @@ public class WeatherResponseDto {
         this.lives = lives;
     }
 
-    public WeatherForecastDto getForecast() {
-        return forecast;
+    public List<WeatherForecastDto> getForecasts() {
+        return forecasts;
     }
 
-    public void setForecast(WeatherForecastDto forecast) {
-        this.forecast = forecast;
+    public void setForecasts(List<WeatherForecastDto> forecasts) {
+        this.forecasts = forecasts;
     }
 }

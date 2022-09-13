@@ -26,8 +26,8 @@ public class MessageService {
      * 	你的生日还有{{yourBirthDay.DATA}}天
      * 	我的生日还有{{myBirthDay.DATA}}天
      * 	距离我们的下一次纪念还有{{loveDay.DATA}}天
-     * 	今天白天{{weatherDay.DATA}}，温度{{temperatureDay.DATA}}°
-     * 	今天晚上{{weatherNight.DATA}}，温度{{temperatureNight.DATA}}°
+     * 	今天白天{{weatherDay.DATA}}，温度{{temperatureDay.DATA}}℃
+     * 	今天晚上{{weatherNight.DATA}}，温度{{temperatureNight.DATA}}℃
      *
      * 	最后，开心每一天！
      */
@@ -37,7 +37,7 @@ public class MessageService {
         dto.setTouser("修改成你的用户ID"); //修改成你的用户ID
         HashMap<String, DataInfo> map = new HashMap<>();
         setMap(map,"userName","改成她的名字","#FFCCCC"); //改成她的名字
-        setWeather(map,"江苏省南京市玄武区红山街道", "南京", WeatherUtil.TYPE_ALL);
+        setWeather(map,"江苏省南京市玄武区红山街道", "南京", WeatherUtil.TYPE_ALL); //改成她的地址与城市
         setAndSend(dto,map);
     }
 
@@ -54,21 +54,21 @@ public class MessageService {
     private void setWeather(HashMap<String, DataInfo> map,String address,String city,String type){
         WeatherResponseDto weather = WeatherUtil.getWeather(address,city,type);
         if(weather != null){
-            WeatherForecastDto forecast = weather.getForecast();
+            WeatherForecastDto forecast = weather.getForecasts().get(0);
             List<Cast> casts = forecast.getCasts();
-            Cast cast = casts.stream().findFirst().orElse(null);
+            Cast cast = casts.get(0);//获取天气预报（实际上可以获取到5天的天气预报，0代表今天，之后为1，2，3，4）
             if(cast != null){
                 setMap(map,"weatherDay",cast.getDayweather(),"#33A1C9");
                 setMap(map,"temperatureDay",cast.getDaytemp() ,"#33A1C9");
-                setMap(map,"weatherNight",cast.getNightweather(),"#292421");
-                setMap(map,"temperatureNight",cast.getNighttemp() ,"#292421");
+                setMap(map,"weatherNight",cast.getNightweather(),"#33A1C9");
+                setMap(map,"temperatureNight",cast.getNighttemp() ,"#33A1C9");
                 return;
             }
         }
         setMap(map,"weatherDay","未知","#33A1C9");
         setMap(map,"temperatureDay","未知" ,"#33A1C9");
-        setMap(map,"weatherNight","未知","#292421");
-        setMap(map,"temperatureNight","未知" ,"#292421");
+        setMap(map,"weatherNight","未知","#33A1C9");
+        setMap(map,"temperatureNight","未知" ,"#33A1C9");
     }
 
     /**
