@@ -45,6 +45,7 @@ public class VxUtil {
         dto.setTouser("修改成你的用户ID"); //修改成你的用户ID
         HashMap<String, DataInfo> map = new HashMap<>();
         setMap(map,"userName","改成她的名字","#FFCCCC"); //改成她的名字
+        setWeather(map,"江苏省南京市玄武区红山街道", "南京", WeatherUtil.TYPE_ALL); //改成她的地址与城市
         setAndSend(dto,map);
     }
     
