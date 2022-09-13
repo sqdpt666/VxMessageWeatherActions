@@ -11,7 +11,8 @@
 1. 复制本项目到你的仓库，设置为私有项目
 2. 修改`VxUtil`和`MessageService`中对应的地方替换成你自己从[微信公众号测试平台](https://mp.weixin.qq.com/debug/cgi-bin/sandboxinfo?action=showinfo&t=sandbox/index)
 获取的内容即可
-3. 如果项目上方没有Actions,就要手动开启Actions，步骤为：
+3. 修改`WeatherUtil`中的`KEY`，替换成你从[高德地图开发者平台](https://lbs.amap.com/api/webservice/guide/create-project/get-key)获取的KEY。（这个链接直通获取key的教程）
+4. 如果项目上方没有Actions,就要手动开启Actions，步骤为：
     1. 点击项目上方的Settings
     2. 点击页面左边Actions
     3. 点击Actions下面的General
@@ -61,6 +62,15 @@ public class VxUtil {
 
 ```
 
+在WeatherUtil中的内容
+```java
+public class WeatherUtil {
+
+    //在https://lbs.amap.com/api/webservice/guide/create-project/get-key获取key
+    private static final String KEY = "高德地图的KEY";//改成你的key
+
+```
+
 微信消息模板，复制到[微信公众号测试平台](https://mp.weixin.qq.com/debug/cgi-bin/sandboxinfo?action=showinfo&t=sandbox/index)的模板里面
 ```
       	{{userName.DATA}}，
@@ -68,8 +78,8 @@ public class VxUtil {
       	你的生日还有{{yourBirthDay.DATA}}天
       	我的生日还有{{myBirthDay.DATA}}天
       	距离我们的下一次纪念还有{{loveDay.DATA}}天
-        今天白天{{weatherDay.DATA}}，温度{{temperatureDay.DATA}}°
-      	今天晚上{{weatherNight.DATA}}，温度{{temperatureNight.DATA}}°
+        今天白天{{weatherDay.DATA}}，温度{{temperatureDay.DATA}}℃
+      	今天晚上{{weatherNight.DATA}}，温度{{temperatureNight.DATA}}℃
 
         最后，开心每一天！
 ```
