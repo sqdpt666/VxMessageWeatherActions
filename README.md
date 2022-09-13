@@ -67,6 +67,8 @@ public class VxUtil {
       	你的生日还有{{yourBirthDay.DATA}}天
       	我的生日还有{{myBirthDay.DATA}}天
       	距离我们的下一次纪念还有{{loveDay.DATA}}天
+        今天白天{{weatherDay.DATA}}，温度{{temperatureDay.DATA}}°
+      	今天晚上{{weatherNight.DATA}}，温度{{temperatureNight.DATA}}°
 
         最后，开心每一天！
 ```
