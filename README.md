@@ -1,5 +1,5 @@
-# VxMessageActions
-微信消息推送Gitub Actions版本
+# VxMessageWeatherActions
+微信消息推送Gitub Actions版本+天气预报
 > 注意
 > 
 > actions上设置的时间并不是准时的。
@@ -45,6 +45,7 @@ public class VxUtil {
         dto.setTouser("修改成你的用户ID"); //修改成你的用户ID
         HashMap<String, DataInfo> map = new HashMap<>();
         setMap(map,"userName","改成她的名字","#FFCCCC"); //改成她的名字
+        setWeather(map,"江苏省南京市玄武区红山街道", "南京", WeatherUtil.TYPE_ALL); //改成她的地址与城市
         setAndSend(dto,map);
     }
     
@@ -67,6 +68,8 @@ public class VxUtil {
       	你的生日还有{{yourBirthDay.DATA}}天
       	我的生日还有{{myBirthDay.DATA}}天
       	距离我们的下一次纪念还有{{loveDay.DATA}}天
+        今天白天{{weatherDay.DATA}}，温度{{temperatureDay.DATA}}°
+      	今天晚上{{weatherNight.DATA}}，温度{{temperatureNight.DATA}}°
 
         最后，开心每一天！
 ```
