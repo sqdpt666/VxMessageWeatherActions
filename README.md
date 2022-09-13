@@ -1,5 +1,6 @@
 # VxMessageActions
 微信消息推送Gitub Actions版本
+> 注意，actions上设置的时间并不是准时的。比如设置8.08，系统会帮你在8.08的时候进行执行排队，轮到你才会执行。人多的时候可能会排队1个小时左右。
 
 1. 复制本项目到你的仓库，设置为私有项目
 2. 修改`VxUtil`和`MessageService`中对应的地方替换成你自己从[微信公众号测试平台](https://mp.weixin.qq.com/debug/cgi-bin/sandboxinfo?action=showinfo&t=sandbox/index)
