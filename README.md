@@ -1,5 +1,5 @@
-# VxMessageActions
-微信消息推送Gitub Actions版本
+# VxMessageWeatherActions
+微信消息推送Gitub Actions版本+天气预报
 > 注意
 > 
 > actions上设置的时间并不是准时的。
