@@ -50,9 +50,19 @@ public class DateUtil {
             return passDay(of,now);
         }
         return passDay(now,LocalDate.of(year, month, day));
-
     }
 
+    public static String getNextBirthDay(LocalDate birthday){
+        int month = birthday.getMonthValue();
+        int day = birthday.getDayOfMonth();
+        return getNextBirthDay(month,day);
+    }
+
+    public static String getNextChineseBirthDay(LocalDate birthday){
+        int month = birthday.getMonthValue();
+        int day = birthday.getDayOfMonth();
+        return getNextChineseBirthDay(month,day);
+    }
 
     /**
      * 获取距离农历生日的天数

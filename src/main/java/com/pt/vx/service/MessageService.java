@@ -2,7 +2,9 @@ package com.pt.vx.service;
 
 
 import cn.hutool.json.JSONUtil;
+import com.pt.vx.domain.BirthDay;
 import com.pt.vx.domain.DataInfo;
+import com.pt.vx.domain.User;
 import com.pt.vx.domain.VxMessageDto;
 import com.pt.vx.domain.weather.Cast;
 import com.pt.vx.domain.weather.WeatherForecastDto;
@@ -11,6 +13,8 @@ import com.pt.vx.utils.DateUtil;
 import com.pt.vx.utils.VxUtil;
 import com.pt.vx.utils.WeatherUtil;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -31,24 +35,30 @@ public class MessageService {
      *
      * 	最后，开心每一天！
      */
-    public void sendMessage(){
+    public void sendMessage(User user){
         VxMessageDto dto = new VxMessageDto();
-        dto.setTemplate_id("修改成你的模板ID");  //修改成你的模板ID
-        dto.setTouser("修改成你的用户ID"); //修改成你的用户ID
+        dto.setTemplate_id(user.getTemplateId());
+        dto.setTouser(user.getVx());
         HashMap<String, DataInfo> map = new HashMap<>();
-        setMap(map,"userName","改成她的名字","#FFCCCC"); //改成她的名字
-        setWeather(map,"江苏省南京市玄武区红山街道", "南京", WeatherUtil.TYPE_ALL); //改成她的地址与城市
-        setAndSend(dto,map);
+        setMap(map,"userName",user.getUserName(),"#FFCCCC"); //改成她的名字
+        setWeather(map,user.getAddress(), user.getCity(), WeatherUtil.TYPE_ALL); //改成她的地址与城市
+        setMap(map,"holdDay", DateUtil.getNextBirthDay(user.getLoveDay()),"#FFCCCC"); //改成你在一起的时间
+        setMap(map,"yourBirthDay",getBirthDay(user),"#FFCCCC"); //改成她的生日
+        setMap(map,"myBirthDay", getBirthDay(user),"#FFCCCC"); //改成你的生日
+        int monthValue = user.getLoveDay().getMonthValue();
+        int dayOfMonth = user.getLoveDay().getDayOfMonth();
+        setMap(map,"loveDay",DateUtil.getNextBirthDay(monthValue,dayOfMonth),"#FFCCCC"); //改成你在一起的时间
+        dto.setData(map);
+        String message = JSONUtil.toJsonStr(dto);
+        VxUtil.sendMessage(message);
     }
 
-    public void sendMessage(String id,String uid,String name,String address,String city){
-        VxMessageDto dto = new VxMessageDto();
-        dto.setTemplate_id(id);
-        dto.setTouser(uid);
-        HashMap<String, DataInfo> map = new HashMap<>();
-        setMap(map,"userName",name,"#FFCCCC");
-        setWeather(map,address, city, WeatherUtil.TYPE_ALL);
-        setAndSend(dto,map);
+    private String getBirthDay(User user){
+        BirthDay birthDay = user.getBirthDay();
+        LocalDate of = LocalDate.of(birthDay.getYear(), birthDay.getMonth(), birthDay.getDay());
+        return birthDay.isChinese()?
+                DateUtil.getNextChineseBirthDay(of) :
+                DateUtil.getNextBirthDay(of);
     }
 
     private void setWeather(HashMap<String, DataInfo> map,String address,String city,String type){
@@ -71,18 +81,6 @@ public class MessageService {
         setMap(map,"temperatureNight","未知" ,"#33A1C9");
     }
 
-    /**
-     * 通用的日期信息
-     */
-    private void setAndSend(VxMessageDto dto,HashMap<String, DataInfo> map){
-        setMap(map,"holdDay", DateUtil.passDay(2020,7,8),"#FFCCCC"); //改成你在一起的时间
-        setMap(map,"yourBirthDay",DateUtil.getNextBirthDay(8,11),"#FFCCCC"); //改成她的生日
-        setMap(map,"myBirthDay", DateUtil.getNextChineseBirthDay(2,15),"#FFCCCC"); //改成你的生日
-        setMap(map,"loveDay",DateUtil.getNextBirthDay(7,8),"#FFCCCC"); //改成你在一起的时间
-        dto.setData(map);
-        String message = JSONUtil.toJsonStr(dto);
-        VxUtil.sendMessage(message);
-    }
 
 
     /**
