@@ -13,8 +13,6 @@ import java.util.logging.Logger;
 
 public class WeatherUtil {
 
-    //在https://lbs.amap.com/api/webservice/guide/create-project/get-key获取key
-    private static final String KEY = "高德地图的KEY";//改成你的key
 
     private static final Logger log = Logger.getAnonymousLogger();
 
@@ -53,7 +51,7 @@ public class WeatherUtil {
     public static Code getCode(String address, String city){
 
         HashMap<String,Object> map = new HashMap<>();
-        map.put("key",KEY);
+        map.put("key",AllConfig.WeatherKey);
         map.put("address",address);
         map.put("city",city);
         String result = HttpUtil.get(CODE_URL,map);
