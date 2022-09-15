@@ -3,6 +3,7 @@ package com.pt.vx.utils;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
+import com.pt.vx.config.AllConfig;
 import com.pt.vx.domain.weather.*;
 
 import java.util.HashMap;
@@ -37,7 +38,7 @@ public class WeatherUtil {
     public static WeatherResponseDto getWeather(String cityCode,String type){
 
         HashMap<String,Object> map = new HashMap<>();
-        map.put("key",KEY);
+        map.put("key", AllConfig.WeatherKey);
         map.put("city",cityCode);
         map.put("extensions",type);
         String result = HttpUtil.get(WEATHER_URL,map);
