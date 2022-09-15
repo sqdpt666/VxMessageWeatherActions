@@ -6,13 +6,18 @@
 > 
 > 比如设置8.08，系统会帮你在8.08的时候进行执行排队,轮到你才会执行。
 > 
+> 
 > 人多的时候可能会排队1个小时左右，甚至更久。所以通常不要设置的热门时间点，如每个小时的整点。
+>
+> 还有一个注意的点：如果之前设置的是北京时间8点(因为要-8小时其实要设置成0点)，那么如果后面你又设置7点(写成23点)，
+> 那么这个23点其实就是还没过夜，第二天收到的消息会和昨天的相同。
 
 1. 复制本项目到你的仓库，设置为私有项目
-2. 修改`VxUtil`和`MessageService`中对应的地方替换成你自己从[微信公众号测试平台](https://mp.weixin.qq.com/debug/cgi-bin/sandboxinfo?action=showinfo&t=sandbox/index)
+2. 修改`AllConfig`中对应的地方替换成你自己从[微信公众号测试平台](https://mp.weixin.qq.com/debug/cgi-bin/sandboxinfo?action=showinfo&t=sandbox/index)
 获取的内容即可
-3. 修改`WeatherUtil`中的`KEY`，替换成你从[高德地图开发者平台](https://lbs.amap.com/api/webservice/guide/create-project/get-key)获取的KEY。（这个链接直通获取key的教程）
-4. 如果项目上方没有Actions,就要手动开启Actions，步骤为：
+3. 修改`AllConfig`中对应的地方替换成你从[高德地图开发者平台](https://lbs.amap.com/api/webservice/guide/create-project/get-key)获取的KEY。（这个链接直通获取key的教程）
+4. 修改`AllConfig`中对应的地方,替换成你或者你对象的个人信息,如生日，纪念日，地址等
+5. 如果项目上方没有Actions,就要手动开启Actions，步骤为：
     1. 点击项目上方的Settings
     2. 点击页面左边Actions
     3. 点击Actions下面的General
@@ -25,49 +30,35 @@
 >  3. 用户ID在扫码关注后生产
 
 
-在`VxUtil`中需要修改的部分
+`AllConfig`要改的部分，如下：
 ```java
+public class AllConfig {
+    public static final String VxAppId = "微信的APPID";
+    public static final String VxAppSecret = "微信的密钥";
+    public static final String WeatherKey = "高德地图key";
+    private static void init(){
+        //如果要多个人的话，就复制这个一遍，然后填写里面的内容。这里默认两个人,大伙应该是两个人吧（笑）
+        userList.add(getUser(
+                "你自己扫码后的微信号",
+                "她的名字",
+                new BirthDay(1999,8,11,false),  //最后的这个true/false，如果是过公历生日就写false，如果是过农历生日写true
+                new BirthDay(1999,2,15,true), //最后的这个true/false，如果是过公历生日就写false，如果是过农历生日写true
+                LocalDate.of(2020,7,8),
+                "江苏省南京市玄武区",
+                "南京",
+                "微信消息模板ID"));
 
-public class VxUtil {
+        userList.add(getUser(
+                "你自己扫码后的微信号",
+                "她的名字",
+                new BirthDay(1999,2,15,true),  //最后的这个true/false，如果是过公历生日就写false，如果是过农历生日写true
+                new BirthDay(1999,8,11,false), //最后的这个true/false，如果是过公历生日就写false，如果是过农历生日写true
+                LocalDate.of(2020,7,8),
+                "江苏省南京市玄武区",
+                "南京",
+                "微信消息模板ID"));
 
-    private static final String AppID = "你的AppID";
-
-    private static final String appSecret= "你的appSecret";
-    
-```    
-
-
-在`MessageService`中需要修改的部分
-
-```java
-  public void sendMessage(){
-        VxMessageDto dto = new VxMessageDto();
-        dto.setTemplate_id("修改成你的模板ID");  //修改成你的模板ID
-        dto.setTouser("修改成你的用户ID"); //修改成你的用户ID
-        HashMap<String, DataInfo> map = new HashMap<>();
-        setMap(map,"userName","改成她的名字","#FFCCCC"); //改成她的名字
-        setWeather(map,"江苏省南京市玄武区红山街道", "南京", WeatherUtil.TYPE_ALL); //改成她的地址与城市
-        setAndSend(dto,map);
     }
-    
-   private void setAndSend(VxMessageDto dto,HashMap<String, DataInfo> map){
-        setMap(map,"holdDay", DateUtil.passDay(2020,7,8),"#FFCCCC"); //改成你在一起的时间
-        setMap(map,"yourBirthDay",DateUtil.getNextBirthDay(8,11),"#FFCCCC"); //改成她的生日（getNextChineseBirthDay为农历，getNextBirthDay为公历）
-        setMap(map,"myBirthDay", DateUtil.getNextChineseBirthDay(2,15),"#FFCCCC"); //改成你的生日（getNextChineseBirthDay为农历，getNextBirthDay为公历）
-        setMap(map,"loveDay",DateUtil.getNextBirthDay(7,8),"#FFCCCC"); //改成你在一起的时间
-        dto.setData(map);
-        String message = JSONUtil.toJsonStr(dto);
-        VxUtil.sendMessage(message);
-    }  
-
-```
-
-在WeatherUtil中的内容
-```java
-public class WeatherUtil {
-
-    //在https://lbs.amap.com/api/webservice/guide/create-project/get-key获取key
-    private static final String KEY = "高德地图的KEY";//改成你的key
 
 ```
 
