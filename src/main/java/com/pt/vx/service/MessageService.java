@@ -40,14 +40,14 @@ public class MessageService {
         dto.setTemplate_id(user.getTemplateId());
         dto.setTouser(user.getVx());
         HashMap<String, DataInfo> map = new HashMap<>();
-        setMap(map,"userName",user.getUserName(),"#FFCCCC"); //改成她的名字
-        setWeather(map,user.getAddress(), user.getCity(), WeatherUtil.TYPE_ALL); //改成她的地址与城市
-        setMap(map,"holdDay", DateUtil.getNextBirthDay(user.getLoveDay()),"#FFCCCC"); //改成你在一起的时间
-        setMap(map,"yourBirthDay",getBirthDay(user),"#FFCCCC"); //改成她的生日
-        setMap(map,"myBirthDay", getBirthDay(user),"#FFCCCC"); //改成你的生日
+        setMap(map,"userName",user.getUserName(),"#FFCCCC"); 
+        setWeather(map,user.getAddress(), user.getCity(), WeatherUtil.TYPE_ALL); 
+        setMap(map,"holdDay", DateUtil.passDayOfNow(user.getLoveDay()),"#FFCCCC"); 
+        setMap(map,"yourBirthDay",getBirthDay(user),"#FFCCCC"); 
+        setMap(map,"myBirthDay", getBirthDay(user),"#FFCCCC"); 
         int monthValue = user.getLoveDay().getMonthValue();
         int dayOfMonth = user.getLoveDay().getDayOfMonth();
-        setMap(map,"loveDay",DateUtil.getNextBirthDay(monthValue,dayOfMonth),"#FFCCCC"); //改成你在一起的时间
+        setMap(map,"loveDay",DateUtil.getNextBirthDay(monthValue,dayOfMonth),"#FFCCCC"); 
         dto.setData(map);
         String message = JSONUtil.toJsonStr(dto);
         VxUtil.sendMessage(message);
