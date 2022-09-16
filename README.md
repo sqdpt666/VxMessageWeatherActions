@@ -2,6 +2,7 @@
 **请仔细阅读本文档哦~**
 
 微信消息推送Gitub Actions版本+天气预报，究极简单版2.0
+## 问题梳理
 
 |                      | 究极简单版1.0                                                | 究极简单版2.0                       |
 | -------------------- | ------------------------------------------------------------ | ----------------------------------- |
@@ -21,6 +22,7 @@
 > 人多的时候可能会排队1个小时左右，甚至更久。所以通常不要设置的热门时间点，如每个小时的整点。
 >
 
+## 食用步骤
 
 1. 复制本项目到你的仓库，设置为私有项目
 2. 修改`AllConfig`中对应的地方替换成你自己从[微信公众号测试平台](https://mp.weixin.qq.com/debug/cgi-bin/sandboxinfo?action=showinfo&t=sandbox/index)
@@ -71,7 +73,7 @@ public class AllConfig {
     }
 
 ```
-
+## 消息模板
 微信消息模板，复制到[微信公众号测试平台](https://mp.weixin.qq.com/debug/cgi-bin/sandboxinfo?action=showinfo&t=sandbox/index)的模板里面
 友情提示：复制到微信平台里面后，格式可能会乱哦，记得整理一下^_^
 ```
@@ -114,6 +116,16 @@ public class MessageService {
 我自定义的内容是{{myself.DATA}}
 
 最后，开心每一天！
+```
+## 手动执行
+如果想要手动执行
+在maven.yml中加上`workflow_dispatch:`
+如下：（注意，格式要一模一样！）
+```yml
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "8 0 * * *"
 ```
 
 对你有帮助的话，记得一健三连支持一下哦~
