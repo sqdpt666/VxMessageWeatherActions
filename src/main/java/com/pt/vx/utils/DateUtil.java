@@ -55,10 +55,9 @@ public class DateUtil {
 
         //生日已经过去
         if(monthValue > month || (monthValue == month && dayOfMonth > day)){
-            LocalDate of = LocalDate.of(++year, month, day);
-            return passDay(of,now);
+            year++;
         }
-        return passDay(now,LocalDate.of(year, month, day));
+        return passDay(LocalDate.of(year, month, day),now);
     }
 
     public static String getNextBirthDay(LocalDate birthday){
@@ -105,11 +104,11 @@ public class DateUtil {
             }
 
             //返回闰月生日
-            return passDay(now,LocalDate.of(year,greMonth2,greDay2));
+            return passDay(LocalDate.of(year,greMonth2,greDay2),now);
 
         }
 
-        return passDay(now,LocalDate.of(year,greMonth,greDay));
+        return passDay(LocalDate.of(year,greMonth,greDay),now);
     }
 
 
