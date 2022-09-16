@@ -75,16 +75,45 @@ public class AllConfig {
 微信消息模板，复制到[微信公众号测试平台](https://mp.weixin.qq.com/debug/cgi-bin/sandboxinfo?action=showinfo&t=sandbox/index)的模板里面
 友情提示：复制到微信平台里面后，格式可能会乱哦，记得整理一下^_^
 ```
-      	{{userName.DATA}}，
-      	今天是我们在一起的{{holdDay.DATA}}天
-      	你的生日还有{{yourBirthDay.DATA}}天
-      	我的生日还有{{myBirthDay.DATA}}天
-      	距离我们的下一次纪念还有{{loveDay.DATA}}天
-        今天白天{{weatherDay.DATA}}，温度{{temperatureDay.DATA}}℃
-      	今天晚上{{weatherNight.DATA}}，温度{{temperatureNight.DATA}}℃
+{{userName.DATA}}，
+今天是我们在一起的{{holdDay.DATA}}天
+你的生日还有{{yourBirthDay.DATA}}天
+我的生日还有{{myBirthDay.DATA}}天
+距离我们的下一次纪念还有{{loveDay.DATA}}天
+今天白天{{weatherDay.DATA}}，温度{{temperatureDay.DATA}}℃
+今天晚上{{weatherNight.DATA}}，温度{{temperatureNight.DATA}}℃
 
-        最后，开心每一天！
+最后，开心每一天！
 ```
 
+如果你要自定义模板的动态内容，那么你就需要修改`MessageService`中的`sendMessage`方法
+
+在里面加一个`setMap(map,"命名","值","颜色十六进制")`，**这个命名写英文**
+这个命名就是上面消息模板的 {{命名.DATA}}
+```java
+public class MessageService {
+    public void sendMessage(User user){
+        //省略前面的内容
+      
+        //加一个setMap，比如：
+        setMap(map,"myself", "hi! 我是自定义的内容","#FFCCCC");
+        
+       
+        //省略后面的内容
+    }
+```
+然后你就把模板改成
+```
+{{userName.DATA}}，
+今天是我们在一起的{{holdDay.DATA}}天
+你的生日还有{{yourBirthDay.DATA}}天
+我的生日还有{{myBirthDay.DATA}}天
+距离我们的下一次纪念还有{{loveDay.DATA}}天
+今天白天{{weatherDay.DATA}}，温度{{temperatureDay.DATA}}℃
+今天晚上{{weatherNight.DATA}}，温度{{temperatureNight.DATA}}℃
+我自定义的内容是{{myself.DATA}}
+
+最后，开心每一天！
+```
 
 对你有帮助的话，记得一健三连支持一下哦~
