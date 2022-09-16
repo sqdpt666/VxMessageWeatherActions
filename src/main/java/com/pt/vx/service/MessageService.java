@@ -43,8 +43,8 @@ public class MessageService {
         setMap(map,"userName",user.getUserName(),"#FFCCCC"); 
         setWeather(map,user.getAddress(), user.getCity(), WeatherUtil.TYPE_ALL); 
         setMap(map,"holdDay", DateUtil.passDayOfNow(user.getLoveDay()),"#FFCCCC"); 
-        setMap(map,"yourBirthDay",getBirthDay(user),"#FFCCCC"); 
-        setMap(map,"myBirthDay", getBirthDay(user),"#FFCCCC"); 
+        setMap(map,"yourBirthDay",getBirthDay(user.getBirthDay()),"#FFCCCC"); 
+        setMap(map,"myBirthDay", getBirthDay(user.getCareDay()),"#FFCCCC"); 
         int monthValue = user.getLoveDay().getMonthValue();
         int dayOfMonth = user.getLoveDay().getDayOfMonth();
         setMap(map,"loveDay",DateUtil.getNextBirthDay(monthValue,dayOfMonth),"#FFCCCC"); 
@@ -52,14 +52,15 @@ public class MessageService {
         String message = JSONUtil.toJsonStr(dto);
         VxUtil.sendMessage(message);
     }
-
-    private String getBirthDay(User user){
-        BirthDay birthDay = user.getBirthDay();
-        LocalDate of = LocalDate.of(birthDay.getYear(), birthDay.getMonth(), birthDay.getDay());
+    
+     private String getBirthDay(BirthDay birthDay){
+        int month = birthDay.getMonth();
+        int day = birthDay.getDay();
         return birthDay.isChinese()?
-                DateUtil.getNextChineseBirthDay(of) :
-                DateUtil.getNextBirthDay(of);
+                DateUtil.getNextChineseBirthDay(month,day) :
+                DateUtil.getNextBirthDay(month,day);
     }
+
 
     private void setWeather(HashMap<String, DataInfo> map,String address,String city,String type){
         WeatherResponseDto weather = WeatherUtil.getWeather(address,city,type);
