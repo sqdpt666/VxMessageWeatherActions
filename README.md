@@ -24,24 +24,73 @@
 
 ## 食用步骤
 
-1. 复制本项目到你的仓库，设置为私有项目
-2. 修改`AllConfig`中对应的地方替换成你自己从[微信公众号测试平台](https://mp.weixin.qq.com/debug/cgi-bin/sandboxinfo?action=showinfo&t=sandbox/index)
+### 第一步：复制本项目到你的仓库，设置为私有项目
+点击复制项目地址
+
+![点击复制项目地址](https://user-images.githubusercontent.com/56298636/190580174-32b7c197-866f-4e94-b886-36b817e40b03.png)
+
+右上角导入按钮
+
+![image](https://user-images.githubusercontent.com/56298636/190580243-f0b4b8ef-9eb3-4ac2-ab5b-d48aa435e0e7.png)
+
+完成导入
+
+![image](https://user-images.githubusercontent.com/56298636/190580561-fb0cc938-6999-4430-aee2-1616362f6857.png)
+
+### 第二步：开启Actions
+如果项目上方没有Actions,就要手动开启Actions，步骤为：
+
+1. 点击项目上方的Settings
+2. 点击页面左边Actions
+3. 点击Actions下面的General
+4. 点击页面中间的Allow all actions and rausabel workflows
+5. 点击save保持设置
+    
+![image](https://user-images.githubusercontent.com/56298636/190582555-5d576513-eac7-43fd-a248-c62d72b7a03a.png)
+
+    
+
+### 第三步：修改`AllConfig`中的配置
+1. 修改`AllConfig`中对应的地方替换成你自己从[微信公众号测试平台](https://mp.weixin.qq.com/debug/cgi-bin/sandboxinfo?action=showinfo&t=sandbox/index)
 获取的内容即可
-3. 修改`AllConfig`中对应的地方替换成你从[高德地图开发者平台](https://lbs.amap.com/api/webservice/guide/create-project/get-key)获取的KEY。（这个链接直通获取key的教程）
-4. 修改`AllConfig`中对应的地方,替换成你或者你对象的个人信息,如生日，纪念日，地址等
-5. 如果项目上方没有Actions,就要手动开启Actions，步骤为：
-    1. 点击项目上方的Settings
-    2. 点击页面左边Actions
-    3. 点击Actions下面的General
-    4. 点击页面中间的Allow all actions and rausabel workflows
-    5. 点击save保持设置
-
-> 关于微信公众号测试平台的内容的说明：
->  1. AppID和appSecret在微信公众号测试平台网站最上方
->  2. 模板ID在添加模板后生成
->  3. 用户ID在扫码关注后生产
+2. 修改`AllConfig`中对应的地方替换成你从[高德地图开发者平台](https://lbs.amap.com/api/webservice/guide/create-project/get-key)获取的KEY。（这个链接直通获取key的教程）
+3. 修改`AllConfig`中对应的地方,替换成你或者你对象的个人信息,如生日，纪念日，地址等
 
 
+#### 关于微信公众号测试平台的内容的说明：
+  1. AppID和appSecret在微信公众号测试平台网站最上方
+  
+  ![image](https://user-images.githubusercontent.com/56298636/190580833-949247b1-2ac0-4399-8ec4-b94abbbed0ce.png)
+
+  2. 模板ID在添加模板后生成
+  
+  ![image](https://user-images.githubusercontent.com/56298636/190581136-d03d102c-b668-47af-96f6-89e0a79e88c1.png)
+
+  3. 用户ID在扫码关注后生产
+  
+  ![image](https://user-images.githubusercontent.com/56298636/190581072-9b14c1b3-6564-498e-8546-3b0b93bdeaed.png)
+
+#### 关于高德地图的内容说明：
+1. 创建一个新应用
+
+![image](https://user-images.githubusercontent.com/56298636/190583327-dfae0cd2-9450-4b2b-8f3c-dbd0999959f0.png)
+
+2.给应用起个名字
+
+![image](https://user-images.githubusercontent.com/56298636/190583508-09e3c4d6-0063-4dab-9097-a167a594be38.png)
+
+3. 新增一个key
+![image](https://user-images.githubusercontent.com/56298636/190583577-0d804449-6cba-41f1-a169-f9c5af4c6bfd.png)
+
+4. 配置一下
+![image](https://user-images.githubusercontent.com/56298636/190583666-ab4fefa1-e560-46cf-acaa-addabbc748ea.png)
+
+5. 获得key
+
+![image](https://user-images.githubusercontent.com/56298636/190584096-2e34f62c-b4d5-4263-bc3e-24727422586d.png)
+
+
+#### 关于要修改的内容具体位置说明:
 `AllConfig`要改的部分，如下：
 ```java
 public class AllConfig {
@@ -73,6 +122,9 @@ public class AllConfig {
     }
 
 ```
+
+
+
 ## 消息模板
 微信消息模板，复制到[微信公众号测试平台](https://mp.weixin.qq.com/debug/cgi-bin/sandboxinfo?action=showinfo&t=sandbox/index)的模板里面
 友情提示：复制到微信平台里面后，格式可能会乱哦，记得整理一下^_^
@@ -127,5 +179,8 @@ on:
   schedule:
     - cron: "8 0 * * *"
 ```
+然后按下面的4个步骤来手动运行
+![image](https://user-images.githubusercontent.com/56298636/190579413-042157f1-ad42-48bd-b84b-814dd6179edb.png)
+
 
 对你有帮助的话，记得一健三连支持一下哦~
