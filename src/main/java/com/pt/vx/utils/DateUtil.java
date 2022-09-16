@@ -19,6 +19,15 @@ public class DateUtil {
         LocalDate now = LocalDate.now();
         return passDay(now,start);
     }
+    
+    public static String passDayOfNow(LocalDate source){
+        int year = source.getYear();
+        int month = source.getMonthValue();
+        int day = source.getDayOfMonth();
+        LocalDate start = LocalDate.of(year, month, day);
+        LocalDate now = LocalDate.now();
+        return passDay(now,start);
+    }
 
     /**
      *  获取资源离目标的距离天数
