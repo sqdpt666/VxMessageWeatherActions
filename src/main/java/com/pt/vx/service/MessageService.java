@@ -45,12 +45,13 @@ public class MessageService {
         setMap(map,"myBirthDay", getBirthDay(user.getCareDay()),"#FFCCCC");
         setMap(map,"loveDay",DateUtil.getNextBirthDay(user.getLoveDay()),"#FFCCCC");
         setWeather(map,user.getAddress(), user.getCity(), WeatherUtil.TYPE_ALL);
+        setOtherInfo(map);
         dto.setData(map);
         String message = JSONUtil.toJsonStr(dto);
         VxUtil.sendMessage(message);
     }
     
-     private String getBirthDay(BirthDay birthDay){
+    private String getBirthDay(BirthDay birthDay){
         int month = birthDay.getMonth();
         int day = birthDay.getDay();
         return birthDay.isChinese()?
@@ -58,7 +59,34 @@ public class MessageService {
                 DateUtil.getNextBirthDay(month,day);
     }
 
+    private void setOtherInfo(HashMap<String, DataInfo> map){
+        String other = "";
+        DataInfo weatherDay = map.get("weatherDay");
+        DataInfo weatherNight = map.get("weatherNight");
+        DataInfo temperatureDay = map.get("temperatureDay");
+        DataInfo temperatureNight = map.get("temperatureNight");
+        DataInfo yourBirthDay = map.get("yourBirthDay");
+        DataInfo loveDay = map.get("loveDay");
 
+        if(Objects.equals(Integer.valueOf(yourBirthDay.getValue()) , 0)){
+            other = "happy birthday!!!";
+        }else if(Objects.equals(Integer.valueOf(loveDay.getValue()) , 0)){
+            other = "周年快乐！！！";
+        }else if(weatherDay.getValue().contains("雨")){
+            other = "白天出门记得带伞哦~";
+        }else if(weatherNight.getValue().contains("雨")){
+            other = "晚上出门记得带伞哦~";
+        }else if( Integer.parseInt(temperatureDay.getValue()) < 10){
+            other = "多穿点衣服哦！";
+        }else if( Integer.parseInt(temperatureNight.getValue()) < 10){
+            other = "多穿点衣服哦！";
+        } else if( Integer.parseInt(temperatureDay.getValue()) < 20){
+            other = "注意别着凉啦~";
+        }else if( Integer.parseInt(temperatureNight.getValue()) < 20){
+            other = "注意别着凉啦~";
+        }
+        setMap(map,"otherInfo",other,"#DC143C");
+    }
     private void setWeather(HashMap<String, DataInfo> map,String address,String city,String type){
         WeatherResponseDto weather = WeatherUtil.getWeather(address,city,type);
         if(weather == null){
@@ -98,8 +126,6 @@ public class MessageService {
             }
         }
     }
-
-
     private void setWeatherDefault(HashMap<String, DataInfo> map){
         for(int i=0; i<5; i++){
             String ap = "";
@@ -124,8 +150,6 @@ public class MessageService {
         setMap(map,"humidityNow","未知","#33A1C9");//现在湿度
         setMap(map,"date","未知","#33A1C9");//现在时间
     }
-
-
 
     /**
      *
