@@ -220,6 +220,16 @@ public class AllConfig {
 最后，开心每一天！
 ```
 
+**那么如何切换获取天气的类型呢？**
+
+只需要到`com/pt/vx/service/MessageService.java`中修改`sendMessage`方法中的`setWeather(map,user.getAddress(), user.getCity(), WeatherUtil.TYPE_ALL);`
+
+将后面的` WeatherUtil.TYPE_ALL`改为` WeatherUtil.TYPE_LIVE`
+` WeatherUtil.TYPE_ALL`为5天天气预报。` WeatherUtil.TYPE_LIVE`为现在实时天气情况
+
+
+![image](https://user-images.githubusercontent.com/56298636/191173311-95e9ba0d-611b-4ffc-a484-d6e6b2e99635.png)
+
 
 
 ### 自定义模板
