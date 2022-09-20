@@ -2,7 +2,9 @@
 **请仔细阅读本文档哦~**
 只能说究极无敌详细，看不懂你给我扇脸，看懂了的话你给我三连！
 
-微信消息推送Gitub Actions版本+天气预报，究极简单版2.0
+微信消息推送Gitub Actions版本+天气预报，**究极简单版3.0**
+
+3.0更新了更多的内置消息模板
 
 ![image](https://user-images.githubusercontent.com/56298636/191155129-eacde564-3a6d-4d95-9ea0-7a075d30a469.png)
 
