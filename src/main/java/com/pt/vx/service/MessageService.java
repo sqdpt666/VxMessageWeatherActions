@@ -77,9 +77,9 @@ public class MessageService {
         }else if(weatherNight.getValue().contains("雨")){
             other = "晚上出门记得带伞哦~";
         }else if( Integer.parseInt(temperatureDay.getValue()) <= 0){
-            other = "白天过低，加厚加厚！！！";
+            other = "白天温度过低，加厚加厚！！！";
         }else if( Integer.parseInt(temperatureNight.getValue()) <= 0){
-            other = "晚上过低，加厚加厚！！！";
+            other = "晚上温度过低，加厚加厚！！！";
         } else if( Integer.parseInt(temperatureDay.getValue()) <= 10){
             other = "白天温度很低，多穿点衣服哦！";
         }else if( Integer.parseInt(temperatureNight.getValue()) <= 10){
