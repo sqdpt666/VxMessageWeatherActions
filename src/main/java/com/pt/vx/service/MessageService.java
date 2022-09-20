@@ -1,6 +1,7 @@
 package com.pt.vx.service;
 
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.json.JSONUtil;
 import com.pt.vx.domain.BirthDay;
 import com.pt.vx.domain.DataInfo;
@@ -8,15 +9,13 @@ import com.pt.vx.domain.User;
 import com.pt.vx.domain.VxMessageDto;
 import com.pt.vx.domain.weather.Cast;
 import com.pt.vx.domain.weather.WeatherForecastDto;
+import com.pt.vx.domain.weather.WeatherLiveDto;
 import com.pt.vx.domain.weather.WeatherResponseDto;
 import com.pt.vx.utils.DateUtil;
 import com.pt.vx.utils.VxUtil;
 import com.pt.vx.utils.WeatherUtil;
 
-import java.time.LocalDate;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class MessageService {
 
@@ -40,14 +39,12 @@ public class MessageService {
         dto.setTemplate_id(user.getTemplateId());
         dto.setTouser(user.getVx());
         HashMap<String, DataInfo> map = new HashMap<>();
-        setMap(map,"userName",user.getUserName(),"#FFCCCC"); 
-        setWeather(map,user.getAddress(), user.getCity(), WeatherUtil.TYPE_ALL); 
+        setMap(map,"userName",user.getUserName(),"#FFCCCC");
         setMap(map,"holdDay", DateUtil.passDayOfNow(user.getLoveDay()),"#FFCCCC"); 
         setMap(map,"yourBirthDay",getBirthDay(user.getBirthDay()),"#FFCCCC"); 
-        setMap(map,"myBirthDay", getBirthDay(user.getCareDay()),"#FFCCCC"); 
-        int monthValue = user.getLoveDay().getMonthValue();
-        int dayOfMonth = user.getLoveDay().getDayOfMonth();
-        setMap(map,"loveDay",DateUtil.getNextBirthDay(monthValue,dayOfMonth),"#FFCCCC"); 
+        setMap(map,"myBirthDay", getBirthDay(user.getCareDay()),"#FFCCCC");
+        setMap(map,"loveDay",DateUtil.getNextBirthDay(user.getLoveDay()),"#FFCCCC");
+        setWeather(map,user.getAddress(), user.getCity(), WeatherUtil.TYPE_ALL);
         dto.setData(map);
         String message = JSONUtil.toJsonStr(dto);
         VxUtil.sendMessage(message);
@@ -64,22 +61,68 @@ public class MessageService {
 
     private void setWeather(HashMap<String, DataInfo> map,String address,String city,String type){
         WeatherResponseDto weather = WeatherUtil.getWeather(address,city,type);
-        if(weather != null){
+        if(weather == null){
+            setWeatherDefault(map);
+            return;
+        }
+        if(WeatherUtil.TYPE_ALL.equals(type)){
             WeatherForecastDto forecast = weather.getForecasts().get(0);
             List<Cast> casts = forecast.getCasts();
-            Cast cast = casts.get(0);//获取天气预报（实际上可以获取到5天的天气预报，0代表今天，之后为1，2，3，4）
-            if(cast != null){
-                setMap(map,"weatherDay",cast.getDayweather(),"#33A1C9");
-                setMap(map,"temperatureDay",cast.getDaytemp() ,"#33A1C9");
-                setMap(map,"weatherNight",cast.getNightweather(),"#33A1C9");
-                setMap(map,"temperatureNight",cast.getNighttemp() ,"#33A1C9");
-                return;
+            for(int i=0; i<casts.size(); i++ ){
+                Cast cast = casts.get(i);//获取天气预报（实际上可以获取到5天的天气预报，0代表今天，之后为1，2，3，4）
+                String ap = "";
+                if(i>0){
+                    ap = i+"";
+                }
+                setMap(map,"weatherDay"+ap,cast.getDayweather(),"#33A1C9");//白天天气
+                setMap(map,"temperatureDay"+ap,cast.getDaytemp() ,"#33A1C9");//白天温度
+                setMap(map,"weatherNight"+ap,cast.getNightweather(),"#33A1C9");//晚上天气
+                setMap(map,"temperatureNight"+ap,cast.getNighttemp() ,"#33A1C9");//晚上温度
+                setMap(map,"windDay"+ap,cast.getDayweather(),"#33A1C9");//白天风向
+                setMap(map,"windNight"+ap,cast.getDaytemp() ,"#33A1C9");//晚上风向
+                setMap(map,"powerDay"+ap,cast.getNightweather(),"#33A1C9");//白天风力
+                setMap(map,"windNight"+ap,cast.getNighttemp() ,"#33A1C9");//晚上风力
+                setMap(map,"date"+ap,cast.getNightweather(),"#33A1C9");//日期
+                setMap(map,"week"+ap,cast.getNighttemp() ,"#33A1C9");//星期几
+            }
+        }else if(WeatherUtil.TYPE_LIVE.equals(type)){
+            List<WeatherLiveDto> lives = weather.getLives();
+            if(CollUtil.isNotEmpty(lives)){
+                WeatherLiveDto liveDto = lives.get(0);
+                setMap(map,"weatherNow",liveDto.getWeather(),"#33A1C9");//现在天气
+                setMap(map,"temperatureNow",liveDto.getTemperature(),"#33A1C9");//现在温度
+                setMap(map,"windNow",liveDto.getWinddirection(),"#33A1C9");//现在风向
+                setMap(map,"powerNow",liveDto.getProvince(),"#33A1C9");//现在风力
+                setMap(map,"humidityNow",liveDto.getHumidity(),"#33A1C9");//现在湿度
+                setMap(map,"date",liveDto.getReporttime(),"#33A1C9");//现在时间
             }
         }
-        setMap(map,"weatherDay","未知","#33A1C9");
-        setMap(map,"temperatureDay","未知" ,"#33A1C9");
-        setMap(map,"weatherNight","未知","#33A1C9");
-        setMap(map,"temperatureNight","未知" ,"#33A1C9");
+    }
+
+
+    private void setWeatherDefault(HashMap<String, DataInfo> map){
+        for(int i=0; i<5; i++){
+            String ap = "";
+            if(i>0){
+                ap = i+"";
+            }
+            setMap(map,"weatherDay"+ap,"未知","#33A1C9");//白天天气
+            setMap(map,"temperatureDay"+ap,"未知","#33A1C9");//白天温度
+            setMap(map,"weatherNight"+ap,"未知","#33A1C9");//晚上天气
+            setMap(map,"temperatureNight"+ap,"未知","#33A1C9");//晚上温度
+            setMap(map,"windDay"+ap,"未知","#33A1C9");//白天风向
+            setMap(map,"windNight"+ap,"未知","#33A1C9");//晚上风向
+            setMap(map,"powerDay"+ap,"未知","#33A1C9");//白天风力
+            setMap(map,"windNight"+ap,"未知" ,"#33A1C9");//晚上风力
+            setMap(map,"date"+ap,"未知","#33A1C9");//日期
+            setMap(map,"week"+ap,"未知" ,"#33A1C9");//星期几
+        }
+        setMap(map,"weatherNow","未知","#33A1C9");//现在天气
+        setMap(map,"temperatureNow","未知","#33A1C9");//现在温度
+        setMap(map,"windNow","未知","#33A1C9");//现在风向
+        setMap(map,"powerNow","未知","#33A1C9");//现在风力
+        setMap(map,"humidityNow","未知","#33A1C9");//现在湿度
+        setMap(map,"date","未知","#33A1C9");//现在时间
     }
 
 
