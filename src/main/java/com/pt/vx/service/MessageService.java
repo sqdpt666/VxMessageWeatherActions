@@ -76,14 +76,18 @@ public class MessageService {
             other = "白天出门记得带伞哦~";
         }else if(weatherNight.getValue().contains("雨")){
             other = "晚上出门记得带伞哦~";
-        }else if( Integer.parseInt(temperatureDay.getValue()) < 10){
-            other = "多穿点衣服哦！";
-        }else if( Integer.parseInt(temperatureNight.getValue()) < 10){
-            other = "多穿点衣服哦！";
+        }else if( Integer.parseInt(temperatureDay.getValue()) <= 0){
+            other = "白天过低，加厚加厚！！！";
+        }else if( Integer.parseInt(temperatureNight.getValue()) <= 0){
+            other = "晚上过低，加厚加厚！！！";
+        } else if( Integer.parseInt(temperatureDay.getValue()) <= 10){
+            other = "白天温度很低，多穿点衣服哦！";
+        }else if( Integer.parseInt(temperatureNight.getValue()) <= 10){
+            other = "晚上温度很低，多穿点衣服哦！";
         } else if( Integer.parseInt(temperatureDay.getValue()) < 20){
-            other = "注意别着凉啦~";
+            other = "白天温度有点低，注意别着凉啦~";
         }else if( Integer.parseInt(temperatureNight.getValue()) < 20){
-            other = "注意别着凉啦~";
+            other = "晚上温度有点低，注意别着凉啦~";
         }
         setMap(map,"otherInfo",other,"#DC143C");
     }
@@ -106,12 +110,12 @@ public class MessageService {
                 setMap(map,"temperatureDay"+ap,cast.getDaytemp() ,"#33A1C9");//白天温度
                 setMap(map,"weatherNight"+ap,cast.getNightweather(),"#33A1C9");//晚上天气
                 setMap(map,"temperatureNight"+ap,cast.getNighttemp() ,"#33A1C9");//晚上温度
-                setMap(map,"windDay"+ap,cast.getDayweather(),"#33A1C9");//白天风向
-                setMap(map,"windNight"+ap,cast.getDaytemp() ,"#33A1C9");//晚上风向
-                setMap(map,"powerDay"+ap,cast.getNightweather(),"#33A1C9");//白天风力
-                setMap(map,"windNight"+ap,cast.getNighttemp() ,"#33A1C9");//晚上风力
-                setMap(map,"date"+ap,cast.getNightweather(),"#33A1C9");//日期
-                setMap(map,"week"+ap,cast.getNighttemp() ,"#33A1C9");//星期几
+                setMap(map,"windDay"+ap,cast.getDaywind(),"#33A1C9");//白天风向
+                setMap(map,"windNight"+ap,cast.getNightwind() ,"#33A1C9");//晚上风向
+                setMap(map,"powerDay"+ap,cast.getDaypower(),"#33A1C9");//白天风力
+                setMap(map,"windNight"+ap,cast.getNightwind() ,"#33A1C9");//晚上风力
+                setMap(map,"date"+ap,cast.getDate(),"#33A1C9");//日期
+                setMap(map,"week"+ap,cast.getWeek() ,"#33A1C9");//星期几
             }
         }else if(WeatherUtil.TYPE_LIVE.equals(type)){
             List<WeatherLiveDto> lives = weather.getLives();
