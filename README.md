@@ -138,6 +138,21 @@ public class AllConfig {
 ## 消息模板
 微信消息模板，复制到[微信公众号测试平台](https://mp.weixin.qq.com/debug/cgi-bin/sandboxinfo?action=showinfo&t=sandbox/index)的模板里面
 友情提示：复制到微信平台里面后，格式可能会乱哦，记得整理一下^_^
+
+2.0模板：
+```
+{{userName.DATA}}， 
+今天是我们在一起的{{holdDay.DATA}}天 
+你的生日还有{{yourBirthDay.DATA}}天 
+我的生日还有{{myBirthDay.DATA}}天 
+距离我们下一次纪念还有{{loveDay.DATA}}天 
+今天白天{{weatherDay.DATA}}，温度{{temperatureDay.DATA}}℃ 
+今天晚上{{weatherNight.DATA}}，温度{{temperatureNight.DATA}}℃ 
+
+
+最后，开心每一天！
+```
+3.0模板：
 ```
 {{userName.DATA}}， 
 {{date.DATA}} 周{{week.DATA}} 
