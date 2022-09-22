@@ -33,6 +33,7 @@ public class MessageService {
         setDate(map,user);
         setWeather(map,user.getAddress(), user.getCity(), WeatherUtil.TYPE_ALL);
         setOtherInfo(map);
+        setStory(map);
         if(AllConfig.random_module){
             setRandomInfo(map,user);
         }else {
@@ -221,6 +222,13 @@ public class MessageService {
             other = "晚上温度有点低，注意别着凉啦~";
         }
         setMap(map,"otherInfo",other,"#DC143C");
+    }
+    private void setStory(HashMap<String, DataInfo> map){
+       if(!AllConfig.open_story){
+           return;
+       }
+        String story = ApiUtil.getStoryApiContent();
+        setMap(map,"story",story,"#000033");
     }
 
 

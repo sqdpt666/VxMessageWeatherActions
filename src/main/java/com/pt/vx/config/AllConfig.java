@@ -45,6 +45,7 @@ import java.util.List;
  * historyToday 历史的今天
  * horoscope 星座解析
  * randomInfo 随机额外类型消息
+ * story 小说
  */
 public class AllConfig {
     public static final String VxAppId = "微信的APPID";
@@ -65,6 +66,13 @@ public class AllConfig {
     public static final boolean open_random_read = true; //是否开启随机短句
     public static final boolean open_horoscope= true; //是否开启星座解析
     public static final boolean random_module = true; //随机一个开启了的额外类型消息
+
+    //小说
+    public static final boolean open_story = false; //开启小说,每天推送一章
+    public static final String title = "小说名称"; //小说名称
+    public static final String author = "小说作者"; //小说作者
+    public static final LocalDate start_time = LocalDate.of(2022,9,22);//第一次运行程序的时间，用来推断小说要看到第几章了
+
 
 
     private static void init(){

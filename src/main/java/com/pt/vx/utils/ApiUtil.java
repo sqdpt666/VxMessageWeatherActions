@@ -1,12 +1,22 @@
 package com.pt.vx.utils;
 
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.ChineseDate;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
+import com.pt.vx.config.AllConfig;
 import com.pt.vx.domain.Api.*;
 import com.pt.vx.domain.BirthDay;
+import com.pt.vx.domain.story.Catalogue;
+import com.pt.vx.domain.story.Chapter;
+import com.pt.vx.domain.story.ChapterData;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 public class ApiUtil {
@@ -28,6 +38,55 @@ public class ApiUtil {
     private static final String randomRead ="https://api.vvhan.com/api/ian?type=json";//随机一句
 
     private static final String horoscopeApi = "https://api.vvhan.com/api/horoscope?type=%s&time=today";//星座运势 aries, taurus, gemini, cancer, leo, virgo, libra, scorpio, sagittarius, capricorn, aquarius, pisces
+
+    private static final String storyApi = "https://api.pingcc.cn/fiction/search/title/%s/1/10";
+
+    private static final String storyApiChapter ="https://api.pingcc.cn/fictionChapter/search/%s";
+
+    private static final String storyApiContent="https://api.pingcc.cn/fictionContent/search/%s";
+
+
+    public static String getStoryApiContent()  {
+        String re = null;
+        try {
+            re = HttpUtil.get(String.format(storyApiContent, getStoryApiChapter()));
+        } catch (Exception e) {
+           logger.warning(String.format("获取小说失败 %s", e.getMessage()));
+           return null;
+        }
+        return JSONUtil.toBean(re, Result.class).getData();
+    }
+    private static String getStoryApiChapter() throws InterruptedException {
+        Thread.sleep(501);
+        LocalDate satrtTime = AllConfig.start_time;
+        String result = HttpUtil.get(String.format(storyApiChapter, getStoryCatalogue()));
+        String data = JSONUtil.toBean(result, Result.class).getData();
+        ChapterData chapterData = JSONUtil.toBean(data, ChapterData.class);
+        String index = DateUtil.passDayOfNow(satrtTime);
+        Chapter chapter = chapterData.getChapterList().get(Integer.parseInt(index));
+        return chapter.getChapterId();
+    }
+    private static String getStoryCatalogue() throws InterruptedException {
+        Thread.sleep(502);
+       String title =  AllConfig.title;
+       String resultGet = HttpUtil.get(String.format(storyApi, title));
+       if(ObjectUtil.isEmpty(resultGet)){
+           logger.warning("获取小说失败");
+           return null;
+       }
+       Result result = JSONUtil.toBean(resultGet, Result.class);
+       String data = result.getData();
+       List<Catalogue> catalogues = JSONUtil.toList(data, Catalogue.class);
+       if(CollectionUtil.isNotEmpty(catalogues)){
+           for(Catalogue catalogue : catalogues){
+               if( AllConfig.author.equals(catalogue.getAuthor())){
+                   return catalogue.getFictionId();
+               }
+           }
+       }
+        Catalogue catalogue = Optional.ofNullable(catalogues).orElse(new ArrayList<>()).stream().findFirst().orElse(null);
+        return catalogue == null ? null : catalogue.getFictionId();
+    }
 
     /**
      * 获取历史上今天
