@@ -38,42 +38,88 @@ public class MessageService {
             setRandomInfo(map,user);
         }else {
             setHistoryToday(map);
-            setHoroscope(map,user);
             setQinghua(map);
-            setEnglish(map);
-            setRandomRead(map);
-            setWorldRead(map);
-            setJoke(map);
+            setDongman(map);
             setTiangou(map);
+            setWorldRead(map);
+            setRandomRead(map);
+            setWoZaiRenJian(map);
+            setPoetry(map);
+            setEnglish(map);
+            setMiYu(map);
+            setHoroscope(map,user);
+
         }
         dto.setData(map);
         String message = JSONUtil.toJsonStr(dto);
         VxUtil.sendMessage(message);
     }
+
+    private void setMiYu(HashMap<String, DataInfo> map) {
+        if(!AllConfig.open_miyu){
+            return;
+        }
+        String miyu = ApiUtil.getMiYu();
+        setMap(map,"miyu",miyu,"#FFCCCC");
+    }
+
+    private void setPoetry(HashMap<String, DataInfo> map) {
+        if(!AllConfig.open_poetry){
+            return;
+        }
+        String poetry = ApiUtil.getPoetryApi();
+        setMap(map,"poetry",poetry,"#FFCCCC");
+    }
+
+    private void setWoZaiRenJian(HashMap<String, DataInfo> map) {
+        if(!AllConfig.open_wozairenjian){
+            return;
+        }
+        String randomRead = ApiUtil.getWozairenjian();
+        setMap(map,"wozairenjian",randomRead,"#FFCCCC");
+    }
+
+    private void setDongman(HashMap<String, DataInfo> map) {
+        if(!AllConfig.open_dongman){
+            return;
+        }
+        String randomRead = ApiUtil.getDongman();
+        setMap(map,"dongman",randomRead,"#FFCCCC");
+    }
+
+
     private void setRandomInfo(HashMap<String, DataInfo> map,User user){
        String randomInfo;
-       int i = RandomUtil.randomInt(80000) % 8;
-       if(i == 0 && AllConfig.open_random_read){
-           randomInfo = ApiUtil.getRandomRead();
-       }else if(i == 1 && AllConfig.open_world_read){
-           randomInfo = ApiUtil.getWorldRead60s();
-       }else if(i == 2 && AllConfig.open_joke){
-           randomInfo = ApiUtil.getJoke();
-       }else if(i == 3 && AllConfig.open_horoscope){
-           randomInfo = ApiUtil.getHoroscopeRead(user.getBirthDay());
-       }else if(i == 4 && AllConfig.open_tiangou){
-           randomInfo = ApiUtil.getTgrj();
-       }else if(i == 5 && AllConfig.open_qinghua){
-           randomInfo = ApiUtil.getQingHua();
-       }else if(i == 6 && AllConfig.open_english){
-           randomInfo = ApiUtil.getEnglish();
-       }else if(i == 7 && AllConfig.open_history_today){
+       int i = RandomUtil.randomInt(110000) % 11;
+       if(i == 0 && AllConfig.open_history_today){
            randomInfo = ApiUtil.getHistoryToday(3);
+       }else if(i == 1 && AllConfig.open_qinghua){
+           randomInfo = ApiUtil.getQingHua();
+       }else if(i == 2 && AllConfig.open_dongman){
+           randomInfo = ApiUtil.getDongman();
+       }else if(i == 3 && AllConfig.open_tiangou){
+           randomInfo = ApiUtil.getTgrj();
+       }else if(i == 4 && AllConfig.open_world_read){
+           randomInfo = ApiUtil.getWorldRead60s();
+       }else if(i == 5 && AllConfig.open_random_read){
+           randomInfo = ApiUtil.getRandomRead();
+       }else if(i == 6 && AllConfig.open_wozairenjian){
+           randomInfo = ApiUtil.getWozairenjian();
+       }else if(i == 7 && AllConfig.open_poetry){
+           randomInfo = ApiUtil.getPoetryApi();
+       }else if(i == 8 && AllConfig.open_english){
+           randomInfo = ApiUtil.getEnglish();
+       }else if(i == 9 && AllConfig.open_miyu){
+           randomInfo = ApiUtil.getMiYu();
+       }else if(i == 10 && AllConfig.open_horoscope){
+           randomInfo = ApiUtil.getHoroscopeRead2(user.getBirthDay());
        }else {
-           if(AllConfig.open_random_read || AllConfig.open_world_read
-                   ||AllConfig.open_joke || AllConfig.open_horoscope
-                   || AllConfig.open_tiangou ||AllConfig.open_qinghua
-                   || AllConfig.open_english || AllConfig.open_history_today){
+           if(AllConfig.open_history_today || AllConfig.open_qinghua
+                   ||AllConfig.open_dongman || AllConfig.open_tiangou
+                   || AllConfig.open_world_read ||AllConfig.open_random_read
+                   || AllConfig.open_wozairenjian || AllConfig.open_poetry
+                   | AllConfig.open_english || AllConfig.open_miyu
+                   | AllConfig.open_horoscope){
                setRandomInfo(map,user);
            }
            return;
@@ -93,13 +139,6 @@ public class MessageService {
         }
         String worldRead60s = ApiUtil.getWorldRead60s();
         setMap(map,"worldRead",worldRead60s,"#FFCCCC");
-    }
-    private void setJoke(HashMap<String, DataInfo> map){
-        if(!AllConfig.open_joke){
-            return;
-        }
-        String joke = ApiUtil.getJoke();
-        setMap(map,"joke",joke,"#FFCCCC");
     }
     private void setTiangou(HashMap<String, DataInfo> map){
         if(!AllConfig.open_tiangou){
@@ -133,7 +172,7 @@ public class MessageService {
         if(!AllConfig.open_horoscope){
             return;
         }
-        String horoscopeRead = ApiUtil.getHoroscopeRead(user.getBirthDay());
+        String horoscopeRead = ApiUtil.getHoroscopeRead2(user.getBirthDay());
         setMap(map,"horoscope",horoscopeRead,"#FFCCCC");
     }
     private void setDate(HashMap<String, DataInfo> map,User user){

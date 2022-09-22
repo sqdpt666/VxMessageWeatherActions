@@ -8,22 +8,14 @@ import java.util.List;
  **/
 public class WorldRead60s {
 
-    private String name;
-    private List<String> data;
+    private List<String> news;
 
-    public String getName() {
-        return name;
+
+    public List<String> getNews() {
+        return news;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<String> getData() {
-        return data;
-    }
-
-    public void setData(List<String> data) {
-        this.data = data;
+    public void setNews(List<String> news) {
+        this.news = news;
     }
 }

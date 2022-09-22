@@ -4,6 +4,7 @@ package com.pt.vx.utils;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.ChineseDate;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.RandomUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
 import com.pt.vx.config.AllConfig;
@@ -25,26 +26,29 @@ public class ApiUtil {
 
     private static final Logger logger = Logger.getAnonymousLogger();
 
-    private static final String  history_today= "http://api.weijieyue.cn/api/lsjt/api.php?max=%d";//历史上的今天
+    private static final String  history_today= "http://fuyhi.top/api/historyday/api.php?type=json";//历史上的今天
 
     private static final String  qinghua = "https://api.uomg.com/api/rand.qinghua?format=json"; //土味情话
 
-    private static final String en = "https://api.vvhan.com/api/en";//励志英语
+    private static final String dongman = "http://fuyhi.top/api/dmyiyan/api.php?type=text";//一句动漫台词
 
-    private static final String WorldRead60sApi="https://api.vvhan.com/api/60s?type=json";//世界新闻
-
-    private static final String joke ="https://api.vvhan.com/api/joke?type=json";//每日笑话
-    // http://api.weijieyue.cn/api/tgrj/api.php
     private static final String tgrj ="http://api.gt5.cc/api/dog";//舔狗日记
+    private static final String tgrj2 ="https://api.caonm.net/api/yulu/tgrj.php";
+    private static final String WorldRead60sApi="http://api.gt5.cc/api/60s?type=json";//世界新闻
+    private static final String randomRead ="http://api.gt5.cc/api/yiy?type=JSON";//随机一句
+    private static final String wozairenjianApi ="https://api.gt5.cc/api/rj?type=text"; //我在人间凑日子
+    private static final String poetryApi = "http://fuyhi.top/api/shicix/api.php?type=text";//诗句
 
-    private static final String randomRead ="https://api.vvhan.com/api/ian?type=json";//随机一句
+
+    private static final String en = "http://fuyhi.top/api/yingyi/api.php?type=text";//英语
+
+    private static final String miyuApi ="http://fuyhi.top/api/miyu/api.php";//谜语
 
     private static final String horoscopeApi = "https://api.vvhan.com/api/horoscope?type=%s&time=today";//星座运势 aries, taurus, gemini, cancer, leo, virgo, libra, scorpio, sagittarius, capricorn, aquarius, pisces
+    private static final String horoscopeApi2 = "http://fuyhi.top/api/xingzuo/api.php?msg=%s";//星座运势2
 
     private static final String storyApi = "https://api.pingcc.cn/fiction/search/title/%s/1/10";
-
     private static final String storyApiChapter ="https://api.pingcc.cn/fictionChapter/search/%s";
-
     private static final String storyApiContent="https://api.pingcc.cn/fictionContent/search/%s";
 
 
@@ -99,14 +103,44 @@ public class ApiUtil {
      * @return count条历史上今天
      */
     public static String getHistoryToday(int count){
-        return HttpUtil.get(String.format(history_today, count));
+        String result = HttpUtil.get(history_today);
+        logger.info("获取历史上的今天 "+result);
+        result =  StringEscapeUtils.unescapeJava(result);
+        Result re = JSONUtil.toBean(result, Result.class);
+        String data = re.getData();
+        List<HistoryDto> historyDtoList = JSONUtil.toList(data, HistoryDto.class);
+        StringBuilder message = new StringBuilder();
+        int i = 0;
+        if(CollectionUtil.isNotEmpty(historyDtoList)){
+            message.append("历史上的今天").append("\n");
+            for(HistoryDto dto : historyDtoList){
+                i++;
+                message.append(dto.getMsg()).append("\n");
+                if(i >= count){
+                    break;
+                }
+            }
+        }
+        return message.toString();
     }
 
+    public static String getDongman(){
+        return HttpUtil.get(dongman);
+    }
+
+    public static String getPoetryApi(){
+        return HttpUtil.get(poetryApi);
+    }
+
+    public static String getWozairenjian(){
+        return HttpUtil.get(wozairenjianApi);
+    }
     /**
      * @return 获取一条土味情话
      */
     public static String getQingHua(){
         String result = HttpUtil.get(qinghua);
+        logger.info("获取情话"+result);
         result =  StringEscapeUtils.unescapeJava(result);
         QingHuaDto qingHuaDto = JSONUtil.toBean(result, QingHuaDto.class);
         return qingHuaDto.getContent();
@@ -117,13 +151,8 @@ public class ApiUtil {
      */
     public static String getEnglish(){
         String re = HttpUtil.get(en);
-        re =  StringEscapeUtils.unescapeJava(re);
-        Result result = JSONUtil.toBean(re, Result.class);
-        String data = result.getData();
-        EnglishDto en = JSONUtil.toBean(data, EnglishDto.class);
-        String format = String.format("获取每日英语：%s", result);
-        logger.info(format);
-        return en.getEn();
+        logger.info("获取英语"+re);
+        return re;
     }
 
     /**
@@ -132,30 +161,50 @@ public class ApiUtil {
      */
     public static String getWorldRead60s(){
         String result = HttpUtil.get(WorldRead60sApi);
+        logger.info("获取世界新闻 "+result);
         result =  StringEscapeUtils.unescapeJava(result);
-        WorldRead60s wordRead60s = JSONUtil.toBean(result, WorldRead60s.class);
-        StringBuilder builder = new StringBuilder();
-        wordRead60s.getData().forEach(x-> builder.append(x).append("\n"));
-        return builder.toString();
+        Result re = JSONUtil.toBean(result, Result.class);
+        WorldRead60s worldRead60s = JSONUtil.toBean(re.getData(), WorldRead60s.class);
+        List<String> news = worldRead60s.getNews();
+        StringBuilder message = new StringBuilder();
+        int i = 0;
+        if(CollectionUtil.isNotEmpty(news)){
+            message.append("新闻").append("\n");
+            for(String dto : news){
+                i++;
+                message.append(dto).append("\n");
+                if(i >= 5){
+                    break;
+                }
+            }
+        }
+        return message.toString();
     }
 
-    /**
-     *
-     * @return 笑话
-     */
-    public static String getJoke(){
-        String result = HttpUtil.get(joke);
+
+    public static String getMiYu(){
+        String result = HttpUtil.get(miyuApi);
+        logger.info("获取谜语"+result);
         result =  StringEscapeUtils.unescapeJava(result);
-        JokeDto jokeDto = JSONUtil.toBean(result, JokeDto.class);
-        return "《" + jokeDto.getTitle() + "》" + "\n" + jokeDto.getJoke();
+        MiYuDto miYuDto = JSONUtil.toBean(result, MiYuDto.class);
+        return miYuDto.getMt();
     }
+
 
     /**
      *
      * @return 舔狗日记
      */
     public static String getTgrj(){
-        return HttpUtil.get(tgrj);
+        String result;
+        int i = RandomUtil.randomInt(200) % 2;
+        if(i == 0){
+             result = HttpUtil.get(tgrj);
+        }else {
+             result = HttpUtil.get(tgrj2);
+        }
+        logger.info("获取舔狗日记 "+result);
+        return result;
     }
 
     /**
@@ -164,10 +213,10 @@ public class ApiUtil {
      */
     public static String getRandomRead(){
         String result = HttpUtil.get(randomRead);
+        logger.info("获取短句 "+result);
         result =  StringEscapeUtils.unescapeJava(result);
         RandomRead read = JSONUtil.toBean(result, RandomRead.class);
-        RandomData data = read.getData();
-        return data.getVhan()+" -- "+data.getSource();
+        return read.getText()+" -- "+read.getFrom();
     }
 
     /**
@@ -175,24 +224,25 @@ public class ApiUtil {
      * @param horoscope 星座
      * @return 每日星座情况
      */
-    public static String getHoroscopeRead(String horoscope){
+    private static String getHoroscopeRead(String horoscope){
         String result = HttpUtil.get(String.format(horoscopeApi, horoscope));
         if(ObjectUtil.isEmpty(result)){
             logger.warning(String.format("获取星座解析失败，星座为：%s",horoscope ));
             return "";
         }
+        logger.info("星座解析 "+result);
         result =  StringEscapeUtils.unescapeJava(result);
         Result result1 = JSONUtil.toBean(result, Result.class);
         HoroscopeDto horoscopeDto = JSONUtil.toBean(result1.getData(), HoroscopeDto.class);
         Fortunetext fortunetext = horoscopeDto.getFortunetext();
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("《")
+        stringBuilder
                 .append(horoscopeDto.getTitle())
-                .append("》").append("\n")
+                .append("\n")
                 .append("幸运色:")
                 .append(horoscopeDto.getLuckycolor())
                 .append("\n")
-                .append("幸运数字:")
+                .append("幸运数:")
                 .append(horoscopeDto.getLuckynumber())
                 .append("\n")
                 .append("概况:")
@@ -201,18 +251,24 @@ public class ApiUtil {
                 .append("整体情况:")
                 .append(fortunetext.getAll())
                 .append("\n")
+                .append("健康情况:")
+                .append(fortunetext.getHealth())
+                .append("\n")
                 .append("事业情况:")
                 .append(fortunetext.getWork())
-                .append("\n")
-                .append("爱情情况:")
-                .append(fortunetext.getLove())
                 .append("\n")
                 .append("财运情况:")
                 .append(fortunetext.getMoney())
                 .append("\n")
-                .append("健康情况:")
-                .append(fortunetext.getHealth());
+                .append("爱情情况:")
+                .append(fortunetext.getLove());
+
+
         return stringBuilder.toString();
+    }
+    public static String getHoroscopeRead2(BirthDay birthDay){
+
+        return HttpUtil.get(String.format(horoscopeApi2, getHoroscopeChina(birthDay)));
     }
 
     public static String getHoroscopeRead(BirthDay birthDay){
@@ -252,6 +308,11 @@ public class ApiUtil {
 
     private static String getHoroscope(BirthDay birthDay){
 
+        String horoscopeChina = getHoroscopeChina(birthDay);
+        return getHoroscope(horoscopeChina);
+    }
+
+    private static String getHoroscopeChina(BirthDay birthDay){
         int month = birthDay.getMonth();
         int day = birthDay.getDay();
         boolean chinese = birthDay.isChinese();
@@ -262,31 +323,31 @@ public class ApiUtil {
             day = chineseDate.getGregorianDay();
         }
         if(month == 3 && day >= 21  ||  month == 4 && day <=20){
-            return getHoroscope("白羊");
+            return "白羊";
         }else if(month == 4 || month == 5 && day <= 20){
-            return getHoroscope("金牛");
+            return "金牛";
         }else if(month == 5 || month == 6 && day <= 20){
-            return getHoroscope("双子");
+            return "双子";
         }else if(month == 6 || month == 7 && day <= 22){
-            return getHoroscope("巨蟹");
+            return "巨蟹";
         }else if(month == 7 || month == 8 && day <= 22){
-            return getHoroscope("狮子");
+            return "狮子";
         }else if(month == 8 || month == 9 && day <= 22){
-            return getHoroscope("处女");
+            return "处女";
         }else if(month == 9 || month == 10 && day <= 22){
-            return getHoroscope("天秤");
+            return "天秤";
         }else if(month == 10 || month == 11 && day <= 22){
-            return getHoroscope("天蝎");
+            return "天蝎";
         }else if(month == 11 || month == 12 && day <= 22){
-            return getHoroscope("射手");
+            return "射手";
         }else if(month == 12 || month == 1 && day <= 21){
-            return getHoroscope("摩羯");
+            return "摩羯";
         }else if(month == 1 || month == 2 && day <= 19){
-            return getHoroscope("水瓶");
+            return "水瓶";
         }else if(month == 2 || month == 3){
-            return getHoroscope("双鱼");
+            return "双鱼";
         }
-        return  getHoroscope("不知道");
+        return  "不知道";
     }
 
 

@@ -38,13 +38,16 @@ import java.util.List;
  * otherInfo 额外提示
  * randomRead 精彩短句
  * worldRead 世界新闻
- * joke 笑话
  * tianGou 舔狗日记
  * qingHua 情话
  * english 励志英语
  * historyToday 历史的今天
  * horoscope 星座解析
  * randomInfo 随机额外类型消息
+ * wozairenjian 我在人间凑日子散文
+ * miyu 谜语
+ * poetry 诗句
+ * dongman 动漫
  * story 小说
  */
 public class AllConfig {
@@ -56,19 +59,23 @@ public class AllConfig {
     public static final boolean open_info = true; //是否开启个人情况 true 为开启， false 为不开启
     public static final boolean open_weather = true; //是否开启天气预报
     public static final boolean open_other_info= true; //是否开启额外信息（需要开启日期和天气预报）
+
     //额外类型消息
     public static final boolean open_history_today = true; //是否开启历史上的今天
     public static final boolean open_qinghua = true; //是否开启情话一句
-    public static final boolean open_english = true; //是否开启每日励志英语
-    public static final boolean open_world_read = true; //是否开启世界新闻
-    public static final boolean open_joke = true; //是否开启每日笑话
+    public static final boolean open_dongman = true; //是否开启动漫台词
     public static final boolean open_tiangou = true; //是否开启舔狗日记
+    public static final boolean open_world_read = true; //是否开启世界新闻
     public static final boolean open_random_read = true; //是否开启随机短句
+    public static final boolean open_wozairenjian = true; //是否开启散文集我在人间凑日子
+    public static final boolean open_poetry = true; //是否开启随机诗句
+    public static final boolean open_english = true; //是否开启每日英语
+    public static final boolean open_miyu = true; //是否开启谜语
     public static final boolean open_horoscope= true; //是否开启星座解析
     public static final boolean random_module = true; //随机一个开启了的额外类型消息
 
     //小说
-    public static final boolean open_story = false; //开启小说,每天推送一章
+    public static final boolean open_story = false; //开启小说,每天推送一章(最新发现微信对太长的内容会截断，所以小说可以忽略了）
     public static final String title = "小说名称"; //小说名称
     public static final String author = "小说作者"; //小说作者
     public static final LocalDate start_time = LocalDate.of(2022,9,22);//第一次运行程序的时间，用来推断小说要看到第几章了

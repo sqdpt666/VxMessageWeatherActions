@@ -6,13 +6,22 @@ package com.pt.vx.domain.Api;
  **/
 public class RandomRead {
 
-    private RandomData data;
+    private String text;
+    private String from;
 
-    public RandomData getData() {
-        return data;
+    public String getText() {
+        return text;
     }
 
-    public void setData(RandomData data) {
-        this.data = data;
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
     }
 }
