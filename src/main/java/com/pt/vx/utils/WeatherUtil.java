@@ -42,7 +42,7 @@ public class WeatherUtil {
         String result = HttpUtil.get(WEATHER_URL,map);
         WeatherResponseDto weatherResponseDto =  JSONUtil.toBean(result, WeatherResponseDto.class);
         if(Objects.equals(0,weatherResponseDto.getStatus()) ||  !"10000".equals(weatherResponseDto.getInfocode())){
-            log.warning("获取天气失败");
+            log.warning("获取天气失败："+result);
             return null;
         }
         return weatherResponseDto;

@@ -18,6 +18,7 @@ public class VxUtil {
     public static TokenInfo getToken(){
         String TOKEN_URL ="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s";
         String result = HttpUtil.get(String.format(TOKEN_URL, AllConfig.VxAppId, AllConfig.VxAppSecret));
+        log.info("获取微信token："+result);
         return JSONUtil.toBean(result,TokenInfo.class);
     }
 
@@ -30,7 +31,7 @@ public class VxUtil {
         String PUSH_URL = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=%s";
         TokenInfo token = getToken();
         String result =  HttpUtil.post(String.format(PUSH_URL,token.getAccess_token()),message);
-        log.info(result);
+        log.info("发送消息结果："+result);
     }
 
 }

@@ -4,14 +4,15 @@
 
 微信消息推送Gitub Actions版本+天气预报，**究极简单版3.0**
 
-(2022/9/20)究极简单版3.0更新了更多的内置消息模板
+(2022/9/20)究极简单版2.1更新了更多的内置消息模板
+(2022/9/22)究极简单版2.2更新了更多的内置消息模板
 
 ![image](https://user-images.githubusercontent.com/56298636/191155129-eacde564-3a6d-4d95-9ea0-7a075d30a469.png)
 
 
 
 ## 问题梳理
-|                        | 究极简单版1.0                                                | 究极简单版2.0                                                | 究极简单版3.0                                                |
+|                        | 究极简单版1.0                                                | 究极简单版2.0                                                | 究极简单版2.1                                                |
 | ---------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | 修改哪些文件？         | `VxUtil` `WeatherUtil` `MessageService` 共3个                | `AllConfig` 共一个                                           | 同2.0                                                        |
 | 支持多个人?            | 支持，但是对0基础的人不友好                                  | 支持，只需要复制粘贴，对0基础也友好                          | 同2.0                                                        |
@@ -139,6 +140,53 @@ public class AllConfig {
 微信消息模板，复制到[微信公众号测试平台](https://mp.weixin.qq.com/debug/cgi-bin/sandboxinfo?action=showinfo&t=sandbox/index)的模板里面
 友情提示：复制到微信平台里面后，格式可能会乱哦，记得整理一下^_^
 
+内置的模板有：
+
+在微信模板里添加{{xxx.DATA}}
+```java
+/**
+ *
+ * 个人信息相关：
+ * userName 昵称
+ * holdDay 距离某天的天数
+ * yourBirthDay 生日
+ * myBirthDay 对象生日
+ * loveDay 纪念日倒计时
+ * 
+ *
+ * 天气相关：
+ * date 日期
+ * week 星期
+ * weatherDay（1，2，3，4） 白天天气
+ * temperatureDay（1，2，3，4）白天温度
+ * windDay（1，2，3，4）白天风向
+ * powerDay（1，2，3，4）白天风力
+ * weatherNight（1，2，3，4） 晚上天气
+ * temperatureNight（1，2，3，4） 晚上温度
+ * windNight（1，2，3，4） 晚上风向
+ * powerNight（1，2，3，4） 晚上风力
+ * weatherNow 现在天气
+ * temperatureNow 现在温度
+ * windNow 现在风向
+ * powerNow 现在风力
+ * humidityNow 现在湿度
+ * 
+ * 特殊：
+ * otherInfo 额外提示
+ *
+ * 额外类型：
+ * randomRead 精彩短句
+ * worldRead 世界新闻
+ * joke 笑话
+ * tianGou 舔狗日记
+ * qingHua 情话
+ * english 励志英语
+ * historyToday 历史的今天
+ * horoscope 星座解析
+ * randomInfo 随机额外类型消息
+ */
+```
+
 2.0模板：
 ```
 {{userName.DATA}}， 
@@ -152,7 +200,7 @@ public class AllConfig {
 
 最后，开心每一天！
 ```
-3.0模板：
+2.1模板：
 ```
 {{userName.DATA}}， 
 {{date.DATA}} 周{{week.DATA}} 
@@ -165,6 +213,25 @@ public class AllConfig {
 明天白天{{weatherDay1.DATA}}，温度{{temperatureDay1.DATA}}℃ 
 明天晚上{{weatherNight1.DATA}}，温度{{temperatureNight1.DATA}}℃ 
 {{otherInfo.DATA}} 
+
+最后，开心每一天！
+```
+
+2.2模板：
+```
+{{userName.DATA}}， 
+{{date.DATA}} 周{{week.DATA}} 
+今天是我们在一起的{{holdDay.DATA}}天 
+你的生日还有{{yourBirthDay.DATA}}天 
+我的生日还有{{myBirthDay.DATA}}天 
+距离我们下一次纪念还有{{loveDay.DATA}}天 
+今天白天{{weatherDay.DATA}}，温度{{temperatureDay.DATA}}℃ 
+今天晚上{{weatherNight.DATA}}，温度{{temperatureNight.DATA}}℃ 
+明天白天{{weatherDay1.DATA}}，温度{{temperatureDay1.DATA}}℃ 
+明天晚上{{weatherNight1.DATA}}，温度{{temperatureNight1.DATA}}℃ 
+{{otherInfo.DATA}} 
+
+{{randomInfo.DATA}}
 
 最后，开心每一天！
 ```
