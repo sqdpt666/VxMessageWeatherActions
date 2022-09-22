@@ -23,8 +23,8 @@ public class ApiUtil {
     private static final String WorldRead60sApi="https://api.vvhan.com/api/60s?type=json";//世界新闻
 
     private static final String joke ="https://api.vvhan.com/api/joke?type=json";//每日笑话
-
-    private static final String tgrj ="http://api.weijieyue.cn/api/tgrj/api.php";//舔狗日记
+    // http://api.weijieyue.cn/api/tgrj/api.php
+    private static final String tgrj ="http://api.gt5.cc/api/dog";//舔狗日记
 
     private static final String randomRead ="https://api.vvhan.com/api/ian?type=json";//随机一句
 
@@ -175,6 +175,10 @@ public class ApiUtil {
         }
     }
 
+
+    public static void main(String[] args) {
+        System.out.println(ApiUtil.getTgrj());
+    }
     private static String getHoroscope(BirthDay birthDay){
 
         int month = birthDay.getMonth();

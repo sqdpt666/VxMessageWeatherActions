@@ -61,7 +61,7 @@ public class AllConfig {
     public static final boolean open_english = true; //是否开启每日励志英语
     public static final boolean open_world_read = true; //是否开启世界新闻
     public static final boolean open_joke = true; //是否开启每日笑话
-    public static final boolean open_tiangou = true; //是否开启天狗日记
+    public static final boolean open_tiangou = true; //是否开启舔狗日记
     public static final boolean open_random_read = true; //是否开启随机短句
     public static final boolean open_horoscope= true; //是否开启星座解析
     public static final boolean random_module = true; //随机一个开启了的额外类型消息
