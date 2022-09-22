@@ -133,7 +133,7 @@ public class ApiUtil {
                 .append("事业情况:")
                 .append(fortunetext.getWork())
                 .append("\n")
-                .append("爱钱情况:")
+                .append("爱情情况:")
                 .append(fortunetext.getLove())
                 .append("\n")
                 .append("财运情况:")
