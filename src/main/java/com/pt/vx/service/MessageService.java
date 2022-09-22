@@ -69,7 +69,12 @@ public class MessageService {
        }else if(i == 7 && AllConfig.open_history_today){
            randomInfo = ApiUtil.getHistoryToday(3);
        }else {
-           setRandomInfo(map,user);
+           if(AllConfig.open_random_read || AllConfig.open_world_read
+                   ||AllConfig.open_joke || AllConfig.open_horoscope
+                   || AllConfig.open_tiangou ||AllConfig.open_qinghua
+                   || AllConfig.open_english || AllConfig.open_history_today){
+               setRandomInfo(map,user);
+           }
            return;
        }
        setMap(map,"randomInfo",randomInfo,"#FFCCCC");
