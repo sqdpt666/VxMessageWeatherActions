@@ -57,14 +57,14 @@ public class AllConfig {
     public static final boolean open_weather = true; //是否开启天气预报
     public static final boolean open_other_info= true; //是否开启额外信息（需要开启日期和天气预报）
     //额外类型消息
-    public static final boolean open_history_today = true; //是否开启历史上的今天
+    public static final boolean open_history_today = false; //是否开启历史上的今天
     public static final boolean open_qinghua = true; //是否开启情话一句
-    public static final boolean open_english = true; //是否开启每日励志英语
-    public static final boolean open_world_read = true; //是否开启世界新闻
-    public static final boolean open_joke = true; //是否开启每日笑话
+    public static final boolean open_english = false; //是否开启每日励志英语
+    public static final boolean open_world_read = false; //是否开启世界新闻
+    public static final boolean open_joke = false; //是否开启每日笑话
     public static final boolean open_tiangou = true; //是否开启舔狗日记
-    public static final boolean open_random_read = true; //是否开启随机短句
-    public static final boolean open_horoscope= true; //是否开启星座解析
+    public static final boolean open_random_read = false; //是否开启随机短句
+    public static final boolean open_horoscope= false; //是否开启星座解析
     public static final boolean random_module = true; //随机一个开启了的额外类型消息
 
     //小说
