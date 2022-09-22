@@ -10,6 +10,8 @@
 
 (2022/9/22 16:33)究极简单版2.2 修复了一些BUG
 
+(2022/9/22 22:58)究极简单版2.3 换了几个不能用的API
+
 ![image](https://user-images.githubusercontent.com/56298636/191155129-eacde564-3a6d-4d95-9ea0-7a075d30a469.png)
 
 
@@ -181,13 +183,16 @@ public class AllConfig {
  * 额外类型：
  * randomRead 精彩短句
  * worldRead 世界新闻
- * joke 笑话
  * tianGou 舔狗日记
  * qingHua 情话
  * english 励志英语
  * historyToday 历史的今天
  * horoscope 星座解析
  * randomInfo 随机额外类型消息
+ * wozairenjian 我在人间凑日子散文
+ * miyu 谜语
+ * poetry 诗句
+ * dongman 动漫
  */
 ```
 
