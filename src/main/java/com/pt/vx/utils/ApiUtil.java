@@ -106,7 +106,7 @@ public class ApiUtil {
      * @return 每日星座情况
      */
     public static String getHoroscopeRead(String horoscope){
-        String result = HttpUtil.get(String.format(horoscopeApi, getHoroscope(horoscope)));
+        String result = HttpUtil.get(String.format(horoscopeApi, horoscope));
         Result result1 = JSONUtil.toBean(result, Result.class);
         HoroscopeDto horoscopeDto = JSONUtil.toBean(result1.getData(), HoroscopeDto.class);
         Fortunetext fortunetext = horoscopeDto.getFortunetext();

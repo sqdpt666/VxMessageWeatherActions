@@ -17,8 +17,6 @@ import com.pt.vx.utils.ApiUtil;
 import com.pt.vx.utils.DateUtil;
 import com.pt.vx.utils.VxUtil;
 import com.pt.vx.utils.WeatherUtil;
-
-import java.security.SecureRandom;
 import java.util.*;
 
 public class MessageService {

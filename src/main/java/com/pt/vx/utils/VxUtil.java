@@ -31,7 +31,7 @@ public class VxUtil {
         String PUSH_URL = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=%s";
         TokenInfo token = getToken();
         String result =  HttpUtil.post(String.format(PUSH_URL,token.getAccess_token()),message);
-        log.info("发送消息结果："+result);
+        log.info(String.format("发送消息:%s ，结果为：%s", message,result));
     }
 
 }
