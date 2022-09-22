@@ -12,6 +12,8 @@ import com.pt.vx.domain.BirthDay;
 import com.pt.vx.domain.story.Catalogue;
 import com.pt.vx.domain.story.Chapter;
 import com.pt.vx.domain.story.ChapterData;
+import org.apache.commons.lang3.StringEscapeUtils;
+
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -47,19 +49,21 @@ public class ApiUtil {
 
 
     public static String getStoryApiContent()  {
-        String re = null;
+        String re ;
         try {
             re = HttpUtil.get(String.format(storyApiContent, getStoryApiChapter()));
         } catch (Exception e) {
-           logger.warning(String.format("获取小说失败 %s", e.getMessage()));
-           return null;
+            logger.warning(String.format("获取小说失败 %s", e.getMessage()));
+            return null;
         }
+        re =  StringEscapeUtils.unescapeJava(re);
         return JSONUtil.toBean(re, Result.class).getData();
     }
     private static String getStoryApiChapter() throws InterruptedException {
         Thread.sleep(501);
         LocalDate satrtTime = AllConfig.start_time;
         String result = HttpUtil.get(String.format(storyApiChapter, getStoryCatalogue()));
+        result =  StringEscapeUtils.unescapeJava(result);
         String data = JSONUtil.toBean(result, Result.class).getData();
         ChapterData chapterData = JSONUtil.toBean(data, ChapterData.class);
         String index = DateUtil.passDayOfNow(satrtTime);
@@ -68,22 +72,23 @@ public class ApiUtil {
     }
     private static String getStoryCatalogue() throws InterruptedException {
         Thread.sleep(502);
-       String title =  AllConfig.title;
-       String resultGet = HttpUtil.get(String.format(storyApi, title));
-       if(ObjectUtil.isEmpty(resultGet)){
-           logger.warning("获取小说失败");
-           return null;
-       }
-       Result result = JSONUtil.toBean(resultGet, Result.class);
-       String data = result.getData();
-       List<Catalogue> catalogues = JSONUtil.toList(data, Catalogue.class);
-       if(CollectionUtil.isNotEmpty(catalogues)){
-           for(Catalogue catalogue : catalogues){
-               if( AllConfig.author.equals(catalogue.getAuthor())){
-                   return catalogue.getFictionId();
-               }
-           }
-       }
+        String title =  AllConfig.title;
+        String resultGet = HttpUtil.get(String.format(storyApi, title));
+        if(ObjectUtil.isEmpty(resultGet)){
+            logger.warning("获取小说失败");
+            return null;
+        }
+        resultGet =  StringEscapeUtils.unescapeJava(resultGet);
+        Result result = JSONUtil.toBean(resultGet, Result.class);
+        String data = result.getData();
+        List<Catalogue> catalogues = JSONUtil.toList(data, Catalogue.class);
+        if(CollectionUtil.isNotEmpty(catalogues)){
+            for(Catalogue catalogue : catalogues){
+                if( AllConfig.author.equals(catalogue.getAuthor())){
+                    return catalogue.getFictionId();
+                }
+            }
+        }
         Catalogue catalogue = Optional.ofNullable(catalogues).orElse(new ArrayList<>()).stream().findFirst().orElse(null);
         return catalogue == null ? null : catalogue.getFictionId();
     }
@@ -102,6 +107,7 @@ public class ApiUtil {
      */
     public static String getQingHua(){
         String result = HttpUtil.get(qinghua);
+        result =  StringEscapeUtils.unescapeJava(result);
         QingHuaDto qingHuaDto = JSONUtil.toBean(result, QingHuaDto.class);
         return qingHuaDto.getContent();
     }
@@ -110,7 +116,9 @@ public class ApiUtil {
      * @return 每日英语
      */
     public static String getEnglish(){
-        Result result = JSONUtil.toBean(HttpUtil.get(en), Result.class);
+        String re = HttpUtil.get(en);
+        re =  StringEscapeUtils.unescapeJava(re);
+        Result result = JSONUtil.toBean(re, Result.class);
         String data = result.getData();
         EnglishDto en = JSONUtil.toBean(data, EnglishDto.class);
         String format = String.format("获取每日英语：%s", result);
@@ -124,6 +132,7 @@ public class ApiUtil {
      */
     public static String getWorldRead60s(){
         String result = HttpUtil.get(WorldRead60sApi);
+        result =  StringEscapeUtils.unescapeJava(result);
         WorldRead60s wordRead60s = JSONUtil.toBean(result, WorldRead60s.class);
         StringBuilder builder = new StringBuilder();
         wordRead60s.getData().forEach(x-> builder.append(x).append("\n"));
@@ -136,6 +145,7 @@ public class ApiUtil {
      */
     public static String getJoke(){
         String result = HttpUtil.get(joke);
+        result =  StringEscapeUtils.unescapeJava(result);
         JokeDto jokeDto = JSONUtil.toBean(result, JokeDto.class);
         return "《" + jokeDto.getTitle() + "》" + "\n" + jokeDto.getJoke();
     }
@@ -154,6 +164,7 @@ public class ApiUtil {
      */
     public static String getRandomRead(){
         String result = HttpUtil.get(randomRead);
+        result =  StringEscapeUtils.unescapeJava(result);
         RandomRead read = JSONUtil.toBean(result, RandomRead.class);
         RandomData data = read.getData();
         return data.getVhan()+" -- "+data.getSource();
@@ -170,6 +181,7 @@ public class ApiUtil {
             logger.warning(String.format("获取星座解析失败，星座为：%s",horoscope ));
             return "";
         }
+        result =  StringEscapeUtils.unescapeJava(result);
         Result result1 = JSONUtil.toBean(result, Result.class);
         HoroscopeDto horoscopeDto = JSONUtil.toBean(result1.getData(), HoroscopeDto.class);
         Fortunetext fortunetext = horoscopeDto.getFortunetext();
@@ -200,7 +212,7 @@ public class ApiUtil {
                 .append("\n")
                 .append("健康情况:")
                 .append(fortunetext.getHealth());
-           return stringBuilder.toString();
+        return stringBuilder.toString();
     }
 
     public static String getHoroscopeRead(BirthDay birthDay){
