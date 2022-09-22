@@ -7,8 +7,8 @@
 (2022/9/20)究极简单版2.1更新了更多的内置消息模板
 
 (2022/9/22)究极简单版2.2更新了更多的内置消息模板
-(2022/9/22 16:33)究极简单版2.2 修复了一些BUG
 
+(2022/9/22 16:33)究极简单版2.2 修复了一些BUG
 ![image](https://user-images.githubusercontent.com/56298636/191155129-eacde564-3a6d-4d95-9ea0-7a075d30a469.png)
 
 
@@ -175,6 +175,7 @@ public class AllConfig {
  * 
  * 特殊：
  * otherInfo 额外提示
+ * story 小说
  *
  * 额外类型：
  * randomRead 精彩短句
