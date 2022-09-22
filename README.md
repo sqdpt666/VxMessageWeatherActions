@@ -5,6 +5,7 @@
 微信消息推送Gitub Actions版本+天气预报，**究极简单版2.2**
 
 (2022/9/20)究极简单版2.1更新了更多的内置消息模板
+
 (2022/9/22)究极简单版2.2更新了更多的内置消息模板
 
 ![image](https://user-images.githubusercontent.com/56298636/191155129-eacde564-3a6d-4d95-9ea0-7a075d30a469.png)
