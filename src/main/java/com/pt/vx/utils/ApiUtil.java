@@ -2,17 +2,16 @@ package com.pt.vx.utils;
 
 
 import cn.hutool.core.date.ChineseDate;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
 import com.pt.vx.domain.Api.*;
 import com.pt.vx.domain.BirthDay;
-
-import java.time.LocalDate;
 import java.util.logging.Logger;
 
 public class ApiUtil {
 
-    private static Logger logger = Logger.getAnonymousLogger();
+    private static final Logger logger = Logger.getAnonymousLogger();
 
     private static final String  history_today= "http://api.weijieyue.cn/api/lsjt/api.php?max=%d";//历史上的今天
 
@@ -52,8 +51,9 @@ public class ApiUtil {
      * @return 每日英语
      */
     public static String getEnglish(){
-        String result = HttpUtil.get(en);
-        EnglishDto en = JSONUtil.toBean(result, EnglishDto.class);
+        Result result = JSONUtil.toBean(HttpUtil.get(en), Result.class);
+        String data = result.getData();
+        EnglishDto en = JSONUtil.toBean(data, EnglishDto.class);
         String format = String.format("获取每日英语：%s", result);
         logger.info(format);
         return en.getEn();
@@ -107,6 +107,10 @@ public class ApiUtil {
      */
     public static String getHoroscopeRead(String horoscope){
         String result = HttpUtil.get(String.format(horoscopeApi, horoscope));
+        if(ObjectUtil.isEmpty(result)){
+            logger.warning(String.format("获取星座解析失败，星座为：%s",horoscope ));
+            return "";
+        }
         Result result1 = JSONUtil.toBean(result, Result.class);
         HoroscopeDto horoscopeDto = JSONUtil.toBean(result1.getData(), HoroscopeDto.class);
         Fortunetext fortunetext = horoscopeDto.getFortunetext();
@@ -175,10 +179,6 @@ public class ApiUtil {
         }
     }
 
-
-    public static void main(String[] args) {
-        System.out.println(ApiUtil.getTgrj());
-    }
     private static String getHoroscope(BirthDay birthDay){
 
         int month = birthDay.getMonth();
