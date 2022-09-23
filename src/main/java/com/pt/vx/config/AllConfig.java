@@ -80,6 +80,9 @@ public class AllConfig {
     public static final String author = "吴承恩"; //小说作者。用来过滤同名小说，没找到改作者默认取第一本
     public static final LocalDate start_time = LocalDate.of(2022,9,20);//第一次运行程序的时间，用来推断小说要看到第几章了
 
+    //系统开关
+    public static final boolean OPEN_MESSAGE_SPLIT = true;//是否开启消息分裂（大于100字的消息会被分裂成多个）
+
 
 
     private static void init(){

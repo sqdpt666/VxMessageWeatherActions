@@ -2,7 +2,6 @@ package com.pt.vx.service;
 
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONUtil;
@@ -59,7 +58,6 @@ public class MessageService {
         String message = JSONUtil.toJsonStr(dto);
         VxUtil.sendMessage(message);
     }
-
     private void setMiYu(HashMap<String, DataInfo> map) {
         if(!AllConfig.open_miyu){
             return;
@@ -67,7 +65,6 @@ public class MessageService {
         String miyu = ApiUtil.getMiYu();
         setMap(map,"miyu",miyu,"#FFCCCC");
     }
-
     private void setPoetry(HashMap<String, DataInfo> map) {
         if(!AllConfig.open_poetry){
             return;
@@ -75,7 +72,6 @@ public class MessageService {
         String poetry = ApiUtil.getPoetryApi();
         setMap(map,"poetry",poetry,"#FFCCCC");
     }
-
     private void setWoZaiRenJian(HashMap<String, DataInfo> map) {
         if(!AllConfig.open_wozairenjian){
             return;
@@ -83,7 +79,6 @@ public class MessageService {
         String randomRead = ApiUtil.getWozairenjian();
         setMap(map,"wozairenjian",randomRead,"#FFCCCC");
     }
-
     private void setDongman(HashMap<String, DataInfo> map) {
         if(!AllConfig.open_dongman){
             return;
@@ -91,8 +86,6 @@ public class MessageService {
         String randomRead = ApiUtil.getDongman();
         setMap(map,"dongman",randomRead,"#FFCCCC");
     }
-
-
     private void setRandomInfo(HashMap<String, DataInfo> map,User user){
        String randomInfo;
        int i = RandomUtil.randomInt(110000) % 11;
@@ -277,8 +270,6 @@ public class MessageService {
          }
 
     }
-
-
     private void setWeatherDefault(HashMap<String, DataInfo> map){
         for(int i=0; i<5; i++){
             String ap = "";
@@ -320,26 +311,28 @@ public class MessageService {
         if(ObjectUtil.isEmpty(value) || ObjectUtil.isEmpty(key) || ObjectUtil.isEmpty(color)){
             return;
         }
-        int fontSize = 100;
-        int length = value.length();
-        BigDecimal len = new BigDecimal(length);
-        BigDecimal i = new BigDecimal(fontSize);
-        BigDecimal divide = len.divide(i, RoundingMode.UP);
-        int size = divide.intValue();
-        for(int x=0; x<size;x++){
-            int y =  x * 100 + 100;
-            if(y > length){
-                y = length;
+        if(AllConfig.OPEN_MESSAGE_SPLIT){
+            int fontSize = 100;
+            int length = value.length();
+            BigDecimal len = new BigDecimal(length);
+            BigDecimal divide = len.divide(new BigDecimal(fontSize), RoundingMode.UP);
+            int size = divide.intValue();
+            for(int x=0; x<size;x++){
+                int y =  x * 100 + 100;
+                if(y > length){
+                    y = length;
+                }
+                String substring = value.substring(x * 100 , y);
+                DataInfo dataInfo=new DataInfo();
+                dataInfo.setColor(color);
+                dataInfo.setValue(substring);
+                map.put(x == 0 ? key : key+x ,dataInfo);
             }
-            String substring = value.substring(x * 100 , y);
+        }else {
             DataInfo dataInfo=new DataInfo();
             dataInfo.setColor(color);
-            dataInfo.setValue(substring);
-            if(x>0){
-                map.put(key+x,dataInfo);
-            }else {
-                map.put(key,dataInfo);
-            }
+            dataInfo.setValue(value);
+            map.put(key,dataInfo);
         }
     }
 
