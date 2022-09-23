@@ -1,6 +1,7 @@
 package com.pt.vx.utils;
 
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.ChineseDate;
 import cn.hutool.core.util.ObjectUtil;
@@ -24,7 +25,7 @@ import java.util.logging.Logger;
 
 public class ApiUtil {
 
-    private static final Logger logger = Logger.getAnonymousLogger();
+    private static final Logger logger = Logger.getLogger("ApiUtil");
 
     private static final String  history_today= "http://fuyhi.top/api/historyday/api.php?type=json";//历史上的今天
 
@@ -52,7 +53,7 @@ public class ApiUtil {
     private static final String storyApiContent="https://api.pingcc.cn/fictionContent/search/%s";
 
 
-    public static List<String> getStoryApiContent()  {
+    public static String getStoryApiContent()  {
         String re ;
         try {
             re = HttpUtil.get(String.format(storyApiContent, getStoryApiChapter()));
@@ -61,13 +62,7 @@ public class ApiUtil {
             return null;
         }
         re =  StringEscapeUtils.unescapeJava(re);
-        String data = JSONUtil.toBean(re, Result.class).getData();
-        List<String> list = new ArrayList<>();
-        for(int i =0;i<data.length();i++){
-            String substring = data.substring(i * 100, (i + 1) * 100);
-            list.add(substring);
-        }
-         return list;
+        return JSONUtil.toBean(re, Result.class).getData();
     }
     private static String getStoryApiChapter() throws InterruptedException {
         Thread.sleep(501);
@@ -146,7 +141,7 @@ public class ApiUtil {
      */
     public static String getQingHua(){
         String result = HttpUtil.get(qinghua);
-        logger.info("获取情话"+result);
+        logger.info(String.format("获取情话 %s", result));
         return result;
     }
 
@@ -155,7 +150,7 @@ public class ApiUtil {
      */
     public static String getEnglish(){
         String re = HttpUtil.get(en);
-        logger.info("获取英语"+re);
+        logger.info(String.format("获取英语 %s", re));
         return re;
     }
 
@@ -165,13 +160,13 @@ public class ApiUtil {
      */
     public static String getWorldRead60s(){
         String result = HttpUtil.get(WorldRead60sApi);
-        logger.info("获取世界新闻 "+result);
+        logger.info(String.format("获取世界新闻 %s", result));
         Result re = JSONUtil.toBean(result, Result.class);
         WorldRead60s worldRead60s = JSONUtil.toBean(re.getData(), WorldRead60s.class);
         List<String> news = worldRead60s.getNews();
         StringBuilder message = new StringBuilder();
         int i = 0;
-        if(CollectionUtil.isNotEmpty(news)){
+        if(CollUtil.isNotEmpty(news)){
             message.append("新闻").append("\n");
             for(String dto : news){
                 i++;
@@ -187,7 +182,7 @@ public class ApiUtil {
 
     public static String getMiYu(){
         String result = HttpUtil.get(miyuApi);
-        logger.info("获取谜语"+result);
+        logger.info(String.format("获取谜语 %s", result));
         result =  StringEscapeUtils.unescapeJava(result);
         MiYuDto miYuDto = JSONUtil.toBean(result, MiYuDto.class);
         return miYuDto.getMt();
@@ -206,7 +201,7 @@ public class ApiUtil {
         }else {
              result = HttpUtil.get(tgrj2);
         }
-        logger.info("获取舔狗日记 "+result);
+        logger.info(String.format("获取舔狗日记 %s", result));
         return result;
     }
 
@@ -216,7 +211,7 @@ public class ApiUtil {
      */
     public static String getRandomRead(){
         String result = HttpUtil.get(randomRead);
-        logger.info("获取短句 "+result);
+        logger.info(String.format("获取短句 %s", result));
         result =  StringEscapeUtils.unescapeJava(result);
         RandomRead read = JSONUtil.toBean(result, RandomRead.class);
         return read.getText()+" -- "+read.getFrom();
@@ -270,7 +265,6 @@ public class ApiUtil {
         return stringBuilder.toString();
     }
     public static String getHoroscopeRead2(BirthDay birthDay){
-
         return HttpUtil.get(String.format(horoscopeApi2, getHoroscopeChina(birthDay)));
     }
 
@@ -304,7 +298,7 @@ public class ApiUtil {
         }else if("天秤".equals(horoscope) || "天秤座".equals(horoscope)){
             return "pisces";
         }else {
-            logger.warning("请天写正确的星座！"+"horoscope");
+            logger.warning(String.format("请天写正确的星座！%s",horoscope ));
             throw new RuntimeException("请天写正确的星座");
         }
     }

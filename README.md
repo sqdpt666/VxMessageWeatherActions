@@ -14,6 +14,8 @@
 
 (2022/9/23 12:01)究极简单版2.3.1 修复了世界新闻出错的BUG
 
+(2022/923 13:40)究极简单2.3.2 模板内容超过一百字的会在后面加上序号延续（1、2、3、4......每100字一个，如tianGou超过了一百个字的话：{{tianGou.DATA}}{{tianGou1.DATA}}）
+
 ![image](https://user-images.githubusercontent.com/56298636/191155129-eacde564-3a6d-4d95-9ea0-7a075d30a469.png)
 
 
@@ -152,7 +154,8 @@ public class AllConfig {
 在微信模板里添加{{xxx.DATA}}
 ```java
 /**
- *
+ *内容超过一百字的会在后面加上序号延续（1、2、3、4......每100字一个，如tianGou超过了一百个字的话：{{tianGou.DATA}}{{tianGou1.DATA}}）
+ * 
  * 个人信息相关：
  * userName 昵称
  * holdDay 距离某天的天数
@@ -180,7 +183,7 @@ public class AllConfig {
  * 
  * 特殊：
  * otherInfo 额外提示
- * story0（1、2、3、4、5、7......每100字一个） 小说
+ * story
  *
  * 额外类型：
  * randomRead 精彩短句

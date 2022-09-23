@@ -2,6 +2,8 @@ package com.pt.vx.service;
 
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONUtil;
 import com.pt.vx.config.AllConfig;
@@ -17,6 +19,9 @@ import com.pt.vx.utils.ApiUtil;
 import com.pt.vx.utils.DateUtil;
 import com.pt.vx.utils.VxUtil;
 import com.pt.vx.utils.WeatherUtil;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 public class MessageService {
@@ -144,8 +149,8 @@ public class MessageService {
         if(!AllConfig.open_tiangou){
             return;
         }
-        String tgrj = ApiUtil.getTgrj();
-        setMap(map,"tianGou",tgrj,"#FFCCCC");
+        String tgrjs = ApiUtil.getTgrj();
+        setMap(map,"tianGou",tgrjs,"#FFCCCC");
     }
     private void setQinghua(HashMap<String, DataInfo> map){
         if(!AllConfig.open_qinghua){
@@ -266,12 +271,10 @@ public class MessageService {
        if(!AllConfig.open_story){
            return;
        }
-        List<String> storyApiContent = ApiUtil.getStoryApiContent();
-        if(CollUtil.isNotEmpty(storyApiContent)){
-            for(int i=0;i<storyApiContent.size();i++){
-                setMap(map,"story"+i, storyApiContent.get(i),"#000033");
-            }
-        }
+        String storyApiContent = ApiUtil.getStoryApiContent();
+        if(storyApiContent != null){
+               setMap(map,"story", storyApiContent,"#000033");
+         }
 
     }
 
@@ -314,10 +317,25 @@ public class MessageService {
      * @param color 展示的颜色
      */
     private void setMap(HashMap<String, DataInfo> map,String key,String value,String color){
-        DataInfo dataInfo=new DataInfo();
-        dataInfo.setColor(color);
-        dataInfo.setValue(value);
-        map.put(key,dataInfo);
+        if(ObjectUtil.isEmpty(value) || ObjectUtil.isEmpty(map) || ObjectUtil.isEmpty(key) || ObjectUtil.isEmpty(color)){
+            return;
+        }
+        BigDecimal len = new BigDecimal(value.length());
+        int fontSize = 100;
+        BigDecimal i = new BigDecimal(fontSize);
+        BigDecimal divide = len.divide(i, RoundingMode.UP);
+        int size = divide.intValue();
+        for(int x=0; x<size;x++){
+            String substring = value.substring(x * fontSize, (x + 1) * fontSize);
+            DataInfo dataInfo=new DataInfo();
+            dataInfo.setColor(color);
+            dataInfo.setValue(substring);
+            if(x>0){
+                map.put(key+x,dataInfo);
+            }else {
+                map.put(key,dataInfo);
+            }
+        }
     }
 
 

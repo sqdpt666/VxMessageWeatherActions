@@ -34,7 +34,7 @@ import java.util.List;
  * powerNow 现在风力
  * humidityNow 现在湿度
  *
- * 其他：
+ * 其他：（1、2、3、4......每100字一个，如tianGou超过了一百个字的话：{{tianGou.DATA}}{{tianGou1.DATA}}）
  * otherInfo 额外提示
  * randomRead 精彩短句
  * worldRead 世界新闻
@@ -48,7 +48,7 @@ import java.util.List;
  * miyu 谜语
  * poetry 诗句
  * dongman 动漫
- * story0（1、2、3、4、5、7......每100字一个） 小说
+ * story 小说
  */
 public class AllConfig {
     public static final String VxAppId = "微信的APPID";
@@ -72,7 +72,7 @@ public class AllConfig {
     public static final boolean open_english = true; //是否开启每日英语
     public static final boolean open_miyu = true; //是否开启谜语
     public static final boolean open_horoscope= true; //是否开启星座解析
-    public static final boolean random_module = true; //随机一个开启了的额外类型消息
+    public static final boolean random_module = true; //随机一个开启了的额外类型消息(开启以后，只会推送随机的)
 
     //小说
     public static final boolean open_story = false; //开启小说,每天推送一章
