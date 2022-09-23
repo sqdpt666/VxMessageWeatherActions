@@ -15,7 +15,8 @@ import com.pt.vx.domain.story.Chapter;
 import com.pt.vx.domain.story.ChapterData;
 import org.apache.commons.lang3.StringEscapeUtils;
 
-
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -139,7 +140,7 @@ public class ApiUtil {
      * @return 获取一条土味情话
      */
     public static String getQingHua(){
-        String result = HttpUtil.get(qinghua);
+        String result = HttpUtil.get(qinghua, StandardCharsets.UTF_8);
         logger.info(String.format("获取情话 %s", result));
         return result;
     }
@@ -148,7 +149,7 @@ public class ApiUtil {
      * @return 每日英语
      */
     public static String getEnglish(){
-        String re = HttpUtil.get(en);
+        String re = HttpUtil.get(en, StandardCharsets.UTF_8);
         logger.info(String.format("获取英语 %s", re));
         return re;
     }
@@ -158,7 +159,7 @@ public class ApiUtil {
      * @return 世界新闻
      */
     public static String getWorldRead60s(){
-        String result = HttpUtil.get(WorldRead60sApi);
+        String result = HttpUtil.get(WorldRead60sApi, StandardCharsets.UTF_8);
         logger.info(String.format("获取世界新闻 %s", result));
         Result re = JSONUtil.toBean(result, Result.class);
         WorldRead60s worldRead60s = JSONUtil.toBean(re.getData(), WorldRead60s.class);
@@ -180,9 +181,8 @@ public class ApiUtil {
 
 
     public static String getMiYu(){
-        String result = HttpUtil.get(miyuApi);
+        String result = HttpUtil.get(miyuApi, StandardCharsets.UTF_8);
         logger.info(String.format("获取谜语 %s", result));
-        result =  StringEscapeUtils.unescapeJava(result);
         MiYuDto miYuDto = JSONUtil.toBean(result, MiYuDto.class);
         return miYuDto.getMt();
     }
@@ -193,7 +193,7 @@ public class ApiUtil {
      * @return 舔狗日记
      */
     public static String getTgrj(){
-        String result = HttpUtil.get(tgrj);
+        String result = HttpUtil.get(tgrj, StandardCharsets.UTF_8);
         logger.info(String.format("获取舔狗日记 %s", result));
         return result;
     }
@@ -203,7 +203,7 @@ public class ApiUtil {
      * @return 随机一句
      */
     public static String getRandomRead(){
-        String result = HttpUtil.get(randomRead);
+        String result = HttpUtil.get(randomRead, StandardCharsets.UTF_8);
         logger.info(String.format("获取短句 %s", result));
         result =  StringEscapeUtils.unescapeJava(result);
         RandomRead read = JSONUtil.toBean(result, RandomRead.class);
@@ -216,7 +216,7 @@ public class ApiUtil {
      * @return 每日星座情况
      */
     private static String getHoroscopeRead(String horoscope){
-        String result = HttpUtil.get(String.format(horoscopeApi, horoscope));
+        String result = HttpUtil.get(String.format(horoscopeApi, horoscope), StandardCharsets.UTF_8);
         if(ObjectUtil.isEmpty(result)){
             logger.warning(String.format("获取星座解析失败，星座为：%s",horoscope ));
             return "";
@@ -258,7 +258,7 @@ public class ApiUtil {
         return stringBuilder.toString();
     }
     public static String getHoroscopeRead2(BirthDay birthDay){
-        return HttpUtil.get(String.format(horoscopeApi2, getHoroscopeChina(birthDay)));
+        return HttpUtil.get(String.format(horoscopeApi2, getHoroscopeChina(birthDay)), StandardCharsets.UTF_8);
     }
 
     public static String getHoroscopeRead(BirthDay birthDay){
