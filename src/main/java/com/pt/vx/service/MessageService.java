@@ -317,16 +317,21 @@ public class MessageService {
      * @param color 展示的颜色
      */
     private void setMap(HashMap<String, DataInfo> map,String key,String value,String color){
-        if(ObjectUtil.isEmpty(value) || ObjectUtil.isEmpty(map) || ObjectUtil.isEmpty(key) || ObjectUtil.isEmpty(color)){
+        if(ObjectUtil.isEmpty(value) || ObjectUtil.isEmpty(key) || ObjectUtil.isEmpty(color)){
             return;
         }
-        BigDecimal len = new BigDecimal(value.length());
         int fontSize = 100;
+        int length = value.length();
+        BigDecimal len = new BigDecimal(length);
         BigDecimal i = new BigDecimal(fontSize);
         BigDecimal divide = len.divide(i, RoundingMode.UP);
         int size = divide.intValue();
         for(int x=0; x<size;x++){
-            String substring = value.substring(x * fontSize, (x + 1) * fontSize);
+            int y =  x * 100 + 100;
+            if(y > length){
+                y = length;
+            }
+            String substring = value.substring(x * 100 , y);
             DataInfo dataInfo=new DataInfo();
             dataInfo.setColor(color);
             dataInfo.setValue(substring);

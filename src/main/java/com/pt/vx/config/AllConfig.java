@@ -58,7 +58,7 @@ public class AllConfig {
     //基本类型消息
     public static final boolean open_info = true; //是否开启个人情况 true 为开启， false 为不开启
     public static final boolean open_weather = true; //是否开启天气预报
-    public static final boolean open_other_info= true; //是否开启额外信息（需要开启日期和天气预报）
+    public static final boolean open_other_info= true; //是否开启额外信息（需要开启个人情况和天气预报）
 
     //额外类型消息
     public static final boolean open_history_today = true; //是否开启历史上的今天
