@@ -28,7 +28,7 @@ public class ApiUtil {
 
     private static final String  history_today= "http://fuyhi.top/api/historyday/api.php?type=json";//历史上的今天
 
-    private static final String  qinghua = "https://api.uomg.com/api/rand.qinghua?format=json"; //土味情话
+    private static final String  qinghua = "https://api.uomg.com/api/rand.qinghua?format=text"; //土味情话
 
     private static final String dongman = "http://fuyhi.top/api/dmyiyan/api.php?type=text";//一句动漫台词
 
@@ -147,9 +147,7 @@ public class ApiUtil {
     public static String getQingHua(){
         String result = HttpUtil.get(qinghua);
         logger.info("获取情话"+result);
-        result =  StringEscapeUtils.unescapeJava(result);
-        QingHuaDto qingHuaDto = JSONUtil.toBean(result, QingHuaDto.class);
-        return qingHuaDto.getContent();
+        return result;
     }
 
     /**
