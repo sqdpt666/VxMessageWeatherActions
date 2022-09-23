@@ -266,8 +266,13 @@ public class MessageService {
        if(!AllConfig.open_story){
            return;
        }
-        String story = ApiUtil.getStoryApiContent();
-        setMap(map,"story",story,"#000033");
+        List<String> storyApiContent = ApiUtil.getStoryApiContent();
+        if(CollUtil.isNotEmpty(storyApiContent)){
+            for(int i=0;i<storyApiContent.size();i++){
+                setMap(map,"story"+i, storyApiContent.get(i),"#000033");
+            }
+        }
+
     }
 
 

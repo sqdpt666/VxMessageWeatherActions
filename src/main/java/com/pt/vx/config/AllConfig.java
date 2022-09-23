@@ -48,7 +48,7 @@ import java.util.List;
  * miyu 谜语
  * poetry 诗句
  * dongman 动漫
- * story 小说
+ * story0（1、2、3、4、5、7......每100字一个） 小说
  */
 public class AllConfig {
     public static final String VxAppId = "微信的APPID";
@@ -75,10 +75,10 @@ public class AllConfig {
     public static final boolean random_module = true; //随机一个开启了的额外类型消息
 
     //小说
-    public static final boolean open_story = false; //开启小说,每天推送一章(最新发现微信对太长的内容会截断，所以小说可以忽略了）
-    public static final String title = "小说名称"; //小说名称
-    public static final String author = "小说作者"; //小说作者
-    public static final LocalDate start_time = LocalDate.of(2022,9,22);//第一次运行程序的时间，用来推断小说要看到第几章了
+    public static final boolean open_story = false; //开启小说,每天推送一章
+    public static final String title = "西游记"; //小说名称
+    public static final String author = "吴承恩"; //小说作者。用来过滤同名小说，没找到改作者默认取第一本
+    public static final LocalDate start_time = LocalDate.of(2022,9,20);//第一次运行程序的时间，用来推断小说要看到第几章了
 
 
 

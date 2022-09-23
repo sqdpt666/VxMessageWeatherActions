@@ -52,7 +52,7 @@ public class ApiUtil {
     private static final String storyApiContent="https://api.pingcc.cn/fictionContent/search/%s";
 
 
-    public static String getStoryApiContent()  {
+    public static List<String> getStoryApiContent()  {
         String re ;
         try {
             re = HttpUtil.get(String.format(storyApiContent, getStoryApiChapter()));
@@ -61,7 +61,13 @@ public class ApiUtil {
             return null;
         }
         re =  StringEscapeUtils.unescapeJava(re);
-        return JSONUtil.toBean(re, Result.class).getData();
+        String data = JSONUtil.toBean(re, Result.class).getData();
+        List<String> list = new ArrayList<>();
+        for(int i =0;i<data.length();i++){
+            String substring = data.substring(i * 100, (i + 1) * 100);
+            list.add(substring);
+        }
+         return list;
     }
     private static String getStoryApiChapter() throws InterruptedException {
         Thread.sleep(501);
