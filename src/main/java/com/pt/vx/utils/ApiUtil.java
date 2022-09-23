@@ -194,13 +194,7 @@ public class ApiUtil {
      * @return 舔狗日记
      */
     public static String getTgrj(){
-        String result;
-        int i = RandomUtil.randomInt(200) % 2;
-        if(i == 0){
-             result = HttpUtil.get(tgrj);
-        }else {
-             result = HttpUtil.get(tgrj2);
-        }
+        String result = HttpUtil.get(tgrj);
         logger.info(String.format("获取舔狗日记 %s", result));
         return result;
     }
