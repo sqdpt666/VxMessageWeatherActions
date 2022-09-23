@@ -168,7 +168,6 @@ public class ApiUtil {
     public static String getWorldRead60s(){
         String result = HttpUtil.get(WorldRead60sApi);
         logger.info("获取世界新闻 "+result);
-        result =  StringEscapeUtils.unescapeJava(result);
         Result re = JSONUtil.toBean(result, Result.class);
         WorldRead60s worldRead60s = JSONUtil.toBean(re.getData(), WorldRead60s.class);
         List<String> news = worldRead60s.getNews();
