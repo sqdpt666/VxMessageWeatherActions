@@ -251,7 +251,7 @@ public class AllConfig {
 最后，开心每一天！
 ```
 
-有小说的模板（小说每有100个字就需要写一个）
+2.3.4模板
 ```
 {{userName.DATA}}， 
 {{date.DATA}} 周{{week.DATA}} 
@@ -265,10 +265,8 @@ public class AllConfig {
 明天晚上{{weatherNight1.DATA}}，温度{{temperatureNight1.DATA}}℃ 
 {{otherInfo.DATA}} 
 
-{{randomInfo.DATA}}
+{{randomInfo.DATA}}{{randomInfo1.DATA}}
 
-{{story0.DATA}}{{story1.DATA}}{{story2.DATA}}{{story3.DATA}}{{story4.DATA}}{{story5.DATA}}
-{{story6.DATA}}{{story7.DATA}}{{story8.DATA}}{{story9.DATA}}{{story10.DATA}}{{story11.DATA}}
 最后，开心每一天！
 ```
 
