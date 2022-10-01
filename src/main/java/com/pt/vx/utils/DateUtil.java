@@ -19,6 +19,16 @@ public class DateUtil {
         LocalDate now = LocalDate.now();
         return passDay(now,start);
     }
+
+    public static String passDayChinese(int year,int month,int day){
+        ChineseDate chineseDate = new ChineseDate(year,month,day);
+        int gregorianYear = chineseDate.getGregorianYear();
+        int gregorianMonthBase1 = chineseDate.getGregorianMonthBase1();
+        int gregorianDay = chineseDate.getGregorianDay();
+        LocalDate start = LocalDate.of(gregorianYear, gregorianMonthBase1, gregorianDay);
+        LocalDate now = LocalDate.now();
+        return passDay(now,start);
+    }
     
     public static String passDayOfNow(LocalDate source){
         int year = source.getYear();

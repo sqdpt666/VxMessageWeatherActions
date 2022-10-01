@@ -6,6 +6,8 @@ public class TokenInfo {
 
     private String expires_in;
 
+    private String errcode;
+
     public String getAccess_token() {
         return access_token;
     }
@@ -20,5 +22,13 @@ public class TokenInfo {
 
     public void setExpires_in(String expires_in) {
         this.expires_in = expires_in;
+    }
+
+    public String getErrcode() {
+        return errcode;
+    }
+
+    public void setErrcode(String errcode) {
+        this.errcode = errcode;
     }
 }

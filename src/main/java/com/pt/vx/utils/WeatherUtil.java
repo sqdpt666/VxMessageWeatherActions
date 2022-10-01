@@ -5,6 +5,7 @@ import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
 import com.pt.vx.config.AllConfig;
 import com.pt.vx.domain.weather.*;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -26,7 +27,7 @@ public class WeatherUtil {
     public static WeatherResponseDto getWeather(String address, String city,String type){
         Code code = getCode(address, city);
         if(code == null){
-            log.warning("获取区域编码失败，区域为空");
+            log.warning("获取区域编码失败，区域为空。<<<pt提示：请检查高德地图KEY是否填写好，或者用户的地址信息是否填写好>>>");
             return null;
         }
         String adCode = code.getAdcode();
@@ -42,14 +43,16 @@ public class WeatherUtil {
         String result = HttpUtil.get(WEATHER_URL,map);
         WeatherResponseDto weatherResponseDto =  JSONUtil.toBean(result, WeatherResponseDto.class);
         if(Objects.equals(0,weatherResponseDto.getStatus()) ||  !"10000".equals(weatherResponseDto.getInfocode())){
-            log.warning("获取天气失败："+result);
+            log.warning("获取天气失败："+result+"<<<pt提示：请检查高德地图KEY是否填写好，或者用户地址是否填写好>>>");
             return null;
         }
         return weatherResponseDto;
     }
 
     public static Code getCode(String address, String city){
-
+        if(StringUtils.isAnyBlank(address,city)){
+            return null;
+        }
         HashMap<String,Object> map = new HashMap<>();
         map.put("key",AllConfig.WeatherKey);
         map.put("address",address);

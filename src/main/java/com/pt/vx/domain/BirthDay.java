@@ -5,17 +5,21 @@ public class BirthDay {
     private int year;
     private int month;
     private int day;
-    private boolean isChinese;
+
+    private boolean chineseFlag;
+
+    private boolean countFlag;
 
     public BirthDay(){
 
     }
 
-    public BirthDay(int year, int month, int day, boolean isChinese) {
+    public BirthDay(int year, int month, int day, boolean chineseFlag, boolean countFlag) {
         this.year = year;
         this.month = month;
         this.day = day;
-        this.isChinese = isChinese;
+        this.chineseFlag = chineseFlag;
+        this.countFlag = countFlag;
     }
 
     public int getYear() {
@@ -42,11 +46,19 @@ public class BirthDay {
         this.day = day;
     }
 
-    public boolean isChinese() {
-        return isChinese;
+    public boolean isChineseFlag() {
+        return chineseFlag;
     }
 
-    public void setChinese(boolean chinese) {
-        isChinese = chinese;
+    public void setChineseFlag(boolean chineseFlag) {
+        this.chineseFlag = chineseFlag;
+    }
+
+    public boolean isCountFlag() {
+        return countFlag;
+    }
+
+    public void setCountFlag(boolean countFlag) {
+        this.countFlag = countFlag;
     }
 }

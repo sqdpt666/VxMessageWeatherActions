@@ -5,22 +5,11 @@ import java.time.LocalDate;
 public class User {
 
     private String Vx;
+    private String templateId;
     private String userName;
-
-    private BirthDay birthDay;
-
-    private LocalDate loveDay;
-
-    private BirthDay careDay;
-
+    private BirthDay[] birthDays;
     private String address;
-
     private String city;
-
-   private String templateId;
-
-
-
 
     public String getVx() {
         return Vx;
@@ -28,6 +17,14 @@ public class User {
 
     public void setVx(String vx) {
         Vx = vx;
+    }
+
+    public String getTemplateId() {
+        return templateId;
+    }
+
+    public void setTemplateId(String templateId) {
+        this.templateId = templateId;
     }
 
     public String getUserName() {
@@ -38,28 +35,12 @@ public class User {
         this.userName = userName;
     }
 
-    public BirthDay getBirthDay() {
-        return birthDay;
+    public BirthDay[] getBirthDays() {
+        return birthDays;
     }
 
-    public void setBirthDay(BirthDay birthDay) {
-        this.birthDay = birthDay;
-    }
-
-    public BirthDay getCareDay() {
-        return careDay;
-    }
-
-    public void setCareDay(BirthDay careDay) {
-        this.careDay = careDay;
-    }
-
-    public LocalDate getLoveDay() {
-        return loveDay;
-    }
-
-    public void setLoveDay(LocalDate loveDay) {
-        this.loveDay = loveDay;
+    public void setBirthDays(BirthDay[] birthDays) {
+        this.birthDays = birthDays;
     }
 
     public String getAddress() {
@@ -77,13 +58,4 @@ public class User {
     public void setCity(String city) {
         this.city = city;
     }
-
-    public String getTemplateId() {
-        return templateId;
-    }
-
-    public void setTemplateId(String templateId) {
-        this.templateId = templateId;
-    }
-
 }

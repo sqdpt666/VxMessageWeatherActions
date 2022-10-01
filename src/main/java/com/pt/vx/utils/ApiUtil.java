@@ -7,20 +7,11 @@ import cn.hutool.core.date.ChineseDate;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
-import com.pt.vx.config.AllConfig;
 import com.pt.vx.domain.Api.*;
 import com.pt.vx.domain.BirthDay;
-import com.pt.vx.domain.story.Catalogue;
-import com.pt.vx.domain.story.Chapter;
-import com.pt.vx.domain.story.ChapterData;
 import org.apache.commons.lang3.StringEscapeUtils;
-
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.logging.Logger;
 
 public class ApiUtil {
@@ -53,7 +44,7 @@ public class ApiUtil {
     private static final String storyApiContent="https://api.pingcc.cn/fictionContent/search/%s";
 
 
-    public static String getStoryApiContent()  {
+   /* public static String getStoryApiContent()  {
         String re ;
         try {
             re = HttpUtil.get(String.format(storyApiContent, getStoryApiChapter()));
@@ -96,7 +87,7 @@ public class ApiUtil {
         }
         Catalogue catalogue = Optional.ofNullable(catalogues).orElse(new ArrayList<>()).stream().findFirst().orElse(null);
         return catalogue == null ? null : catalogue.getFictionId();
-    }
+    }*/
 
     /**
      * 获取历史上今天
@@ -184,7 +175,7 @@ public class ApiUtil {
         String result = HttpUtil.get(miyuApi, StandardCharsets.UTF_8);
         logger.info(String.format("获取谜语 %s", result));
         MiYuDto miYuDto = JSONUtil.toBean(result, MiYuDto.class);
-        return miYuDto.getMt();
+        return "小谜语"+"\n"+miYuDto.getMt();
     }
 
 
@@ -305,7 +296,7 @@ public class ApiUtil {
     private static String getHoroscopeChina(BirthDay birthDay){
         int month = birthDay.getMonth();
         int day = birthDay.getDay();
-        boolean chinese = birthDay.isChinese();
+        boolean chinese = birthDay.isChineseFlag();
         if(chinese){
             int year = birthDay.getYear();
             ChineseDate chineseDate=new ChineseDate(year,month,day);
