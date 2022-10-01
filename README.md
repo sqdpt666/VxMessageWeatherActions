@@ -2,19 +2,19 @@
 **请仔细阅读本文档哦~**
 只能说究极无敌详细，看不懂你给我扇脸，看懂了的话你给我三连！
 
-微信消息推送Gitub Actions版本日期+天气预报+其他，**究极简单版2.3.4**
+微信消息推送Gitub Actions版本日期+天气预报+其他，**究极简单版2.4.0**
 
 (2022/9/20)究极简单版2.1更新了更多的内置消息模板
 
 (2022/9/22)究极简单版2.2更新了更多的内置消息模板
-
-(2022/9/22 16:33)究极简单版2.2 修复了一些BUG
 
 (2022/9/22 22:58)究极简单版2.3 换了几个不能用的API，并增加了几个内置模板
 
 (2022/9/23 12:01)究极简单版2.3.1 修复了世界新闻出错的BUG
 
 (2022/9/23 13:40)究极简单2.3.2 模板内容超过一百字的会在后面加上序号延续（1、2、3、4......每100字一个，如tianGou超过了一百个字的话：{{tianGou.DATA}}{{tianGou1.DATA}}） 最好紧贴在一起，不然内容会分开
+
+(2022/10/1) 究极简单2.4.0 支持更多方便的自定义操作，删除了小说模块
 
 
 ![image](https://user-images.githubusercontent.com/56298636/191155129-eacde564-3a6d-4d95-9ea0-7a075d30a469.png)
@@ -259,6 +259,25 @@ public class AllConfig {
 你的生日还有{{yourBirthDay.DATA}}天 
 我的生日还有{{myBirthDay.DATA}}天 
 距离我们下一次纪念还有{{loveDay.DATA}}天 
+今天白天{{weatherDay.DATA}}，温度{{temperatureDay.DATA}}℃ 
+今天晚上{{weatherNight.DATA}}，温度{{temperatureNight.DATA}}℃ 
+明天白天{{weatherDay1.DATA}}，温度{{temperatureDay1.DATA}}℃ 
+明天晚上{{weatherNight1.DATA}}，温度{{temperatureNight1.DATA}}℃ 
+{{otherInfo.DATA}} 
+
+{{randomInfo.DATA}}{{randomInfo1.DATA}}
+
+最后，开心每一天！
+```
+
+2.4.0模板
+```
+{{userName.DATA}}， 
+{{date.DATA}} 周{{week.DATA}} 
+今天是我们在一起的{{birdyDay3.DATA}}天 
+你的生日还有{{birdyDay.DATA}}天 
+我的生日还有{{birdyDay1.DATA}}天 
+距离我们下一次纪念还有{{birdyDay2.DATA}}天 
 今天白天{{weatherDay.DATA}}，温度{{temperatureDay.DATA}}℃ 
 今天晚上{{weatherNight.DATA}}，温度{{temperatureNight.DATA}}℃ 
 明天白天{{weatherDay1.DATA}}，温度{{temperatureDay1.DATA}}℃ 
