@@ -274,10 +274,10 @@ public class AllConfig {
 ```
 {{userName.DATA}}， 
 {{date.DATA}} 周{{week.DATA}} 
-今天是我们在一起的{{birdyDay3.DATA}}天 
-你的生日还有{{birdyDay.DATA}}天 
-我的生日还有{{birdyDay1.DATA}}天 
-距离我们下一次纪念还有{{birdyDay2.DATA}}天 
+今天是我们在一起的{{birthDay3.DATA}}天 
+你的生日还有{{birthDay.DATA}}天 
+我的生日还有{{birthDay1.DATA}}天 
+距离我们下一次纪念还有{{birthDay2.DATA}}天 
 今天白天{{weatherDay.DATA}}，温度{{temperatureDay.DATA}}℃ 
 今天晚上{{weatherNight.DATA}}，温度{{temperatureNight.DATA}}℃ 
 明天白天{{weatherDay1.DATA}}，温度{{temperatureDay1.DATA}}℃ 
