@@ -1,12 +1,12 @@
 package com.pt.vx.utils;
 
-import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.http.HttpUtil;
+
 import cn.hutool.json.JSONUtil;
 import com.pt.vx.config.AllConfig;
 import com.pt.vx.domain.TokenInfo;
 
 
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.logging.Logger;
@@ -23,7 +23,7 @@ public class VxUtil {
 
     public static TokenInfo getToken(){
         String TOKEN_URL ="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s";
-        String result = HttpUtil.get(String.format(TOKEN_URL, AllConfig.VxAppId, AllConfig.VxAppSecret));
+        String result = HttpUtil.get(String.format(TOKEN_URL, AllConfig.VxAppId, AllConfig.VxAppSecret), StandardCharsets.UTF_8,10000);
         log.info("获取微信token："+result);
         TokenInfo tokenInfo = JSONUtil.toBean(result, TokenInfo.class);
         if(Objects.nonNull(tokenInfo) ){
@@ -55,7 +55,7 @@ public class VxUtil {
         }else {
             accessToken = tokenCache;
         }
-        String result =  HttpUtil.post(String.format(PUSH_URL,accessToken),message);
+        String result =  HttpUtil.post(String.format(PUSH_URL,accessToken),message, StandardCharsets.UTF_8,10000);
         log.info(String.format("发送消息:%s ，结果为：%s", message,result));
     }
 

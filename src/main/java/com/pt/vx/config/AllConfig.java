@@ -13,12 +13,15 @@ import java.util.List;
  * 成功了的小伙伴，欢迎来点赞投币评论哦~
  * 国庆节快乐！
  *               -- 2022/10/1
+ *
+ * 注意：改下面的信息的时候，细心一点。
+ * 有双引号("")的不要把双引号给丢了,标点符号记得用英文输入法！！！
+ *               -- 2022/10/5
  */
 public class AllConfig {
     public static final String VxAppId = "微信的APPID";
     public static final String VxAppSecret = "微信的密钥";
     public static final String WeatherKey = "高德地图key";
-
 
     //下列所有填写的  true 为开启， false 为不开启 ，#XXXXXX是颜色16进制HEX码（不知道颜色16进制HEX码可以百度）
     //系统开关
@@ -63,13 +66,15 @@ public class AllConfig {
         //如果要多个人的话，就复制这个一遍，然后填写里面的内容。这里默认两个人,大伙应该是两个人吧（笑）
         //如果开启了master模式，除第一个用户外，其他用户只需要填写微信号
         //要计算几个日期，就写几个new BirthDay,第一个在模板中是{{birthDay.DATA}}，第二个是{{birthDay1.DATA}}，第三个是{{birthDay2.DATA}}以此类推
+        //注意：日期里面的数字，填正常的数字就行了.比如1就是1，不要填01
+        //注意：每个用户信息的最后一项不需要加逗号！！！
         userList.add(getUser(
-                "这个人的微信号",//扫码关注你的测试号以后，测试平台会出现TA的微信号
-                "模板ID",//要给这个人发送的模板ID
-                "pt",//咋称呼这个人
-                "江苏省南京市玄武区",//这个人的详细地址
-                "南京",//这个人在的城市
-                new BirthDay(1999,2,15,true,false),//分别代表年、月、日、是否是农历(true为农历、false为公历)、是否统计天数(true为统计，false为倒计时)
+                "这个人的微信号", //扫码关注你的测试号以后，测试平台会出现TA的微信号
+                "模板ID", //要给这个人发送的模板ID
+                "pt", //咋称呼这个人
+                "江苏省南京市玄武区", //这个人的详细地址
+                "南京", //这个人在的城市
+                new BirthDay(1999,2,15,true,false), //分别代表年、月、日、是否是农历(true为农历、false为公历)、是否统计天数(true为统计，false为倒计时)
                 new BirthDay(1999,8,11,false,false),
                 new BirthDay(2020,7,8,true,true),
                 new BirthDay(2020,7,8,true,false)
