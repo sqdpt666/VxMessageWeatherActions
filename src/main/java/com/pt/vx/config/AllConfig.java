@@ -81,13 +81,13 @@ public class AllConfig {
         ));
 
         userList.add(getUser(
-                "这个人扫码后的微信号",//扫码关注你的测试号以后，测试平台会出现TA的微信号
-                "微信消息模板ID",//要给这个人发送的模板ID
-                "这个人的称呼",//咋称呼这个人
-                "江苏省南京市玄武区",//这个人的详细地址
-                "南京",//这个人在的城市
-                new BirthDay(1999,8,11,false,false),
-                new BirthDay(1999,2,15,true,false),
+                "oce4E6dWn1gH1_iMIWEG4gs5v9jw",//扫码关注你的测试号以后，测试平台会出现TA的微信号
+                "1233211234567",//要给这个人发送的模板ID
+                "宝宝",//咋称呼这个人
+                "湖南省株洲市石峰区",//这个人的详细地址
+                "株洲",//这个人在的城市
+                new BirthDay(2003,7,3,false,false),
+                new BirthDay(2004,7,12,true,false),
                 new BirthDay(2020,7,8,true,true),
                 new BirthDay(2020,7,8,true,false)
         ));
