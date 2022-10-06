@@ -5,8 +5,6 @@ import cn.hutool.json.JSONUtil;
 import com.pt.vx.config.AllConfig;
 import com.pt.vx.domain.weather.*;
 import org.apache.commons.lang3.StringUtils;
-
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.logging.Logger;
@@ -40,7 +38,7 @@ public class WeatherUtil {
         map.put("key", AllConfig.WeatherKey);
         map.put("city",cityCode);
         map.put("extensions",type);
-        String result = HttpUtil.get(WEATHER_URL,map, StandardCharsets.UTF_8,10000);
+        String result = HttpUtil.get(WEATHER_URL,map);
         WeatherResponseDto weatherResponseDto =  JSONUtil.toBean(result, WeatherResponseDto.class);
         if(Objects.equals(0,weatherResponseDto.getStatus()) ||  !"10000".equals(weatherResponseDto.getInfocode())){
             log.warning("获取天气失败："+result+"<<<pt提示：请检查高德地图KEY是否填写好，或者用户地址是否填写好>>>");
@@ -57,7 +55,7 @@ public class WeatherUtil {
         map.put("key",AllConfig.WeatherKey);
         map.put("address",address);
         map.put("city",city);
-        String result = HttpUtil.get(CODE_URL,map, StandardCharsets.UTF_8,10000);
+        String result = HttpUtil.get(CODE_URL,map);
         CodeResponseDto codeResponseDto = JSONUtil.toBean(result, CodeResponseDto.class);
         if(Objects.equals(0,codeResponseDto.getStatus()) ){
             log.warning("获取区域编码失败:"+codeResponseDto.getInfo());

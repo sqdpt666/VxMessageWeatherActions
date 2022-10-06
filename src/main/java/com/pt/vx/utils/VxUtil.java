@@ -30,8 +30,20 @@ public class VxUtil {
             String errCode = tokenInfo.getErrcode();
             if("-1".equals(errCode)){
                  log.warning("微信系统繁忙，此时稍候再试<<<pt提示：请等一会会再来>>>");
-            }else if(!"0".equals(errCode)){
-                log.warning("微信调用错误！<<<pt提示：请检查一下你的微信AppID和appSecret(刷新一下测试平台，看看是否数据是否一致)>>>");
+            }else if("40001".equals(errCode)){
+                log.warning("微信调用错误！<<<pt提示：AppSecret错误或者 AppSecret 不属于这个公众号，请检查一下你的微信AppID和appSecret(刷新一下测试平台，看看是否数据是否一致)>>>");
+            }else if("40002".equals(errCode)){
+                log.warning("微信调用错误！<<<pt提示：请确保grant_type字段值为client_credential");
+            }else if("40164".equals(errCode)){
+                log.warning("微信调用错误！<<<pt提示：调用接口的 IP 地址不在白名单中，请在接口 IP 白名单中进行设置。>>>");
+            }else if("89503".equals(errCode)){
+                log.warning("微信调用错误！<<<pt提示：此 IP 调用需要管理员确认,请联系管理员>>>");
+            }else if("89501".equals(errCode)){
+                log.warning("微信调用错误！<<<pt提示：此 IP 正在等待管理员确认,请联系管理员>>>");
+            }else if("89506".equals(errCode)){
+                log.warning("微信调用错误！<<<pt提示：24小时内该 IP 被管理员拒绝调用两次，24小时内不可再使用该 IP 调用>>>");
+            }else if("89507".equals(errCode)){
+                log.warning("微信调用错误！<<<pt提示：1小时内该 IP 被管理员拒绝调用一次，1小时内不可再使用该 IP 调用>>>");
             }
         }
         return tokenInfo;
