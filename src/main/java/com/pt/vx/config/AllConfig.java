@@ -26,7 +26,7 @@ public class AllConfig {
     //下列所有填写的  true 为开启， false 为不开启 ，#XXXXXX是颜色16进制HEX码（不知道颜色16进制HEX码可以百度）
     //系统开关
     public static final boolean OPEN_MESSAGE_SPLIT = true; //是否开启消息分裂（大于100字的消息会被分裂成多个,如tianGou超过了一百个字的话：{{tianGou.DATA}}{{tianGou1.DATA}}））
-    public static final boolean OPEN_WEATHER_NOW = false; //切换天气类型为实时（true为天气预报，false为实时天气）
+    public static final boolean OPEN_WEATHER_NOW = false; //切换天气类型为实时（false为天气预报，true为实时天气）
     public static final boolean OPEN_MASTER_MODEL = false; //是否开启主人模式。开启后，后面的用户只会收到第一个用户的内容。
     public static final boolean OPEN_RANDOM_COLOR = true; //是否开启随机消息颜色
     public static final String[] random_colors = {"#FFCCCC", "#33A1C9", "#DC143C","#FF0000","#6B8E23","#236B8E","#FF7F00"}; //参与随机的颜色,颜色为颜色HEX码（不知道可以百度）
@@ -66,8 +66,8 @@ public class AllConfig {
         //如果要多个人的话，就复制这个一遍，然后填写里面的内容。这里默认两个人,大伙应该是两个人吧（笑）
         //如果开启了master模式，除第一个用户外，其他用户只需要填写微信号
         //要计算几个日期，就写几个new BirthDay,第一个在模板中是{{birthDay.DATA}}，第二个是{{birthDay1.DATA}}，第三个是{{birthDay2.DATA}}以此类推
-        //注意：日期里面的数字，填正常的数字就行了.比如1就是1，不要填01
-        //注意：每个用户信息的最后一项不需要加逗号！！！
+        //  注意：日期里面的数字，填正常的数字就行了.比如1就是1，不要填01
+        //  注意：每个用户信息的最后一项不需要加逗号！！！
         userList.add(getUser(
                 "这个人的微信号", //扫码关注你的测试号以后，测试平台会出现TA的微信号
                 "模板ID", //要给这个人发送的模板ID
