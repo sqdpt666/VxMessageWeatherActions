@@ -4,6 +4,7 @@ package com.pt.vx.service;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.pt.vx.config.AllConfig;
 import com.pt.vx.config.KeyConfig;
@@ -199,13 +200,13 @@ public class MessageService {
             if(AllConfig.OPEN_WEATHER_NOW){
                 DataInfo weatherNow = map.get(KeyConfig.KEY_WEATHER_NOW);
                 DataInfo temperatureNow = map.get(KeyConfig.KEY_TEMPERATURE_NOW);
-                if(weatherNow != null && weatherNow.getValue().contains("雨")){
+                if(weatherNow != null && !StrUtil.equals("未知",weatherNow.getValue()) && weatherNow.getValue().contains("雨")){
                     other = AllConfig.info_weather_prefix_now + AllConfig.info_weather_rain;
-                }else if( temperatureNow != null && Integer.parseInt(temperatureNow.getValue()) <= 0){
+                }else if( temperatureNow != null && !StrUtil.equals("未知",temperatureNow.getValue()) && Integer.parseInt(temperatureNow.getValue()) <= 0){
                     other = AllConfig.info_weather_prefix_now + AllConfig.info_weather_temperature_0;
-                } else if(temperatureNow != null && Integer.parseInt(temperatureNow.getValue()) <= 10){
+                } else if(temperatureNow != null && !StrUtil.equals("未知",temperatureNow.getValue()) && Integer.parseInt(temperatureNow.getValue()) <= 10){
                     other = AllConfig.info_weather_prefix_now + AllConfig.info_weather_temperature_10;
-                }else if( temperatureNow != null &&Integer.parseInt(temperatureNow.getValue()) <= 20){
+                }else if( temperatureNow != null && !StrUtil.equals("未知",temperatureNow.getValue()) &&Integer.parseInt(temperatureNow.getValue()) <= 20){
                     other =AllConfig.info_weather_prefix_now + AllConfig.info_weather_temperature_20;
                 }
             }
@@ -214,21 +215,21 @@ public class MessageService {
                 DataInfo weatherNight = map.get(KeyConfig.KEY_WEATHER_NIGHT);
                 DataInfo temperatureDay = map.get(KeyConfig.KEY_TEMPERATURE_DAY);
                 DataInfo temperatureNight = map.get(KeyConfig.KEY_TEMPERATURE_NIGHT);
-                if(weatherDay != null && weatherDay.getValue().contains("雨")){
+                if(weatherDay != null && !StrUtil.equals("未知",weatherDay.getValue())  && weatherDay.getValue().contains("雨")){
                     other = AllConfig.info_weather_prefix_day + AllConfig.info_weather_rain;
-                }else if(weatherNight != null && weatherNight.getValue().contains("雨")){
+                }else if(weatherNight != null && !StrUtil.equals("未知",weatherNight.getValue()) && weatherNight.getValue().contains("雨")){
                     other = AllConfig.info_weather_prefix_night + AllConfig.info_weather_rain;
-                }else if( temperatureDay != null &&Integer.parseInt(temperatureDay.getValue()) <= 0){
+                }else if( temperatureDay != null && !StrUtil.equals("未知",temperatureDay.getValue()) &&Integer.parseInt(temperatureDay.getValue()) <= 0){
                     other = AllConfig.info_weather_prefix_day + AllConfig.info_weather_temperature_0;
-                }else if(temperatureNight != null && Integer.parseInt(temperatureNight.getValue()) <= 0){
+                }else if(temperatureNight != null && !StrUtil.equals("未知",temperatureNight.getValue()) && Integer.parseInt(temperatureNight.getValue()) <= 0){
                     other = AllConfig.info_weather_prefix_night + AllConfig.info_weather_temperature_0;
-                } else if(temperatureDay != null && Integer.parseInt(temperatureDay.getValue()) <= 10){
+                } else if(temperatureDay != null && !StrUtil.equals("未知",temperatureDay.getValue()) && Integer.parseInt(temperatureDay.getValue()) <= 10){
                     other = AllConfig.info_weather_prefix_day + AllConfig.info_weather_temperature_10;
-                }else if(temperatureNight != null && Integer.parseInt(temperatureNight.getValue()) <= 10){
+                }else if(temperatureNight != null && !StrUtil.equals("未知",temperatureNight.getValue()) && Integer.parseInt(temperatureNight.getValue()) <= 10){
                     other = AllConfig.info_weather_prefix_night + AllConfig.info_weather_temperature_10;
-                } else if(temperatureDay != null && Integer.parseInt(temperatureDay.getValue()) < 20){
+                } else if(temperatureDay != null && !StrUtil.equals("未知",temperatureDay.getValue()) && Integer.parseInt(temperatureDay.getValue()) < 20){
                     other = AllConfig.info_weather_prefix_day + AllConfig.info_weather_temperature_20;
-                }else if(temperatureNight != null && Integer.parseInt(temperatureNight.getValue()) < 20){
+                }else if(temperatureNight != null && !StrUtil.equals("未知",temperatureNight.getValue()) && Integer.parseInt(temperatureNight.getValue()) < 20){
                     other = AllConfig.info_weather_prefix_night + AllConfig.info_weather_temperature_20;
                 }
             }
