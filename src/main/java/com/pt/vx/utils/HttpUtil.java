@@ -38,7 +38,7 @@ public class HttpUtil {
     }
 
     public static String get(String url){
-        return get(url, StandardCharsets.UTF_8,15000);
+        return get(url, StandardCharsets.UTF_8,25000);
     }
     public static String get(String url, Map<String,Object> paramsMap){
         return get(url, paramsMap,StandardCharsets.UTF_8,25000);
