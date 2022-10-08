@@ -41,7 +41,7 @@ public class HttpUtil {
         return get(url, StandardCharsets.UTF_8,15000);
     }
     public static String get(String url, Map<String,Object> paramsMap){
-        return get(url, paramsMap,StandardCharsets.UTF_8,15000);
+        return get(url, paramsMap,StandardCharsets.UTF_8,25000);
     }
 
     public static String post(String url, Map<String,Object> paramsMap, Charset charset, int timeout){
@@ -74,7 +74,7 @@ public class HttpUtil {
         return result;
     }
     public static String post(String url,String params){
-      return post(url,params, StandardCharsets.UTF_8,15000);
+      return post(url,params, StandardCharsets.UTF_8,25000);
     }
 
 }
