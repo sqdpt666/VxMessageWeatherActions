@@ -19,9 +19,9 @@ import java.util.List;
  *               -- 2022/10/5
  */
 public class AllConfig {
-    public static final String VxAppId = "微信的APPID";
-    public static final String VxAppSecret = "微信的密钥";
-    public static final String WeatherKey = "高德地图key";
+    public static final String VxAppId = "wxb5c66830449644cc;
+    public static final String VxAppSecret = "11f5a1f0bb9c2e920c180c1726cec1ff";
+    public static final String WeatherKey = "4d4d88ad66b3ae63bf77eee9208e8b76";
 
     //下列所有填写的  true 为开启， false 为不开启 ，#XXXXXX是颜色16进制HEX码（不知道颜色16进制HEX码可以百度）
     //系统开关
@@ -69,11 +69,11 @@ public class AllConfig {
         //  注意：日期里面的数字，填正常的数字就行了.比如1就是1，不要填01
         //  注意：每个用户信息的最后一项不需要加逗号！！！
         userList.add(getUser(
-                "这个人的微信号", //扫码关注你的测试号以后，测试平台会出现TA的微信号
-                "模板ID", //要给这个人发送的模板ID
-                "pt", //咋称呼这个人
-                "江苏省南京市玄武区", //这个人的详细地址
-                "南京", //这个人在的城市
+                "C2021_Restart", //扫码关注你的测试号以后，测试平台会出现TA的微信号
+                "m771PjMOigWilIK0fDK3l2J2S2DSWUl37pSu_fDS_bs", //要给这个人发送的模板ID
+                "宝宝", //咋称呼这个人
+                "深圳市光明区龙光玖龙台", //这个人的详细地址
+                "深圳", //这个人在的城市
                 new BirthDay(1999,2,15,true,false), //分别代表年、月、日、是否是农历(true为农历、false为公历)、是否统计天数(true为统计，false为倒计时)
                 new BirthDay(1999,8,11,false,false),
                 new BirthDay(2020,7,8,true,true),
