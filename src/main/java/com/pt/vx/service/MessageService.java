@@ -17,7 +17,7 @@ import com.pt.vx.utils.ApiUtil;
 import com.pt.vx.utils.DateUtil;
 import com.pt.vx.utils.VxUtil;
 import com.pt.vx.utils.WeatherUtil;
-import org.apache.commons.lang3.StringUtils;
+
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -25,15 +25,15 @@ import java.util.*;
 
 public class MessageService {
 
-    private String message;
+
+    private VxMessageDto dto;
 
     /**
      * 发送消息
      */
     public void sendMessage(User user){
-        VxMessageDto dto = new VxMessageDto();
-        dto.setTouser(user.getVx());
-        if( !AllConfig.OPEN_MASTER_MODEL || StringUtils.isBlank(message)){
+        if( !AllConfig.OPEN_MASTER_MODEL || Objects.isNull(dto)){
+            dto = new VxMessageDto();
             dto.setTemplate_id(user.getTemplateId());
             HashMap<String, DataInfo> map = new HashMap<>();
             setName(map,user);
@@ -57,8 +57,9 @@ public class MessageService {
 
             }
             dto.setData(map);
-            message = JSONUtil.toJsonStr(dto);
         }
+        dto.setTouser(user.getVx());
+        String message = JSONUtil.toJsonStr(dto);
         VxUtil.sendMessage(message);
     }
     private void setBirthDay(HashMap<String, DataInfo> map, User user) {
