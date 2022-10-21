@@ -9,6 +9,7 @@ import com.pt.vx.service.MessageService;
 import java.util.List;
 import java.util.TimeZone;
 
+
 public class  VxMessageMain {
     public static void main(String[] args) throws InterruptedException {
         TimeZone.setDefault(TimeZone.getTimeZone("GMT+8"));

@@ -125,34 +125,39 @@ public class MessageService {
        }
        setMap(map,KeyConfig.KEY_RANDOM_INFO,randomInfo,AllConfig.random_module);
    }
-    private void setRandomRead(HashMap<String, DataInfo> map){
-            String randomRead = ApiUtil.getRandomRead();
-            setMap(map,KeyConfig.KEY_RANDOM_READ,randomRead,AllConfig.open_random_read);
+    private void setRandomRead(HashMap<String, DataInfo> map) {
+
+        setMap(map, KeyConfig.KEY_RANDOM_READ, AllConfig.open_random_read, ApiUtil::getRandomRead);
     }
-    private void setWorldRead(HashMap<String, DataInfo> map){
-        String worldRead60s = ApiUtil.getWorldRead60s();
-        setMap(map,KeyConfig.KEY_WORLD_READ,worldRead60s,AllConfig.open_world_read);
+
+    private void setWorldRead(HashMap<String, DataInfo> map) {
+
+        setMap(map, KeyConfig.KEY_WORLD_READ, AllConfig.open_world_read, ApiUtil::getWorldRead60s);
     }
-    private void setTiangou(HashMap<String, DataInfo> map){
-        String tgrjs = ApiUtil.getTgrj();
-        setMap(map,KeyConfig.KEY_TIAN_GOU,tgrjs,AllConfig.open_tiangou);
+
+    private void setTiangou(HashMap<String, DataInfo> map) {
+
+        setMap(map, KeyConfig.KEY_TIAN_GOU, AllConfig.open_tiangou, ApiUtil::getTgrj);
     }
-    private void setQinghua(HashMap<String, DataInfo> map){
-        String qingHua = ApiUtil.getQingHua();
-        setMap(map,KeyConfig.KEY_QING_HUA,qingHua,AllConfig.open_qinghua);
+
+    private void setQinghua(HashMap<String, DataInfo> map) {
+
+        setMap(map, KeyConfig.KEY_QING_HUA, AllConfig.open_qinghua, ApiUtil::getQingHua);
     }
-    private void setEnglish(HashMap<String, DataInfo> map){
-        String english = ApiUtil.getEnglish();
-        setMap(map,KeyConfig.KEY_ENGLISH,english,AllConfig.open_english);
+
+    private void setEnglish(HashMap<String, DataInfo> map) {
+
+        setMap(map, KeyConfig.KEY_ENGLISH, AllConfig.open_english, ApiUtil::getEnglish);
     }
-    private void setHistoryToday(HashMap<String, DataInfo> map){
-        String historyToday = ApiUtil.getHistoryToday(3);
-        setMap(map,KeyConfig.KEY_HISTORY_TODAY,historyToday,AllConfig.open_history_today);
+
+    private void setHistoryToday(HashMap<String, DataInfo> map) {
+
+        setMap(map, KeyConfig.KEY_HISTORY_TODAY, AllConfig.open_history_today, () -> ApiUtil.getHistoryToday(3));
     }
-    private void setHoroscope(HashMap<String, DataInfo> map,User user){
+
+    private void setHoroscope(HashMap<String, DataInfo> map, User user) {
         BirthDay birthDay = user.getBirthDays()[0];
-        String horoscopeRead = ApiUtil.getHoroscopeRead2(birthDay);
-        setMap(map,KeyConfig.KEY_HOROSCOPE,horoscopeRead,AllConfig.open_horoscope);
+        setMap(map, KeyConfig.KEY_HOROSCOPE, AllConfig.open_horoscope, () -> ApiUtil.getHoroscopeRead(birthDay));
     }
     private void setName(HashMap<String, DataInfo> map,User user){
         setMap(map, KeyConfig.KEY_USER_NAME,user.getUserName(),AllConfig.open_name);
@@ -326,7 +331,14 @@ public class MessageService {
         int i = RandomUtil.randomInt(length * 10000) % length;
         return AllConfig.random_colors[i];
     }
+    private void setMap(HashMap<String, DataInfo> map, String key, FunctionConfig config, OtherInfoFunction function) {
+        if (config.isOpen()) {
+            String value = function.getInfo();
+            String color = AllConfig.OPEN_RANDOM_COLOR ? getRandomColor() : config.getColor();
+            setMap(map, key, value, color);
+        }
 
+    }
 
 
 }
