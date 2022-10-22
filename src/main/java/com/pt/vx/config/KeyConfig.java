@@ -41,6 +41,9 @@ public class KeyConfig {
     public static final String KEY_POWER_NOW = "powerNow"; //现在风力
     public static final String KEY_HUMIDITY_NOW = "humidityNow"; //现在湿度
 
+    //和风天气专属
+    public static final String KEY_SUN_RISE ="sunrise";//日出时间
+    public static final String KEY_SUN_SET ="sunset";//日落时间
 
    //3. 额外信息类型
     public static final String KEY_RANDOM_READ = "randomRead"; //精彩短句

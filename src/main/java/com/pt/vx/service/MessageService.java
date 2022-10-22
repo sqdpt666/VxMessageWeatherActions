@@ -9,14 +9,12 @@ import cn.hutool.json.JSONUtil;
 import com.pt.vx.config.AllConfig;
 import com.pt.vx.config.KeyConfig;
 import com.pt.vx.domain.*;
+import com.pt.vx.domain.hefeng.HfWeatherResult;
 import com.pt.vx.domain.weather.Cast;
 import com.pt.vx.domain.weather.WeatherForecastDto;
 import com.pt.vx.domain.weather.WeatherLiveDto;
 import com.pt.vx.domain.weather.WeatherResponseDto;
-import com.pt.vx.utils.ApiUtil;
-import com.pt.vx.utils.DateUtil;
-import com.pt.vx.utils.VxUtil;
-import com.pt.vx.utils.WeatherUtil;
+import com.pt.vx.utils.*;
 
 
 import java.math.BigDecimal;
@@ -38,8 +36,11 @@ public class MessageService {
             HashMap<String, DataInfo> map = new HashMap<>();
             setName(map,user);
             setBirthDay(map,user);
-            setWeather(map,user.getAddress(), user.getCity(),AllConfig.OPEN_WEATHER_NOW ?  WeatherUtil.TYPE_LIVE : WeatherUtil.TYPE_ALL);
-            setOtherInfo(map);
+            if(AllConfig.OPEN_HF_WEATHER){
+                setHfWeather(map,user.getCity());
+            }else {
+                setWeather(map, user.getAddress(), user.getCity(), AllConfig.OPEN_WEATHER_NOW ? WeatherUtil.TYPE_LIVE : WeatherUtil.TYPE_ALL);
+            } setOtherInfo(map);
             if(AllConfig.random_module.isOpen()){
                 setRandomInfo(map,user);
             }else {
@@ -61,6 +62,28 @@ public class MessageService {
         dto.setTouser(user.getVx());
         String message = JSONUtil.toJsonStr(dto);
         VxUtil.sendMessage(message);
+    }
+    private void setHfWeather(HashMap<String, DataInfo> map, String city) {
+        if(AllConfig.open_weather.isOpen()){
+            HfWeatherResult result = HeFengWeatherUtil.getWeather(city, HeFengWeatherUtil.TYPE_DAY);
+            if(Objects.nonNull(result) && "200".equals(result.getCode())){
+                List<HfWeatherResult.Daily> daily = result.getDaily();
+                for (int i = 0; i < daily.size(); i++) {
+                    HfWeatherResult.Daily cast = daily.get(i);
+                    setMap(map, i == 0 ? KeyConfig.KEY_WEATHER_DAY : KeyConfig.KEY_WEATHER_DAY + i, cast.getTextDay(), AllConfig.open_weather);//白天天气
+                    setMap(map, i == 0 ? KeyConfig.KEY_TEMPERATURE_DAY : KeyConfig.KEY_TEMPERATURE_DAY + i, cast.getTempMax(), AllConfig.open_weather);//白天温度
+                    setMap(map, i == 0 ? KeyConfig.KEY_WEATHER_NIGHT : KeyConfig.KEY_WEATHER_NIGHT + i, cast.getTextNight(), AllConfig.open_weather);//晚上天气
+                    setMap(map, i == 0 ? KeyConfig.KEY_TEMPERATURE_NIGHT : KeyConfig.KEY_TEMPERATURE_NIGHT + i, cast.getTempMin(), AllConfig.open_weather);//晚上温度
+                    setMap(map, i == 0 ? KeyConfig.KEY_WIND_DAY : KeyConfig.KEY_WIND_DAY + i, cast.getWindDirDay(), AllConfig.open_weather);//白天风向
+                    setMap(map, i == 0 ? KeyConfig.KEY_WIND_NIGHT : KeyConfig.KEY_WIND_NIGHT + i, cast.getWindDirNight(), AllConfig.open_weather);//晚上风向
+                    setMap(map, i == 0 ? KeyConfig.KEY_POWER_DAY : KeyConfig.KEY_POWER_DAY + i, cast.getWindScaleDay(), AllConfig.open_weather);//白天风力
+                    setMap(map, i == 0 ? KeyConfig.KEY_POWER_NIGHT : KeyConfig.KEY_POWER_NIGHT + i, cast.getWindScaleNight(), AllConfig.open_weather);//晚上风力
+                    setMap(map, i == 0 ? KeyConfig.KEY_DATE : KeyConfig.KEY_DATE + i, cast.getFxDate(), AllConfig.open_weather);//日期
+                    setMap(map, i == 0 ? KeyConfig.KEY_SUN_RISE : KeyConfig.KEY_SUN_RISE + i, cast.getSunrise(), AllConfig.open_weather);//日期
+                    setMap(map, i == 0 ? KeyConfig.KEY_SUN_SET : KeyConfig.KEY_SUN_SET + i, cast.getSunset(), AllConfig.open_weather);//日期
+                }
+            }
+        }
     }
     private void setBirthDay(HashMap<String, DataInfo> map, User user) {
         BirthDay[] birthDays = user.getBirthDays();
