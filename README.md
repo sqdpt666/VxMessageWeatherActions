@@ -13,7 +13,7 @@
 
 (2022/10/1) 究极简单2.4.0 支持更多方便的自定义操作，删除了小说模块
 
-(2022/10/22) 究极简单2.5.0 新增和风天气数据源。具体配置可找到本文档<a href="#hfWeather">和风天气</>位置查看
+(2022/10/22) 究极简单2.5.0 新增和风天气数据源。具体配置可找到本文档<a href="#hfWeather">和风天气</a>位置查看
 
 
 
@@ -345,11 +345,13 @@ public class MessageService {
 按下面的4个步骤来手动运行
 ![image](https://user-images.githubusercontent.com/56298636/190579413-042157f1-ad42-48bd-b84b-814dd6179edb.png)
 
-<span  id="hfWeather" />
+<span  id="hfWeather" ></span>
 ## 和风天气
+
 可以到[控制台 | 和风天气](https://console.qweather.com/#/console)进行配置。
 配置完后就能拿到key了，基本和高德地图一致。
 
+![image](https://user-images.githubusercontent.com/56298636/197333335-bd7d15ae-71bf-46f9-ab06-409d93844ba9.png)
 
 
 
