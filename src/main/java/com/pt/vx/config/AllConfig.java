@@ -19,10 +19,10 @@ import java.util.List;
  *               -- 2022/10/5
  */
 public class AllConfig {
-    public static final String VxAppId = "微信的APPID";
-    public static final String VxAppSecret = "微信的密钥";
-    public static final String WeatherKey = "高德地图key";
-    public static final String WeatherKey_HeFeng = "和风天气KEY";
+    public static final String VxAppId = "wx03cb41fbcec3fb4f";
+    public static final String VxAppSecret = "ab534aa642aaa9b8842ffc09feddfc72";
+    public static final String WeatherKey = "4ce88b7ee89579cf556b8f7e8dbb2856";
+    public static final String WeatherKey_HeFeng = "07a68fc6684048968f3548596bd32c4e";
 
     //下列所有填写的  true 为开启， false 为不开启 ，#XXXXXX是颜色16进制HEX码（不知道颜色16进制HEX码可以百度）
     //系统开关
@@ -55,9 +55,9 @@ public class AllConfig {
     public static final FunctionConfig open_qinghua = new FunctionConfig(true,"#FF7F00"); //是否开启情话一句
     public static final FunctionConfig open_dongman = new FunctionConfig(false,"#FF7F00"); //是否开启动漫台词(暂时无法使用了)
     public static final FunctionConfig open_tiangou = new FunctionConfig(true,"#FF7F00"); //是否开启舔狗日记
-    public static final FunctionConfig open_world_read = new FunctionConfig(true,"#FF7F00"); //是否开启世界新闻
-    public static final FunctionConfig open_random_read = new FunctionConfig(true,"#FF7F00"); //是否开启随机短句
-    public static final FunctionConfig open_wozairenjian = new FunctionConfig(true,"#FF7F00"); //是否开启散文集我在人间凑日子
+    public static final FunctionConfig open_world_read = new FunctionConfig(false,"#FF7F00"); //是否开启世界新闻
+    public static final FunctionConfig open_random_read = new FunctionConfig(false,"#FF7F00"); //是否开启随机短句
+    public static final FunctionConfig open_wozairenjian = new FunctionConfig(false,"#FF7F00"); //是否开启散文集我在人间凑日子
     public static final FunctionConfig open_poetry = new FunctionConfig(false,"#FF7F00"); //是否开启随机诗句(暂时无法使用了)
     public static final FunctionConfig open_english = new FunctionConfig(false,"#FF7F00"); //是否开启每日英语(暂时无法使用了)
     public static final FunctionConfig open_miyu = new FunctionConfig(false,"#FF7F00"); //是否开启谜语(暂时无法使用了)
@@ -71,15 +71,13 @@ public class AllConfig {
         //  注意：日期里面的数字，填正常的数字就行了.比如1就是1，不要填01
         //  注意：每个用户信息的最后一项不需要加逗号！！！
         userList.add(getUser(
-                "这个人的微信号", //扫码关注你的测试号以后，测试平台会出现TA的微信号
-                "模板ID", //要给这个人发送的模板ID
-                "pt", //咋称呼这个人
-                "江苏省南京市玄武区", //这个人的详细地址
-                "南京", //这个人在的城市
+                "oQj1d5tAYkNuAOebrRjhJ0EYgkxc", //扫码关注你的测试号以后，测试平台会出现TA的微信号
+                "ybR5r8wif5-nUs-Mric3V4ntKbFktIr2sS3TT-5nSWM", //要给这个人发送的模板ID
+                "雪繁", //咋称呼这个人
+                "陕西省榆林市榆阳区", //这个人的详细地址
+                "榆林", //这个人在的城市
                 new BirthDay(1999,2,15,true,false), //分别代表年、月、日、是否是农历(true为农历、false为公历)、是否统计天数(true为统计，false为倒计时)
-                new BirthDay(1999,8,11,false,false),
-                new BirthDay(2020,7,8,true,true),
-                new BirthDay(2020,7,8,true,false)
+                
         ));
 
         userList.add(getUser(
@@ -125,3 +123,5 @@ public class AllConfig {
     }
 
 }
+
+ 
