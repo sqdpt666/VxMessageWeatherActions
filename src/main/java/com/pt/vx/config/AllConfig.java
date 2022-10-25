@@ -15,8 +15,11 @@ import java.util.List;
  *               -- 2022/10/1
  *
  * 注意：改下面的信息的时候，细心一点。
- * 有双引号("")的不要把双引号给丢了,标点符号记得用英文输入法！！！
- *               -- 2022/10/5
+ *  1. 等于号右边有双引号("")的不要把双引号给丢了,标点符号记得用英文输入法！！！ 
+ *  2. 等于号左边的代码不要修改！！！
+ *  3. 和风天气/高德地图的key不使用的话可以不填，但是不要把代码删了！！！
+ *  4. 具体有哪些内置模板，可以到src/main/java/com/pt/vx/config/KeyConfig.java里面查看
+ *               -- 2022/10/25
  */
 public class AllConfig {
     public static final String VxAppId = "微信的APPID";
