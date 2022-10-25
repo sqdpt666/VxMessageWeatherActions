@@ -12,12 +12,12 @@ package com.pt.vx.config;
  * windNight（1，2，3，4） 晚上风向
  * powerNight（1，2，3，4） 晚上风力
  *
- * 其他：（1、2、3、4......每100字一个，
+ * 具体看下方代码的内容。
  *
  */
 public class KeyConfig {
    //1. 信息相关
-    public static final String KEY_USER_NAME = "userName"; //昵称
+    public static final String KEY_USER_NAME = "userName"; //昵称，在模板里面就是{{userName.DATA}}
     public static final String KEY_BIRTHDAY = "birthDay"; //日期计算 默认第一个为自己生日，第二个为对象生日，第三个为纪念日
     public static final String KEY_OTHER_INFO = "otherInfo"; //额外提示
 
@@ -25,7 +25,7 @@ public class KeyConfig {
 
     //2.1 天气预报，每个字段后面可以带上数字，表示后面的天数的天气预报（不带数字表示今天），比如:明天的白天天气{{weatherDay1.DATA}},
     public static final String KEY_DATE = "date"; //日期
-    public static final String KEY_WEEK = "week"; //星期
+    public static final String KEY_WEEK = "week"; //星期 （高德地图才有）
     public static final String KEY_WEATHER_DAY = "weatherDay"; //白天天气
     public static final String KEY_TEMPERATURE_DAY = "temperatureDay"; //白天温度
     public static final String KEY_WIND_DAY = "windDay"; //白天风向
@@ -45,7 +45,7 @@ public class KeyConfig {
     public static final String KEY_SUN_RISE ="sunrise";//日出时间
     public static final String KEY_SUN_SET ="sunset";//日落时间
 
-   //3. 额外信息类型
+   //3. 额外信息类型（某些内容暂时无法使用了）
     public static final String KEY_RANDOM_READ = "randomRead"; //精彩短句
     public static final String KEY_WORLD_READ = "worldRead"; //世界新闻
     public static final String KEY_TIAN_GOU = "tianGou"; //舔狗日记
