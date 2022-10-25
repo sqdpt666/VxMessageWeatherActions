@@ -1,19 +1,9 @@
 package com.pt.vx.config;
 /**
- * 内置的模板
+ * 所有内置的模板
  * 在微信模板里添加{{xxx.DATA}}
- *
- * weatherDay（1，2，3，4） 白天天气
- * temperatureDay（1，2，3，4）白天温度
- * windDay（1，2，3，4）白天风向
- * powerDay（1，2，3，4）白天风力
- * weatherNight（1，2，3，4） 晚上天气
- * temperatureNight（1，2，3，4） 晚上温度
- * windNight（1，2，3，4） 晚上风向
- * powerNight（1，2，3，4） 晚上风力
- *
- * 具体看下方代码的内容。
- *
+ * 
+ * 具体看下方代码的内容
  */
 public class KeyConfig {
    //1. 信息相关
