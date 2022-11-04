@@ -19,50 +19,101 @@ import com.pt.vx.utils.*;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.*;
+import java.util.concurrent.*;
 
 public class MessageService {
 
 
     private VxMessageDto dto;
-
+    private final ThreadPoolExecutor POOL = new ThreadPoolExecutor(0,10,5, TimeUnit.SECONDS, new ArrayBlockingQueue<>(100),new ThreadPoolExecutor.AbortPolicy());
     /**
      * 发送消息
      */
-    public void sendMessage(User user){
+    public void sendMessage(User user) throws ExecutionException, InterruptedException {
         if( !AllConfig.OPEN_MASTER_MODEL || Objects.isNull(dto)){
             dto = new VxMessageDto();
             dto.setTemplate_id(user.getTemplateId());
             HashMap<String, DataInfo> map = new HashMap<>();
-            setName(map,user);
-            setBirthDay(map,user);
-            if(AllConfig.OPEN_HF_WEATHER){
-                setHfWeather(map,user.getCity());
-            }else {
-                setWeather(map, user.getAddress(), user.getCity(), AllConfig.OPEN_WEATHER_NOW ? WeatherUtil.TYPE_LIVE : WeatherUtil.TYPE_ALL);
-            } setOtherInfo(map);
+
+            CompletableFuture<Void> setName = CompletableFuture.runAsync(()-> setName(map,user),POOL);
+            CompletableFuture<Void> setBirthDay = CompletableFuture.runAsync(()-> setBirthDay(map,user),POOL);
+            CompletableFuture<Void> setWeather = CompletableFuture.runAsync(()->{
+                if(AllConfig.OPEN_HF_WEATHER){
+                    setHfWeather(map,user.getCity());
+                }else {
+                    setWeather(map, user.getAddress(), user.getCity(), AllConfig.OPEN_WEATHER_NOW ? WeatherUtil.TYPE_LIVE : WeatherUtil.TYPE_ALL);
+                }
+                setSelfDate(map);
+            },POOL);
+            CompletableFuture<Void> setOtherInfo = setBirthDay.runAfterBothAsync(setWeather, () -> setOtherInfo(map), POOL);
+            CompletableFuture<Void> future ;
             if(AllConfig.random_module.isOpen()){
                 setRandomInfo(map,user);
+                future = CompletableFuture.allOf(setName, setOtherInfo);
             }else {
-                setHistoryToday(map);
-                setQinghua(map);
-                setDongman(map);
-                setTiangou(map);
-                setWorldRead(map);
-                setRandomRead(map);
-                setWoZaiRenJian(map);
-                setPoetry(map);
-                setEnglish(map);
-                setMiYu(map);
-                setHoroscope(map,user);
-
+                CompletableFuture<Void> setHistoryToday = CompletableFuture.runAsync(() -> setHistoryToday(map), POOL);
+                CompletableFuture<Void> setQinghua = CompletableFuture.runAsync(()->  setQinghua(map),POOL);
+                CompletableFuture<Void> setDongman =CompletableFuture.runAsync(()->  setDongman(map),POOL);
+                CompletableFuture<Void> setTiangou = CompletableFuture.runAsync(()->  setTiangou(map),POOL);
+                CompletableFuture<Void> setWorldRead = CompletableFuture.runAsync(()->  setWorldRead(map),POOL);
+                CompletableFuture<Void> setRandomRead = CompletableFuture.runAsync(()->  setRandomRead(map),POOL);
+                CompletableFuture<Void> setWoZaiRenJian =  CompletableFuture.runAsync(()->  setWoZaiRenJian(map),POOL);
+                CompletableFuture<Void> setPoetry = CompletableFuture.runAsync(()->  setPoetry(map),POOL);
+                CompletableFuture<Void> setEnglish =  CompletableFuture.runAsync(()->  setEnglish(map),POOL);
+                CompletableFuture<Void> setMiYu = CompletableFuture.runAsync(()->  setMiYu(map),POOL);
+                CompletableFuture<Void> setHoroscope = CompletableFuture.runAsync(()->  setHoroscope(map,user),POOL);
+                future = CompletableFuture.allOf(setName, setOtherInfo,setHistoryToday,setQinghua,setDongman,setTiangou,setWorldRead,setRandomRead,setWoZaiRenJian,setPoetry,setEnglish,setMiYu,setHoroscope);
             }
+            future.get();
             dto.setData(map);
         }
         dto.setTouser(user.getVx());
         String message = JSONUtil.toJsonStr(dto);
         VxUtil.sendMessage(message);
     }
+
+    private void setSelfDate(HashMap<String, DataInfo> map) {
+        if(AllConfig.open_self_date_compute){
+            LocalDate today=LocalDate.now();
+            for(int i=0;i<5;i++){
+                LocalDate now = today.plusDays(i);
+                DayOfWeek dayOfWeek = now.getDayOfWeek();
+                String week = "";
+                switch (dayOfWeek) {
+                    case MONDAY:
+                        week = "一";
+                        break;
+                    case TUESDAY:
+                        week = "二";
+                        break;
+                    case WEDNESDAY:
+                        week = "三";
+                        break;
+                    case THURSDAY:
+                        week = "四";
+                        break;
+                    case FRIDAY:
+                        week = "五";
+                        break;
+                    case SATURDAY:
+                        week = "六";
+                        break;
+                    case SUNDAY:
+                        week = "日";
+                        break;
+                    default:
+                        week = "未知";
+                }
+                setMap(map,i==0 ? KeyConfig.KEY_DATE : KeyConfig.KEY_DATE +i, now.toString(),AllConfig.open_weather);//日期
+                setMap(map,i==0 ? KeyConfig.KEY_WEEK : KeyConfig.KEY_WEEK +i, week,AllConfig.open_weather);//星期几
+            }
+        }
+
+    }
+
     private void setHfWeather(HashMap<String, DataInfo> map, String city) {
         if(AllConfig.open_weather.isOpen()){
             HfWeatherResult result = HeFengWeatherUtil.getWeather(city, HeFengWeatherUtil.TYPE_DAY);
@@ -79,8 +130,8 @@ public class MessageService {
                     setMap(map, i == 0 ? KeyConfig.KEY_POWER_DAY : KeyConfig.KEY_POWER_DAY + i, cast.getWindScaleDay(), AllConfig.open_weather);//白天风力
                     setMap(map, i == 0 ? KeyConfig.KEY_POWER_NIGHT : KeyConfig.KEY_POWER_NIGHT + i, cast.getWindScaleNight(), AllConfig.open_weather);//晚上风力
                     setMap(map, i == 0 ? KeyConfig.KEY_DATE : KeyConfig.KEY_DATE + i, cast.getFxDate(), AllConfig.open_weather);//日期
-                    setMap(map, i == 0 ? KeyConfig.KEY_SUN_RISE : KeyConfig.KEY_SUN_RISE + i, cast.getSunrise(), AllConfig.open_weather);//日期
-                    setMap(map, i == 0 ? KeyConfig.KEY_SUN_SET : KeyConfig.KEY_SUN_SET + i, cast.getSunset(), AllConfig.open_weather);//日期
+                    setMap(map, i == 0 ? KeyConfig.KEY_SUN_RISE : KeyConfig.KEY_SUN_RISE + i, cast.getSunrise(), AllConfig.open_weather);//日出
+                    setMap(map, i == 0 ? KeyConfig.KEY_SUN_SET : KeyConfig.KEY_SUN_SET + i, cast.getSunset(), AllConfig.open_weather);//日落
                 }
             }
         }

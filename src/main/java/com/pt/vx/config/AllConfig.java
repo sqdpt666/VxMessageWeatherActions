@@ -40,6 +40,7 @@ public class AllConfig {
     //基本类型消息
     public static final FunctionConfig open_name = new FunctionConfig(true,"#FFCCCC");//是否开启称呼
     public static final FunctionConfig open_birthDay = new FunctionConfig(true,"#FFCCCC"); //是否开启日期计算
+    public static final boolean open_self_date_compute = true; //本地计算时间，周为中文
     public static final FunctionConfig open_weather = new FunctionConfig(true,"#33A1C9"); //是否开启天气预报
     public static final FunctionConfig open_other_info= new FunctionConfig(true,"#DC143C"); //是否开启额外信息（需要开启日期计算或天气预报）
     public static final String info_birthday = "生日快乐！！！"; //第一个日期倒计时到0天的时候展示的额外信息
@@ -51,6 +52,7 @@ public class AllConfig {
     public static final String info_weather_prefix_day = "白天"; //白天天气的前缀，比如温度≤0的时候就会展示为： 白天温度过低，加厚加厚！！！
     public static final String info_weather_prefix_night = "晚上"; //晚上天气的前缀
     public static final String info_weather_prefix_now = "现在"; //现在天气的前缀
+
 
 
     //额外类型消息
