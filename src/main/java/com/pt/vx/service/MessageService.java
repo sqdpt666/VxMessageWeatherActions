@@ -3,7 +3,6 @@ package com.pt.vx.service;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.pt.vx.config.AllConfig;
@@ -19,12 +18,14 @@ import com.pt.vx.utils.*;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.security.SecureRandom;
 import java.util.*;
 
 public class MessageService {
 
 
     private VxMessageDto dto;
+    private final SecureRandom random = new SecureRandom();
 
     /**
      * 发送消息
@@ -112,7 +113,7 @@ public class MessageService {
     }
     private void setRandomInfo(HashMap<String, DataInfo> map,User user){
        String randomInfo;
-       int i = RandomUtil.randomInt(110000) % 11;
+       int i = random.nextInt(11);
        if(i == 0 && AllConfig.open_history_today.isOpen()){
            randomInfo = ApiUtil.getHistoryToday(3);
        }else if(i == 1 && AllConfig.open_qinghua.isOpen()){
@@ -351,7 +352,7 @@ public class MessageService {
             return "#000000";
         }
         int length = AllConfig.random_colors.length;
-        int i = RandomUtil.randomInt(length * 10000) % length;
+        int i = random.nextInt(length ) ;
         return AllConfig.random_colors[i];
     }
     private void setMap(HashMap<String, DataInfo> map, String key, FunctionConfig config, OtherInfoFunction function) {
