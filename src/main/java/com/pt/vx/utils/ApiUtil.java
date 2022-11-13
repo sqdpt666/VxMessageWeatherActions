@@ -7,6 +7,7 @@ import cn.hutool.core.date.ChineseDate;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONUtil;
 import com.pt.vx.domain.Api.*;
+import com.pt.vx.domain.BaseResult;
 import com.pt.vx.domain.BirthDay;
 import org.apache.commons.lang3.StringEscapeUtils;
 import java.util.List;
@@ -16,7 +17,7 @@ public class ApiUtil {
 
     private static final Logger logger = Logger.getLogger("ApiUtil");
 
-    private static final String  history_today= "http://fuyhi.top/api/historyday/api.php?type=json";//历史上的今天
+    private static final String  history_today= "https://api.linhun.vip/api/history?format=json&apiKey=099a422902a55e6020abf0f5f97031e9";//历史上的今天
 
     private static final String  qinghua = "https://api.uomg.com/api/rand.qinghua?format=text"; //土味情话
 
@@ -29,63 +30,23 @@ public class ApiUtil {
     private static final String wozairenjianApi ="https://api.gt5.cc/api/rj?type=text"; //我在人间凑日子
     private static final String poetryApi = "http://fuyhi.top/api/shicix/api.php?type=text";//诗句
 
-
+    //网易云热评
+    private static final String WangYiYunApi = "https://api.linhun.vip/api/NetEaseCloudReview?apiKey=664c84351829b9238d98caf2e4be3929";
     private static final String en = "http://fuyhi.top/api/yingyi/api.php?type=text";//英语
+
+    //新冠查询
+    private static final String xgApi = "https://api.linhun.vip/api/epidemic?apiKey=75f1b2e33c69a4dc66f708572a0de1d2&keyword=%s";
+
 
     private static final String miyuApi ="http://fuyhi.top/api/miyu/api.php";//谜语
 
     private static final String horoscopeApi = "https://api.vvhan.com/api/horoscope?type=%s&time=today";//星座运势 aries, taurus, gemini, cancer, leo, virgo, libra, scorpio, sagittarius, capricorn, aquarius, pisces
-    private static final String horoscopeApi2 = "http://fuyhi.top/api/xingzuo/api.php?msg=%s";//星座运势2
+    private static final String horoscopeApi2 = "https://api.linhun.vip/api/xzys?apiKey=1ceee3e6244c63171e9f2228b5eac1a4&name=%s";//星座运势2
 
     private static final String storyApi = "https://api.pingcc.cn/fiction/search/title/%s/1/10";
     private static final String storyApiChapter ="https://api.pingcc.cn/fictionChapter/search/%s";
     private static final String storyApiContent="https://api.pingcc.cn/fictionContent/search/%s";
 
-
-   /* public static String getStoryApiContent()  {
-        String re ;
-        try {
-            re = HttpUtil.get(String.format(storyApiContent, getStoryApiChapter()));
-        } catch (Exception e) {
-            logger.warning(String.format("获取小说失败 %s", e.getMessage()));
-            return null;
-        }
-        re =  StringEscapeUtils.unescapeJava(re);
-        return JSONUtil.toBean(re, Result.class).getData();
-    }
-    private static String getStoryApiChapter() throws InterruptedException {
-        Thread.sleep(501);
-        LocalDate satrtTime = AllConfig.start_time;
-        String result = HttpUtil.get(String.format(storyApiChapter, getStoryCatalogue()));
-        result =  StringEscapeUtils.unescapeJava(result);
-        String data = JSONUtil.toBean(result, Result.class).getData();
-        ChapterData chapterData = JSONUtil.toBean(data, ChapterData.class);
-        String index = DateUtil.passDayOfNow(satrtTime);
-        Chapter chapter = chapterData.getChapterList().get(Integer.parseInt(index));
-        return chapter.getChapterId();
-    }
-    private static String getStoryCatalogue() throws InterruptedException {
-        Thread.sleep(502);
-        String title =  AllConfig.title;
-        String resultGet = HttpUtil.get(String.format(storyApi, title));
-        if(ObjectUtil.isEmpty(resultGet)){
-            logger.warning("获取小说失败");
-            return null;
-        }
-        resultGet =  StringEscapeUtils.unescapeJava(resultGet);
-        Result result = JSONUtil.toBean(resultGet, Result.class);
-        String data = result.getData();
-        List<Catalogue> catalogues = JSONUtil.toList(data, Catalogue.class);
-        if(CollectionUtil.isNotEmpty(catalogues)){
-            for(Catalogue catalogue : catalogues){
-                if( AllConfig.author.equals(catalogue.getAuthor())){
-                    return catalogue.getFictionId();
-                }
-            }
-        }
-        Catalogue catalogue = Optional.ofNullable(catalogues).orElse(new ArrayList<>()).stream().findFirst().orElse(null);
-        return catalogue == null ? null : catalogue.getFictionId();
-    }*/
 
     /**
      * 获取历史上今天
@@ -96,16 +57,15 @@ public class ApiUtil {
         String result = HttpUtil.get(history_today);
         logger.info("获取历史上的今天 "+result);
         result =  StringEscapeUtils.unescapeJava(result);
-        Result re = JSONUtil.toBean(result, Result.class);
-        String data = re.getData();
-        List<HistoryDto> historyDtoList = JSONUtil.toList(data, HistoryDto.class);
+        BaseResult<List<String>> re = JSONUtil.toBean(result,BaseResult.class);
+        List<String> content = re.getContent();
         StringBuilder message = new StringBuilder();
         int i = 0;
-        if(CollectionUtil.isNotEmpty(historyDtoList)){
+        if(CollectionUtil.isNotEmpty(content)){
             message.append("历史上的今天").append("\n");
-            for(HistoryDto dto : historyDtoList){
+            for(String dto : content){
                 i++;
-                message.append(dto.getMsg()).append("\n");
+                message.append(dto).append("\n");
                 if(i >= count){
                     break;
                 }
@@ -113,6 +73,13 @@ public class ApiUtil {
         }
         return message.toString();
     }
+
+    public static String getXgInfo(String city){
+        String result = HttpUtil.get(String.format(xgApi, city));
+        XinGuanDTO dto = JSONUtil.toBean(result, XinGuanDTO.class);
+        return dto.toString();
+    }
+
 
     public static String getDongman(){
         return HttpUtil.get(dongman);
@@ -251,6 +218,7 @@ public class ApiUtil {
     public static String getHoroscopeRead2(BirthDay birthDay){
         return HttpUtil.get(String.format(horoscopeApi2, getHoroscopeChina(birthDay)));
     }
+
 
     public static String getHoroscopeRead(BirthDay birthDay){
         return getHoroscopeRead(getHoroscope(birthDay));

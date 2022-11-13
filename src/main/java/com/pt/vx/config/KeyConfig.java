@@ -48,6 +48,7 @@ public class KeyConfig {
     public static final String KEY_MI_YU = "miyu"; //谜语
     public static final String KEY_POETRY = "poetry"; //诗句
     public static final String KEY_DONG_MAN = "dongman"; //动漫
+    public static final String KEY_XIN_GUAN = "xinGuan"; //动漫
 
 
 

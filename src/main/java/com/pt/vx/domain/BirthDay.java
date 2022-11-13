@@ -10,16 +10,34 @@ public class BirthDay {
 
     private boolean countFlag;
 
+    private String info;
+
     public BirthDay(){
 
     }
-
     public BirthDay(int year, int month, int day, boolean chineseFlag, boolean countFlag) {
         this.year = year;
         this.month = month;
         this.day = day;
         this.chineseFlag = chineseFlag;
         this.countFlag = countFlag;
+
+    }
+    public BirthDay(int year, int month, int day, boolean chineseFlag, boolean countFlag,String info) {
+        this.year = year;
+        this.month = month;
+        this.day = day;
+        this.chineseFlag = chineseFlag;
+        this.countFlag = countFlag;
+        this.info = info;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
     }
 
     public int getYear() {

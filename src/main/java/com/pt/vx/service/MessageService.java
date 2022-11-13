@@ -2,6 +2,8 @@ package com.pt.vx.service;
 
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
@@ -14,6 +16,7 @@ import com.pt.vx.domain.weather.WeatherForecastDto;
 import com.pt.vx.domain.weather.WeatherLiveDto;
 import com.pt.vx.domain.weather.WeatherResponseDto;
 import com.pt.vx.utils.*;
+import org.apache.commons.lang3.StringUtils;
 
 
 import java.math.BigDecimal;
@@ -50,7 +53,7 @@ public class MessageService {
                 }
                 setSelfDate(map);
             },POOL);
-            CompletableFuture<Void> setOtherInfo = setBirthDay.runAfterBothAsync(setWeather, () -> setOtherInfo(map), POOL);
+            CompletableFuture<Void> setOtherInfo = setBirthDay.runAfterBothAsync(setWeather, () -> setOtherInfo(map,user), POOL);
             CompletableFuture<Void> future ;
             if(AllConfig.random_module.isOpen()){
                 setRandomInfo(map,user);
@@ -67,7 +70,21 @@ public class MessageService {
                 CompletableFuture<Void> setEnglish =  CompletableFuture.runAsync(()->  setEnglish(map),POOL);
                 CompletableFuture<Void> setMiYu = CompletableFuture.runAsync(()->  setMiYu(map),POOL);
                 CompletableFuture<Void> setHoroscope = CompletableFuture.runAsync(()->  setHoroscope(map,user),POOL);
-                future = CompletableFuture.allOf(setName, setOtherInfo,setHistoryToday,setQinghua,setDongman,setTiangou,setWorldRead,setRandomRead,setWoZaiRenJian,setPoetry,setEnglish,setMiYu,setHoroscope);
+                CompletableFuture<Void> setXinGuanInfo = CompletableFuture.runAsync(() -> setXinGuanInfo(map, user.getCity()), POOL);
+                future = CompletableFuture.allOf(setName,
+                        setOtherInfo,
+                        setHistoryToday,
+                        setQinghua,
+                        setDongman,
+                        setTiangou,
+                        setWorldRead,
+                        setRandomRead,
+                        setWoZaiRenJian,
+                        setPoetry,
+                        setEnglish,
+                        setMiYu,
+                        setHoroscope,
+                        setXinGuanInfo);
             }
             future.get();
             dto.setData(map);
@@ -147,25 +164,24 @@ public class MessageService {
             }
         }
     }
+    private void setXinGuanInfo(HashMap<String, DataInfo> map,String city){
+        setMap(map,KeyConfig.KEY_TIAN_GOU,AllConfig.open_xinGuan_info,()->ApiUtil.getXgInfo(city));
+    }
     private void setMiYu(HashMap<String, DataInfo> map) {
-        String miyu = ApiUtil.getMiYu();
-        setMap(map,KeyConfig.KEY_MI_YU,miyu,AllConfig.open_miyu);
+        setMap(map,KeyConfig.KEY_MI_YU,AllConfig.open_miyu,ApiUtil::getMiYu);
     }
     private void setPoetry(HashMap<String, DataInfo> map) {
-        String poetry = ApiUtil.getPoetryApi();
-        setMap(map,KeyConfig.KEY_POETRY,poetry,AllConfig.open_poetry);
+        setMap(map,KeyConfig.KEY_POETRY,AllConfig.open_poetry,ApiUtil::getPoetryApi);
     }
     private void setWoZaiRenJian(HashMap<String, DataInfo> map) {
-        String randomRead = ApiUtil.getWozairenjian();
-        setMap(map,KeyConfig.KEY_WO_ZAI_REN_JIAN,randomRead,AllConfig.open_wozairenjian);
+        setMap(map,KeyConfig.KEY_WO_ZAI_REN_JIAN,AllConfig.open_wozairenjian,ApiUtil::getWozairenjian);
     }
     private void setDongman(HashMap<String, DataInfo> map) {
-        String randomRead = ApiUtil.getDongman();
-        setMap(map,KeyConfig.KEY_DONG_MAN,randomRead,AllConfig.open_dongman);
+        setMap(map,KeyConfig.KEY_DONG_MAN,AllConfig.open_dongman,ApiUtil::getDongman);
     }
     private void setRandomInfo(HashMap<String, DataInfo> map,User user){
        String randomInfo;
-       int i = random.nextInt(11);
+       int i = random.nextInt(12);
        if(i == 0 && AllConfig.open_history_today.isOpen()){
            randomInfo = ApiUtil.getHistoryToday(3);
        }else if(i == 1 && AllConfig.open_qinghua.isOpen()){
@@ -186,15 +202,25 @@ public class MessageService {
            randomInfo = ApiUtil.getEnglish();
        }else if(i == 9 && AllConfig.open_miyu.isOpen()){
            randomInfo = ApiUtil.getMiYu();
-       }else if(i == 10 && AllConfig.open_horoscope.isOpen() && ObjectUtil.isNotEmpty(user.getBirthDays())){
-           randomInfo = ApiUtil.getHoroscopeRead2(user.getBirthDays()[0]);
+       }else if(i == 10 && AllConfig.open_horoscope.isOpen()){
+           if(ArrayUtil.isNotEmpty(user.getBirthDays())){
+               randomInfo = ApiUtil.getHoroscopeRead2(user.getBirthDays()[0]);
+           }else {
+               return;
+           }
+       }else if(i == 11 && AllConfig.open_xinGuan_info.isOpen() ){
+           if(StringUtils.isNotBlank(user.getCity())){
+               randomInfo = ApiUtil.getXgInfo(user.getCity());
+           }else {
+               return;
+           }
        }else {
            if(AllConfig.open_history_today.isOpen() || AllConfig.open_qinghua.isOpen()
                    ||AllConfig.open_dongman.isOpen() || AllConfig.open_tiangou.isOpen()
                    || AllConfig.open_world_read.isOpen() ||AllConfig.open_random_read.isOpen()
                    || AllConfig.open_wozairenjian.isOpen() || AllConfig.open_poetry.isOpen()
                    | AllConfig.open_english.isOpen() || AllConfig.open_miyu.isOpen()
-                   | AllConfig.open_horoscope.isOpen()){
+                   | AllConfig.open_horoscope.isOpen() || AllConfig.open_xinGuan_info.isOpen()){
                setRandomInfo(map,user);
            }
            return;
@@ -233,7 +259,7 @@ public class MessageService {
 
     private void setHoroscope(HashMap<String, DataInfo> map, User user) {
         BirthDay birthDay = user.getBirthDays()[0];
-        setMap(map, KeyConfig.KEY_HOROSCOPE, AllConfig.open_horoscope, () -> ApiUtil.getHoroscopeRead(birthDay));
+        setMap(map, KeyConfig.KEY_HOROSCOPE, AllConfig.open_horoscope, () -> ApiUtil.getHoroscopeRead2(birthDay));
     }
     private void setName(HashMap<String, DataInfo> map,User user){
         setMap(map, KeyConfig.KEY_USER_NAME,user.getUserName(),AllConfig.open_name);
@@ -276,7 +302,7 @@ public class MessageService {
             }
         }
     }
-    private void setOtherInfo(HashMap<String, DataInfo> map){
+    private void setOtherInfo(HashMap<String, DataInfo> map,User user){
         String other = "";
         if(AllConfig.open_weather.isOpen()){
             if(AllConfig.OPEN_WEATHER_NOW){
@@ -317,17 +343,19 @@ public class MessageService {
             }
         }
 
-        if(AllConfig.open_birthDay.isOpen()){
-            DataInfo birthday = map.get(KeyConfig.KEY_BIRTHDAY);
-            DataInfo loveDay = map.get(KeyConfig.KEY_BIRTHDAY+2);
-
-            if(birthday != null && Objects.equals(Integer.valueOf(birthday.getValue()) , 0)){
-                other = AllConfig.info_birthday;
-            }else if(loveDay != null && Objects.equals(Integer.valueOf(loveDay.getValue()) , 0)){
-                other = AllConfig.info_birthday2;
+        BirthDay[] birthDays = user.getBirthDays();
+        if(AllConfig.open_birthDay.isOpen() && ArrayUtil.isNotEmpty(birthDays)){
+            for (int i = 0; i < birthDays.length; i++) {
+                DataInfo birthday = map.get(KeyConfig.KEY_BIRTHDAY+i);
+                if(birthday != null && Objects.equals(Integer.valueOf(birthday.getValue()) , 0)){
+                    if(StringUtils.isNotBlank(other)){
+                        other = other + "\n" +birthDays[i].getInfo();
+                    }else {
+                        other = birthDays[i].getInfo();
+                    }
+                }
             }
         }
-
         setMap(map,KeyConfig.KEY_OTHER_INFO,other,AllConfig.open_other_info);
     }
     private void setWeatherDefault(HashMap<String, DataInfo> map){
