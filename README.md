@@ -3,22 +3,19 @@
 只能说究极无敌详细，成功了给我一个**三连或关注**吧！！！！！！！！！！！！！！！！！！！！！！！！
 
 （2022/10/15）动漫台词、随机诗句、每日英语、谜语、星座解析暂时无法使用了（提供功能的网站挂了）
-   
-微信消息推送Gitub Actions版本日期+天气预报+其他，**究极简单版2.4.2**
+
+     
+微信消息推送Gitub Actions版本日期+天气预报+其他，**究极简单版2.5.0**
 
 (2022/9/20)究极简单版2.1更新了更多的内置消息模板
-
-(2022/9/22)究极简单版2.2更新了更多的内置消息模板
-
-(2022/9/22 22:58)究极简单版2.3 换了几个不能用的API，并增加了几个内置模板
-
-(2022/9/23 12:01)究极简单版2.3.1 修复了世界新闻出错的BUG
 
 (2022/9/23 13:40)究极简单2.3.2 模板内容超过一百字的会在后面加上序号延续（1、2、3、4......每100字一个，如tianGou超过了一百个字的话：{{tianGou.DATA}}{{tianGou1.DATA}}） 最好紧贴在一起，不然内容会分开
 
 (2022/10/1) 究极简单2.4.0 支持更多方便的自定义操作，删除了小说模块
 
-(2022/10/5) 究极简单2.4.1 优化了一下超时处理，避免了运行卡住的情况
+(2022/10/22) 究极简单2.5.0 新增和风天气数据源。具体配置可找到本文档<a href="#hfWeather">和风天气</a>位置查看
+
+
 
 
 ![image](https://user-images.githubusercontent.com/56298636/191155129-eacde564-3a6d-4d95-9ea0-7a075d30a469.png)
@@ -206,74 +203,6 @@ public class AllConfig {
  */
 ```
 
-2.0模板：
-```
-{{userName.DATA}}， 
-今天是我们在一起的{{holdDay.DATA}}天 
-你的生日还有{{yourBirthDay.DATA}}天 
-我的生日还有{{myBirthDay.DATA}}天 
-距离我们下一次纪念还有{{loveDay.DATA}}天 
-今天白天{{weatherDay.DATA}}，温度{{temperatureDay.DATA}}℃ 
-今天晚上{{weatherNight.DATA}}，温度{{temperatureNight.DATA}}℃ 
-
-
-最后，开心每一天！
-```
-2.1模板：
-```
-{{userName.DATA}}， 
-{{date.DATA}} 周{{week.DATA}} 
-今天是我们在一起的{{holdDay.DATA}}天 
-你的生日还有{{yourBirthDay.DATA}}天 
-我的生日还有{{myBirthDay.DATA}}天 
-距离我们下一次纪念还有{{loveDay.DATA}}天 
-今天白天{{weatherDay.DATA}}，温度{{temperatureDay.DATA}}℃ 
-今天晚上{{weatherNight.DATA}}，温度{{temperatureNight.DATA}}℃ 
-明天白天{{weatherDay1.DATA}}，温度{{temperatureDay1.DATA}}℃ 
-明天晚上{{weatherNight1.DATA}}，温度{{temperatureNight1.DATA}}℃ 
-{{otherInfo.DATA}} 
-
-最后，开心每一天！
-```
-
-2.2模板：
-```
-{{userName.DATA}}， 
-{{date.DATA}} 周{{week.DATA}} 
-今天是我们在一起的{{holdDay.DATA}}天 
-你的生日还有{{yourBirthDay.DATA}}天 
-我的生日还有{{myBirthDay.DATA}}天 
-距离我们下一次纪念还有{{loveDay.DATA}}天 
-今天白天{{weatherDay.DATA}}，温度{{temperatureDay.DATA}}℃ 
-今天晚上{{weatherNight.DATA}}，温度{{temperatureNight.DATA}}℃ 
-明天白天{{weatherDay1.DATA}}，温度{{temperatureDay1.DATA}}℃ 
-明天晚上{{weatherNight1.DATA}}，温度{{temperatureNight1.DATA}}℃ 
-{{otherInfo.DATA}} 
-
-{{randomInfo.DATA}}
-
-最后，开心每一天！
-```
-
-2.3.4模板
-```
-{{userName.DATA}}， 
-{{date.DATA}} 周{{week.DATA}} 
-今天是我们在一起的{{holdDay.DATA}}天 
-你的生日还有{{yourBirthDay.DATA}}天 
-我的生日还有{{myBirthDay.DATA}}天 
-距离我们下一次纪念还有{{loveDay.DATA}}天 
-今天白天{{weatherDay.DATA}}，温度{{temperatureDay.DATA}}℃ 
-今天晚上{{weatherNight.DATA}}，温度{{temperatureNight.DATA}}℃ 
-明天白天{{weatherDay1.DATA}}，温度{{temperatureDay1.DATA}}℃ 
-明天晚上{{weatherNight1.DATA}}，温度{{temperatureNight1.DATA}}℃ 
-{{otherInfo.DATA}} 
-
-{{randomInfo.DATA}}{{randomInfo1.DATA}}
-
-最后，开心每一天！
-```
-
 2.4.0模板
 ```
 {{userName.DATA}}， 
@@ -413,16 +342,17 @@ public class MessageService {
 ```
 ## 手动执行
 如果想要手动执行
-在maven.yml中加上`workflow_dispatch:`
-如下：（注意，格式要一模一样！）
-```yml
-on:
-  workflow_dispatch:
-  schedule:
-    - cron: "8 0 * * *"
-```
-然后按下面的4个步骤来手动运行
+按下面的4个步骤来手动运行
 ![image](https://user-images.githubusercontent.com/56298636/190579413-042157f1-ad42-48bd-b84b-814dd6179edb.png)
+
+<span  id="hfWeather" ></span>
+## 和风天气
+
+可以到[控制台 | 和风天气](https://console.qweather.com/#/console)进行配置。
+配置完后就能拿到key了，基本和高德地图一致。
+
+![image](https://user-images.githubusercontent.com/56298636/197333335-bd7d15ae-71bf-46f9-ab06-409d93844ba9.png)
+
 
 
 对你有帮助的话，记得一健三连支持一下哦~

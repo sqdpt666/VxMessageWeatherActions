@@ -12,11 +12,14 @@ import java.util.List;
  * BiliBili: 今天pt健康了吗
  * 成功了的小伙伴，欢迎来点赞投币评论哦~
  * 国庆节快乐！
- *               -- 2022/10/1
+ *               -- 2022/10/1 
  *
  * 注意：改下面的信息的时候，细心一点。
- * 有双引号("")的不要把双引号给丢了,标点符号记得用英文输入法！！！
- *               -- 2022/10/5
+ *  1. 等于号右边有双引号("")的不要把双引号给丢了,标点符号记得用英文输入法！！！ 
+ *  2. 等于号左边的代码不要修改！！！
+ *  3. 和风天气/高德地图的key不使用的话可以不填，但是不要把代码删了！！！
+ *  4. 具体有哪些内置模板，可以到src/main/java/com/pt/vx/config/KeyConfig.java里面查看
+ *               -- 2022/10/25
  */
 public class AllConfig {
     public static final String VxAppId = "微信的APPID";
@@ -37,6 +40,7 @@ public class AllConfig {
     //基本类型消息
     public static final FunctionConfig open_name = new FunctionConfig(true,"#FFCCCC");//是否开启称呼
     public static final FunctionConfig open_birthDay = new FunctionConfig(true,"#FFCCCC"); //是否开启日期计算
+    public static final boolean open_self_date_compute = true; //本地计算时间，周为中文
     public static final FunctionConfig open_weather = new FunctionConfig(true,"#33A1C9"); //是否开启天气预报
     public static final FunctionConfig open_other_info= new FunctionConfig(true,"#DC143C"); //是否开启额外信息（需要开启日期计算或天气预报）
     public static final String info_birthday = "生日快乐！！！"; //第一个日期倒计时到0天的时候展示的额外信息
@@ -48,6 +52,7 @@ public class AllConfig {
     public static final String info_weather_prefix_day = "白天"; //白天天气的前缀，比如温度≤0的时候就会展示为： 白天温度过低，加厚加厚！！！
     public static final String info_weather_prefix_night = "晚上"; //晚上天气的前缀
     public static final String info_weather_prefix_now = "现在"; //现在天气的前缀
+
 
 
     //额外类型消息
