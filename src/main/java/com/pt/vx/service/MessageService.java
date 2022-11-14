@@ -165,7 +165,7 @@ public class MessageService {
         }
     }
     private void setXinGuanInfo(HashMap<String, DataInfo> map,String city){
-        setMap(map,KeyConfig.KEY_TIAN_GOU,AllConfig.open_xinGuan_info,()->ApiUtil.getXgInfo(city));
+        setMap(map,KeyConfig.KEY_XIN_GUAN,AllConfig.open_xinGuan_info,()->ApiUtil.getXgInfo(city));
     }
     private void setMiYu(HashMap<String, DataInfo> map) {
         setMap(map,KeyConfig.KEY_MI_YU,AllConfig.open_miyu,ApiUtil::getMiYu);
