@@ -16,6 +16,8 @@
 
 + [x] 历史上的今天数量自定义
 
+效果图：
+![092075d64a0aaf2440ed537851f9487](https://user-images.githubusercontent.com/56298636/231202157-6cf27e30-26ab-4fbb-a6f9-8e200e27a373.jpg)
 
 
 ## 快速开始
