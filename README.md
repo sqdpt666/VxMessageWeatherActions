@@ -19,7 +19,31 @@
 
 
 ## 快速开始
+### 第一步：复制本项目到你的仓库，设置为私有项目
+点击复制项目地址
 
+![点击复制项目地址](https://user-images.githubusercontent.com/56298636/190580174-32b7c197-866f-4e94-b886-36b817e40b03.png)
+
+右上角导入按钮
+
+![image](https://user-images.githubusercontent.com/56298636/190580243-f0b4b8ef-9eb3-4ac2-ab5b-d48aa435e0e7.png)
+
+完成导入
+
+![image](https://user-images.githubusercontent.com/56298636/190580561-fb0cc938-6999-4430-aee2-1616362f6857.png)
+
+### 第二步：开启Actions
+如果项目上方没有Actions,就要手动开启Actions，步骤为：
+
+1. 点击项目上方的Settings
+2. 点击页面左边Actions
+3. 点击Actions下面的General
+4. 点击页面中间的Allow all actions and rausabel workflows
+5. 点击save保持设置
+
+![image](https://user-images.githubusercontent.com/56298636/190582555-5d576513-eac7-43fd-a248-c62d72b7a03a.png)
+
+### 第三步：配置微信测试平台信息
 只需要在`com.pt.vx.config.WechatConfig`中配置好`VxAppId`和`VxAppSecret`以及`用户信息`即可，此时你就拥有了一个基础的微信消息，你将可以使用<a href="#baseMb">基础模板</a>。
 
 关于如何获取`VxAppId`和`VxAppSecret`以及`用户信息`，可以查看<a href="#vxTemplateInfo">微信测试号信息操作</a>
@@ -71,6 +95,12 @@ public class WechatConfig {
     }
 ```
 
+### 第四步：手动执行Action
+当配置好前面的后，我们可以手动执行一次Action测试一下结果。
+按下面的4个步骤来手动运行
+![image](https://user-images.githubusercontent.com/56298636/190579413-042157f1-ad42-48bd-b84b-814dd6179edb.png)
+稍等一下，1分钟左右如果收到了消息则证明成功了。
+否则就失败了，需要查看失败的原因，进行<a href="#debug">问题排查</a>
 
 
 ## 更多内容
@@ -113,6 +143,10 @@ public class WechatConfig {
 
 
 > 注意：对于日出（sunrise）和日落（sunset）两个key，只有切换天气源为和风天气才有。
+
+### 排查问题
+<span id="debug"></span>
+遇到没有正常执行的情况，我们需要到Action中排查一下问题
 
 
 
