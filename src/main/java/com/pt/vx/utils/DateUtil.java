@@ -133,5 +133,50 @@ public class DateUtil {
         return passDay(LocalDate.of(year,greMonth,greDay),now);
     }
 
+    /**
+     *
+     * @param date 日期
+     * @param isChinese 中文还是数字
+     * @return 星期
+     */
+    public static String getWeek(LocalDate date,boolean isChinese){
+        DayOfWeek dayOfWeek = date.getDayOfWeek();
+        if(isChinese){
+            String week = "";
+            switch (dayOfWeek) {
+                case MONDAY:
+                    week = "一";
+                    break;
+                case TUESDAY:
+                    week = "二";
+                    break;
+                case WEDNESDAY:
+                    week = "三";
+                    break;
+                case THURSDAY:
+                    week = "四";
+                    break;
+                case FRIDAY:
+                    week = "五";
+                    break;
+                case SATURDAY:
+                    week = "六";
+                    break;
+                case SUNDAY:
+                    week = "日";
+                    break;
+                default:
+                    week = "未知";
+            }
+
+            return week;
+        }else {
+            return ""+dayOfWeek.getValue();
+        }
+
+
+
+    }
+
 
 }
