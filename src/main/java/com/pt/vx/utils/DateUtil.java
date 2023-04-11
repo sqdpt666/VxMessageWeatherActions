@@ -2,9 +2,14 @@ package com.pt.vx.utils;
 
 import cn.hutool.core.date.ChineseDate;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 
+import static java.time.DayOfWeek.MONDAY;
+
 public class DateUtil {
+
+
 
 
     /**
@@ -20,8 +25,15 @@ public class DateUtil {
         return passDay(now,start);
     }
 
-    public static String passDayChinese(int year,int month,int day){
-        ChineseDate chineseDate = new ChineseDate(year,month,day);
+    /**
+     *
+     * @param chineseYear 农历年
+     * @param chineseMonth 农历月
+     * @param chineseDay 农历日
+     * @return 距离今天的天数
+     */
+    public static String passDayChinese(int chineseYear,int chineseMonth,int chineseDay){
+        ChineseDate chineseDate = new ChineseDate(chineseYear,chineseMonth,chineseDay);
         int gregorianYear = chineseDate.getGregorianYear();
         int gregorianMonthBase1 = chineseDate.getGregorianMonthBase1();
         int gregorianDay = chineseDate.getGregorianDay();

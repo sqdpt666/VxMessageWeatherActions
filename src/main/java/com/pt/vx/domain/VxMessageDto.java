@@ -1,6 +1,7 @@
 package com.pt.vx.domain;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class VxMessageDto {
 
@@ -11,7 +12,7 @@ public class VxMessageDto {
     private String topcolor = "#FF0000";
 
 
-    private HashMap<String,DataInfo> data;
+    private Map<String,DataInfo> data;
 
 
     public String getTouser() {
@@ -38,11 +39,11 @@ public class VxMessageDto {
         this.topcolor = topcolor;
     }
 
-    public HashMap<String, DataInfo> getData() {
+    public Map<String, DataInfo> getData() {
         return data;
     }
 
-    public void setData(HashMap<String, DataInfo> data) {
+    public void setData(Map<String, DataInfo> data) {
         this.data = data;
     }
 }

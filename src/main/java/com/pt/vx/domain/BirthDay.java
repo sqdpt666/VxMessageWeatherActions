@@ -15,6 +15,15 @@ public class BirthDay {
     public BirthDay(){
 
     }
+
+    public BirthDay(int year, int month, int day) {
+        this.year = year;
+        this.month = month;
+        this.day = day;
+        this.chineseFlag = true;
+        this.countFlag = true;
+
+    }
     public BirthDay(int year, int month, int day, boolean chineseFlag, boolean countFlag) {
         this.year = year;
         this.month = month;
