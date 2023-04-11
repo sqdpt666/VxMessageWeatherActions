@@ -1,23 +1,5 @@
 # 微信模板消息推送 2.6.0
-
-+ [x] master模式
-
-+ [x] key消息分裂
-
-+ [x] 中英文周
-
-+ [x] 随机API消息模式
-
-+ [x] 随机字体颜色
-
-+ [x] 额外消息自定义
-
-+ [x] 完整双天气源（高德地图、和风天气）
-
-+ [x] 历史上的今天数量自定义
-
-效果图：
-![092075d64a0aaf2440ed537851f9487](https://user-images.githubusercontent.com/56298636/231202157-6cf27e30-26ab-4fbb-a6f9-8e200e27a373.jpg)
+ <img src="https://user-images.githubusercontent.com/56298636/231202157-6cf27e30-26ab-4fbb-a6f9-8e200e27a373.jpg" width = "320" height = "520" alt="图片" align=center />
 
 
 ## 快速开始
