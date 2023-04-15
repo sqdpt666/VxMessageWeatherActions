@@ -2,7 +2,7 @@ package com.pt.vx.utils;
 
 
 import cn.hutool.json.JSONUtil;
-import com.pt.vx.domain.TokenInfo;
+import com.pt.vx.pojo.TokenInfo;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;

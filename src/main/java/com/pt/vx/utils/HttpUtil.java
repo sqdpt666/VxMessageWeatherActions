@@ -96,4 +96,19 @@ public class HttpUtil {
       return post(url,params, StandardCharsets.UTF_8,MainConfig.httpRetryTime);
     }
 
+    public static void main(String[] args) {
+        Map<String,String> map = new HashMap<>();
+        map.put("info","一家航空公司把自己定位为“低价的快乐航空”，那么以下做法不合适的是");
+        String params = JSONUtil.toJsonStr(map);
+        String body = cn.hutool.http.HttpUtil.createPost("https://cx.icodef.com/v2/answer")
+                .body(params, "application/x-www-form-urlencoded")
+                .header("Authorization", "TPuQNKXNfTFTDCId")
+                .charset(StandardCharsets.UTF_8)
+                .timeout(50000)
+                .execute()
+                .body();
+
+        System.out.println(body);
+    }
+
 }

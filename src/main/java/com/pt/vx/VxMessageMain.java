@@ -3,22 +3,25 @@ package com.pt.vx;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.pt.vx.config.WechatConfig;
-import com.pt.vx.domain.User;
+import com.pt.vx.pojo.User;
 import com.pt.vx.service.vx.MessageService;
 import com.pt.vx.utils.ThreadPoolUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.TimeZone;
+import java.util.logging.Logger;
 
 /**
  * github action对私有项目每个月有2000分钟的免费额度
  */
 @Slf4j
 public class  VxMessageMain {
+
     public static void main(String[] args) {
         long star = System.currentTimeMillis();
         try {
+
             TimeZone.setDefault(TimeZone.getTimeZone("GMT+8"));
             MessageService messageService = new MessageService();
             List<User> userList =   WechatConfig.userList;

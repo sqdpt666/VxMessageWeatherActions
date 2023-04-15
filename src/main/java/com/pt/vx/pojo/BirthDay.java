@@ -1,4 +1,4 @@
-package com.pt.vx.domain;
+package com.pt.vx.pojo;
 
 public class BirthDay {
 

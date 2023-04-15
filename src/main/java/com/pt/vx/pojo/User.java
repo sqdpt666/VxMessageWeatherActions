@@ -1,6 +1,6 @@
-package com.pt.vx.domain;
+package com.pt.vx.pojo;
 
-import java.time.LocalDate;
+import com.pt.vx.pojo.BirthDay;
 
 public class User {
 

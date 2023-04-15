@@ -1,6 +1,5 @@
 package com.pt.vx.pojo;
 
-import com.pt.vx.domain.DataInfo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

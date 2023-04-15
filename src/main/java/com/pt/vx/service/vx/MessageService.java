@@ -5,10 +5,10 @@ import com.pt.vx.config.KeyConfig;
 import com.pt.vx.config.MainConfig;
 import com.pt.vx.config.WeatherConfig;
 import com.pt.vx.config.WechatConfig;
-import com.pt.vx.domain.BirthDay;
-import com.pt.vx.domain.DataInfo;
-import com.pt.vx.domain.User;
-import com.pt.vx.domain.VxMessageDto;
+import com.pt.vx.pojo.BirthDay;
+import com.pt.vx.pojo.DataInfo;
+import com.pt.vx.pojo.User;
+import com.pt.vx.pojo.VxMessageDto;
 import com.pt.vx.pojo.BaseWeather;
 import com.pt.vx.pojo.KeyDTO;
 import com.pt.vx.pojo.WeatherFuture;
@@ -44,7 +44,7 @@ public class MessageService {
 
 
     public void sendMessage(User user) {
-        log.info("开始处理用户：{}",JSONUtil.toJsonStr(user));
+        log.info("开始处理用户：{}", JSONUtil.toJsonStr(user));
         if (Objects.equals(MainConfig.messageMode, 0) || Objects.isNull(dto)) {
             dto = new VxMessageDto();
             Map<String, DataInfo> context = buildMessageContext(user);
@@ -75,7 +75,7 @@ public class MessageService {
         try {
             all.get();
         } catch (Exception e) {
-           log.error("发送消息出现错误，错误为：{}",e.getMessage(),e);
+            log.error("发送消息出现错误，错误为：{}", e.getMessage(), e);
         }
         return map;
     }
@@ -196,24 +196,32 @@ public class MessageService {
 
     /**
      * 构造天气的额外消息
+     *
      * @param map
      * @param weather
      */
     private void buildWeatherOtherInfo(Map<String, DataInfo> map, BaseWeather weather) {
         for (WeatherOtherInfo weatherOtherInfo : MainConfig.weatherOtherInfos) {
+            String key = weatherOtherInfo.getKey();
+            if (StringUtils.isBlank(key)) {
+                continue;
+            }
             if (Objects.equals(weatherOtherInfo.getType(), 0)) {
-                String key = weatherOtherInfo.getKey();
-                if (StringUtils.isNotBlank(key)) {
-                    int temperatureKey = Integer.parseInt(key.substring(1));
-                    int temperatureNow = Integer.parseInt(weather.getTemperature());
-                    boolean isGreater = key.startsWith(">") && temperatureNow > temperatureKey;
-                    boolean isLess = key.startsWith("<") && temperatureNow < temperatureKey;
-                    boolean isEqual = key.startsWith("=") && temperatureNow == temperatureKey;
-                    if (isGreater || isLess || isEqual) {
-                        setMap(map, KeyConfig.KEY_OTHER_INFO, weatherOtherInfo.getMessage());
-                    }
+                int temperatureKey = Integer.parseInt(key.substring(1));
+                int temperatureNow = Integer.parseInt(weather.getTemperature());
+                boolean isGreater = key.startsWith(">") && temperatureNow > temperatureKey;
+                boolean isLess = key.startsWith("<") && temperatureNow < temperatureKey;
+                boolean isEqual = key.startsWith("=") && temperatureNow == temperatureKey;
+                if (isGreater || isLess || isEqual) {
+                    setMap(map, KeyConfig.KEY_OTHER_INFO, weatherOtherInfo.getMessage());
+                }
+            } else if (Objects.equals(weatherOtherInfo.getType(), 1)) {
+                String info = weather.getInfo();
+                if(info.contains(key)){
+                    setMap(map, KeyConfig.KEY_OTHER_INFO, weatherOtherInfo.getMessage());
                 }
             }
+
         }
     }
 
@@ -256,7 +264,7 @@ public class MessageService {
                     dataInfo.setValue(substring);
                     map.put(key, dataInfo);
                     i++;
-                }while (i < x);
+                } while (i < x);
 
             } else {
                 dataInfo.setValue(value);
@@ -267,6 +275,7 @@ public class MessageService {
 
     /**
      * 随机颜色
+     *
      * @param color
      * @return
      */

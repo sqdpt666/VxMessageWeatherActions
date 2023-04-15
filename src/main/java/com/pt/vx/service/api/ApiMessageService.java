@@ -6,8 +6,8 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.pt.vx.config.KeyConfig;
 import com.pt.vx.config.MainConfig;
-import com.pt.vx.domain.BirthDay;
-import com.pt.vx.domain.User;
+import com.pt.vx.pojo.BirthDay;
+import com.pt.vx.pojo.User;
 import com.pt.vx.pojo.KeyDTO;
 import com.pt.vx.utils.HttpUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -214,5 +214,7 @@ public class ApiMessageService {
         String nowNo = data.getStr("现存无症状");
         return time + "现存确诊:" + now + ",现存无症状:"+nowNo;
     }
+
+
 
 }

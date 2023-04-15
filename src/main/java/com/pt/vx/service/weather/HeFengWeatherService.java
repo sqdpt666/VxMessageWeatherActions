@@ -1,13 +1,9 @@
 package com.pt.vx.service.weather;
 
-import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.pt.vx.config.WeatherConfig;
-import com.pt.vx.domain.hefeng.CityLocation;
-import com.pt.vx.domain.hefeng.HfWeatherResult;
-import com.pt.vx.domain.hefeng.LocationResult;
 import com.pt.vx.pojo.BaseWeather;
 import com.pt.vx.pojo.Weather;
 import com.pt.vx.pojo.WeatherFuture;

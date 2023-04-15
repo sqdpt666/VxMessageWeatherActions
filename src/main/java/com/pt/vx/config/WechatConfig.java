@@ -1,7 +1,7 @@
 package com.pt.vx.config;
 
-import com.pt.vx.domain.BirthDay;
-import com.pt.vx.domain.User;
+import com.pt.vx.pojo.BirthDay;
+import com.pt.vx.pojo.User;
 
 import java.util.ArrayList;
 import java.util.List;

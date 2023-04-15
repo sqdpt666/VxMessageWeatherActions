@@ -1,6 +1,7 @@
-package com.pt.vx.domain;
+package com.pt.vx.pojo;
 
-import java.util.HashMap;
+import com.pt.vx.pojo.DataInfo;
+
 import java.util.Map;
 
 public class VxMessageDto {
@@ -12,7 +13,7 @@ public class VxMessageDto {
     private String topcolor = "#FF0000";
 
 
-    private Map<String,DataInfo> data;
+    private Map<String, DataInfo> data;
 
 
     public String getTouser() {
