@@ -144,8 +144,8 @@ public class MessageService {
                 LocalDate now = today.plusDays(i);
                 String week = DateUtil.getWeek(now, MainConfig.chineseWeek);
                 String date = now.toString();
-                setMap(map, KeyConfig.KEY_DATE, date);
-                setMap(map, KeyConfig.KEY_WEEK, week);
+                setMap(map, KeyConfig.KEY_DATE, date,i);
+                setMap(map, KeyConfig.KEY_WEEK, week,i);
             }
         }, ThreadPoolUtil.pool);
     }
