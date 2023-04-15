@@ -60,16 +60,18 @@ public class MessageService {
         ConcurrentHashMap<String, DataInfo> map = new ConcurrentHashMap<>();
         List<CompletableFuture<Void>> apiInfoList = buildApiInfoFuture(map, user);
 
-        if (WeatherConfig.OPEN) {
-            CompletableFuture<Void> weatherFuture = buildWeatherFuture(map, user);
-            apiInfoList.add(weatherFuture);
-        }
 
         CompletableFuture<Void> weekFuture = buildWeekFuture(map);
         apiInfoList.add(weekFuture);
 
         CompletableFuture<Void> birthFuture = buildBirthFuture(map, user);
         apiInfoList.add(birthFuture);
+
+        if (WeatherConfig.OPEN) {
+            CompletableFuture<List<BaseWeather>> weatherFuture = buildWeatherFuture(map, user);
+            CompletableFuture<Void> buildWeatherInfoFuture = buildWeatherOtherInfoFuture(weatherFuture,birthFuture,map);
+            apiInfoList.add(buildWeatherInfoFuture);
+        }
 
         CompletableFuture<Void> all = CompletableFuture.allOf(apiInfoList.toArray(new CompletableFuture[apiInfoList.size()]));
         try {
@@ -137,6 +139,9 @@ public class MessageService {
         }, ThreadPoolUtil.pool);
     }
 
+
+
+
     private CompletableFuture<Void> buildWeekFuture(Map<String, DataInfo> map) {
         return CompletableFuture.runAsync(() -> {
             LocalDate today = LocalDate.now();
@@ -144,14 +149,15 @@ public class MessageService {
                 LocalDate now = today.plusDays(i);
                 String week = DateUtil.getWeek(now, MainConfig.chineseWeek);
                 String date = now.toString();
-                setMap(map, KeyConfig.KEY_DATE, date,i);
-                setMap(map, KeyConfig.KEY_WEEK, week,i);
+                setMap(map, KeyConfig.KEY_DATE, date, i);
+                setMap(map, KeyConfig.KEY_WEEK, week, i);
             }
         }, ThreadPoolUtil.pool);
     }
 
-    private CompletableFuture<Void> buildWeatherFuture(Map<String, DataInfo> map, User user) {
-        return CompletableFuture.runAsync(() -> {
+    private CompletableFuture<List<BaseWeather>> buildWeatherFuture(Map<String, DataInfo> map, User user) {
+        return CompletableFuture.supplyAsync(() -> {
+            List<BaseWeather> list = new ArrayList<>();
             try {
                 if (Objects.equals(0, WeatherConfig.getWeatherType)) {
                     //实时天气
@@ -161,7 +167,8 @@ public class MessageService {
                     setMap(map, KeyConfig.KEY_TEMPERATURE_NOW, weatherNow.getTemperature());
                     setMap(map, KeyConfig.KEY_WIND_NOW, weatherNow.getWind());
                     setMap(map, KeyConfig.KEY_POWER_NOW, weatherNow.getPower());
-                    buildWeatherOtherInfo(map, weatherNow);
+                    list.add(weatherNow);
+                    //buildWeatherOtherInfo(map, weatherNow);
                 } else {
                     //天气预报
                     List<WeatherFuture> weatherFutureList = weatherService.getWeatherFuture(user.getAddress(), user.getCity());
@@ -183,14 +190,33 @@ public class MessageService {
                             setMap(map, KeyConfig.KEY_SUN_RISE, weather.getSunUp());
                             setMap(map, KeyConfig.KEY_SUN_SET, weather.getSunDown());
 
-                            buildWeatherOtherInfo(map, weather.getWeatherDay());
-                            buildWeatherOtherInfo(map, weather.getWeatherNight());
+                            //  buildWeatherOtherInfo(map, weather.getWeatherDay());
+                            //buildWeatherOtherInfo(map, weather.getWeatherNight());
+                            list.add(weather.getWeatherDay());
+                            list.add(weather.getWeatherNight());
                         }
                     }
                 }
             } catch (Exception e) {
                 log.error("获取天气失败，返回值为：{}", e.getMessage());
             }
+
+            return list;
+        }, ThreadPoolUtil.pool);
+    }
+
+    private CompletableFuture<Void> buildWeatherOtherInfoFuture(CompletableFuture<List<BaseWeather>> weatherFuture,CompletableFuture<Void> birthFuture,Map<String, DataInfo> map) {
+        return weatherFuture.thenAcceptBothAsync(birthFuture, (list, x) -> {
+            if (Objects.equals(MainConfig.otherInfoMode, 0)) {
+                return;
+            }
+
+            if (Objects.equals(MainConfig.otherInfoMode, 1) && map.containsKey(KeyConfig.KEY_OTHER_INFO.getKey())) {
+                return;
+            }
+
+            list.forEach(weather -> buildWeatherOtherInfo(map,weather));
+
         }, ThreadPoolUtil.pool);
     }
 
@@ -213,12 +239,12 @@ public class MessageService {
                 boolean isLess = key.startsWith("<") && temperatureNow < temperatureKey;
                 boolean isEqual = key.startsWith("=") && temperatureNow == temperatureKey;
                 if (isGreater || isLess || isEqual) {
-                    setMap(map, KeyConfig.KEY_OTHER_INFO, weatherOtherInfo.getMessage());
+                    setMapExist(map, KeyConfig.KEY_OTHER_INFO, weatherOtherInfo.getMessage());
                 }
             } else if (Objects.equals(weatherOtherInfo.getType(), 1)) {
                 String info = weather.getInfo();
-                if(info.contains(key)){
-                    setMap(map, KeyConfig.KEY_OTHER_INFO, weatherOtherInfo.getMessage());
+                if (info.contains(key)) {
+                    setMapExist(map, KeyConfig.KEY_OTHER_INFO, weatherOtherInfo.getMessage());
                 }
             }
 
@@ -238,6 +264,25 @@ public class MessageService {
             return DateUtil.passDayChinese(birthDay.getYear(), birthDay.getMonth(), birthDay.getDay());
         } else {
             return DateUtil.passDay(birthDay.getYear(), birthDay.getMonth(), birthDay.getDay());
+        }
+    }
+
+
+    private void setMapExist(Map<String, DataInfo> map, KeyDTO dto, String value) {
+        setMapExist(map, dto, value, null);
+    }
+
+    private void setMapExist(Map<String, DataInfo> map, KeyDTO dto, String value, Integer id) {
+        DataInfo dataInfo = map.get(dto.getKey());
+        if (Objects.nonNull(dataInfo)) {
+            String newValue = dataInfo.getValue();
+            if (newValue.contains(value)) {
+                return;
+            }
+            newValue += "\n" + value;
+            setMap(map, dto, newValue, id);
+        } else {
+            setMap(map, dto, value, id);
         }
     }
 

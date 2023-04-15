@@ -1,6 +1,7 @@
 package com.pt.vx.service.api;
 
 import cn.hutool.core.date.ChineseDate;
+import cn.hutool.core.stream.CollectorUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
@@ -14,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -68,10 +70,10 @@ public class ApiMessageService {
      */
     public KeyDTO getRandomKey(){
         List<KeyDTO> collect = keyDTOS.stream().filter(KeyDTO::isOpen).collect(Collectors.toList());
-        int i = random.nextInt(collect.size());
-        if(i == 0){
+        if(collect.isEmpty()){
             return null;
         }
+        int i = random.nextInt(collect.size());
         return collect.get(i);
     }
 
