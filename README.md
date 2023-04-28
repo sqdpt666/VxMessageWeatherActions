@@ -1,4 +1,4 @@
-# 微信模板消息推送 2.6.2
+# 微信模板消息推送 2.6.X
  <img src="https://user-images.githubusercontent.com/56298636/231202157-6cf27e30-26ab-4fbb-a6f9-8e200e27a373.jpg" width = "320" height = "520" alt="图片" align=center />
 
 > 注意：一切内容需要使用英文标点符号！
