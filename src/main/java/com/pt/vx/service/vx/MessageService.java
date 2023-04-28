@@ -37,7 +37,6 @@ public class MessageService {
     private VxMessageDto dto;
 
     private final WeatherService weatherService = new WeatherAdapter();
-
     private final SecureRandom random = new SecureRandom();
 
     private final ApiMessageService apiMessageService = new ApiMessageService();
@@ -121,12 +120,12 @@ public class MessageService {
                     if ("0".equals(nextChineseBirthDay)) {
                         //倒计时额外信息
                         if (!Objects.equals(MainConfig.otherInfoMode, 0)) {
+                            String value;
                             DataInfo dataInfo = map.get(KeyConfig.KEY_OTHER_INFO.getKey());
-                            String value = dataInfo.getValue();
-                            if (StringUtils.isNotBlank(value)) {
-                                value += "\n" + birthDay.getInfo();
-                            } else {
+                            if(Objects.isNull(dataInfo) || StringUtils.isBlank(dataInfo.getValue())){
                                 value = birthDay.getInfo();
+                            }else {
+                                value = dataInfo.getValue() + "\n" + birthDay.getInfo();
                             }
                             setMap(map, KeyConfig.KEY_OTHER_INFO, value);
                         }
