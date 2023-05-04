@@ -1,5 +1,6 @@
 package com.pt.vx.pojo;
 
+
 public class DataInfo {
 
     private String value;
@@ -20,5 +21,12 @@ public class DataInfo {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    @Override
+    public String toString() {
+        return
+                "value='" + value  +
+                ", color='" + color ;
     }
 }

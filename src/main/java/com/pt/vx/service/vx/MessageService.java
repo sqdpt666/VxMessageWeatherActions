@@ -291,27 +291,31 @@ public class MessageService {
 
     private void setMap(Map<String, DataInfo> map, KeyDTO dto, String value, Integer id) {
         if (StringUtils.isNotBlank(value) && dto.isOpen()) {
-            DataInfo dataInfo = new DataInfo();
-            dataInfo.setColor(this.getColor(dto.getColor()));
+            DataInfo dataInfo;
+            String color = this.getColor(dto.getColor());
             String key = Objects.isNull(id) || Objects.equals(id, 0) ? dto.getKey() : dto.getKey() + id;
             if (MainConfig.keyMessageSplit) {
                 int x = (int) (value.length() / 100f + 0.5f);
                 int i = 0;
                 do {
-                    if (i > 0) {
+                    if (i == 1) {
                         key += "Split";
                     }
                     if (i > 1) {
                         key += i;
                     }
                     String substring = value.substring(i * 100, Math.min(i * 100 + 100, value.length()));
+                    dataInfo = new DataInfo();
                     dataInfo.setValue(substring);
+                    dataInfo.setColor(color);
                     map.put(key, dataInfo);
                     i++;
                 } while (i < x);
 
             } else {
+                dataInfo = new DataInfo();
                 dataInfo.setValue(value);
+                dataInfo.setColor(color);
                 map.put(key, dataInfo);
             }
         }
