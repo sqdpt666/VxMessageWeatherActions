@@ -295,16 +295,16 @@ public class MessageService {
             String color = this.getColor(dto.getColor());
             String key = Objects.isNull(id) || Objects.equals(id, 0) ? dto.getKey() : dto.getKey() + id;
             if (MainConfig.keyMessageSplit) {
-                int x = (int) (value.length() / 100f + 0.5f);
+                int x = (int) (value.length() / (float) MainConfig.splitMessageLength + 0.5f);
                 int i = 0;
                 do {
                     if (i == 1) {
-                        key += "Split";
+                        key += MainConfig.splitMessageFlag;
                     }
                     if (i > 1) {
                         key += i;
                     }
-                    String substring = value.substring(i * 100, Math.min(i * 100 + 100, value.length()));
+                    String substring = value.substring(i * MainConfig.splitMessageLength, Math.min(i * MainConfig.splitMessageLength + MainConfig.splitMessageLength, value.length()));
                     dataInfo = new DataInfo();
                     dataInfo.setValue(substring);
                     dataInfo.setColor(color);

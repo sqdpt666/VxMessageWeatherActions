@@ -26,6 +26,19 @@ public class MainConfig {
     public static boolean keyMessageSplit = true;
 
     /**
+     * 消息达到分裂的条件
+     * 默认每20个字分裂一次
+     */
+    public static int splitMessageLength = 20;
+
+    /**
+     * 分裂使用的标记符号
+     * {{xxxSplit.DATA}}
+     */
+    public static String splitMessageFlag = "Split";
+
+
+    /**
      * 周显示为中文
      * true 显示为中文
      * false 显示为数字

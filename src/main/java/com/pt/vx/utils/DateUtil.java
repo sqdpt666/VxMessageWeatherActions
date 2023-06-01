@@ -1,15 +1,9 @@
 package com.pt.vx.utils;
 
 import cn.hutool.core.date.ChineseDate;
-
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-
-import static java.time.DayOfWeek.MONDAY;
-
 public class DateUtil {
-
-
 
 
     /**
@@ -22,7 +16,7 @@ public class DateUtil {
     public static String passDay(int year,int month,int day){
         LocalDate start = LocalDate.of(year, month, day);
         LocalDate now = LocalDate.now();
-        return passDay(now,start);
+        return passDay(start,now);
     }
 
     /**
@@ -34,12 +28,16 @@ public class DateUtil {
      */
     public static String passDayChinese(int chineseYear,int chineseMonth,int chineseDay){
         ChineseDate chineseDate = new ChineseDate(chineseYear,chineseMonth,chineseDay);
+        return passDayChinese(chineseDate);
+    }
+
+    public static String passDayChinese(ChineseDate chineseDate){
         int gregorianYear = chineseDate.getGregorianYear();
         int gregorianMonthBase1 = chineseDate.getGregorianMonthBase1();
         int gregorianDay = chineseDate.getGregorianDay();
         LocalDate start = LocalDate.of(gregorianYear, gregorianMonthBase1, gregorianDay);
         LocalDate now = LocalDate.now();
-        return passDay(now,start);
+        return passDay(start,now);
     }
     
     public static String passDayOfNow(LocalDate source){
@@ -48,7 +46,7 @@ public class DateUtil {
         int day = source.getDayOfMonth();
         LocalDate start = LocalDate.of(year, month, day);
         LocalDate now = LocalDate.now();
-        return passDay(now,start);
+        return passDay(start,now);
     }
 
     /**
@@ -101,36 +99,40 @@ public class DateUtil {
      * @return 天数
      */
     public static String getNextChineseBirthDay(int chineseMonth,int chineseDay){
-
+        //现在时间
         LocalDate now = LocalDate.now();
         int year = now.getYear();
-        int monthValue = now.getMonthValue();
-        int dayOfMonth = now.getDayOfMonth();
 
-        ChineseDate birthDay = new ChineseDate(year,chineseMonth,chineseDay,false);
-        int greMonth = birthDay.getGregorianMonthBase1();
-        int greDay = birthDay.getGregorianDay();
+        //非闰月生日时间
+        ChineseDate chineseBirthDayNoLeap = new ChineseDate(year,chineseMonth,chineseDay,false);
+        int greMonth = chineseBirthDayNoLeap.getGregorianMonthBase1();
+        int greDay = chineseBirthDayNoLeap.getGregorianDay();
+        int gregorianYear = chineseBirthDayNoLeap.getGregorianYear();
 
-        //非润月生日已经过去
-        if(monthValue > greMonth || (monthValue == greMonth && dayOfMonth > greDay)){
-            ChineseDate birthDay2 = new ChineseDate(year,chineseMonth,chineseDay);
-            int greMonth2= birthDay2.getGregorianMonthBase1();
-            int greDay2 = birthDay2.getGregorianDay();
+        LocalDate birthDayOfNoLeap = LocalDate.of(gregorianYear, greMonth, greDay);
 
-            //闰月生日已经过去，则返回下一个非闰月生日
-            if(monthValue > greMonth2 || (monthValue == greMonth2 && dayOfMonth > greDay2)){
-                ChineseDate birthDay3 = new ChineseDate(++year,chineseMonth,chineseDay,false);
-                int greMonth3 = birthDay3.getGregorianMonthBase1();
-                int greDay3 = birthDay3.getGregorianDay();
-                return passDay(LocalDate.of(year,greMonth3,greDay3),now);
-            }
-
-            //返回闰月生日
-            return passDay(LocalDate.of(year,greMonth2,greDay2),now);
-
+        //如果非闰月没有过去
+        if(birthDayOfNoLeap.isAfter(now)){
+            return passDayOfNow(birthDayOfNoLeap);
         }
 
-        return passDay(LocalDate.of(year,greMonth,greDay),now);
+        //闰月生日
+        ChineseDate chineseBirthDayLeap = new ChineseDate(year,chineseMonth,chineseDay);
+        int greMonthLeap = chineseBirthDayLeap.getGregorianMonthBase1();
+        int greDayLeap = chineseBirthDayLeap.getGregorianDay();
+        int gregorianYearLeap = chineseBirthDayLeap.getGregorianYear();
+        LocalDate birthDayOfLeap = LocalDate.of(gregorianYearLeap, greMonthLeap, greDayLeap);
+
+        //如果闰月没有过去
+        if(birthDayOfLeap.isAfter(now)){
+            return passDayOfNow(birthDayOfLeap);
+        }
+
+
+        //生日已经过去
+        ChineseDate chineseBirthdayNext = new ChineseDate(++year,chineseMonth,chineseDay,false);
+        return passDayChinese(chineseBirthdayNext);
+
     }
 
     /**
