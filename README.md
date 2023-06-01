@@ -214,15 +214,15 @@ public class WechatConfig {
 <span id="baseMb">基础模板</span>
 
 ```
-{{userName.DATA}}， 
-{{date.DATA}} 周{{week.DATA}} 
-今天是我们在一起的{{birthDay3.DATA}}天 
+Dear {{userName.DATA}} 
+今天是{{date.DATA}} 周{{week.DATA}} 
+我们在一起的{{birthDay3.DATA}}天 
 你的生日还有{{birthDay.DATA}}天 
 我的生日还有{{birthDay1.DATA}}天 
 距离我们下一次纪念还有{{birthDay2.DATA}}天 
-{{otherInfo.DATA}}{{otherInfoSplit.DATA}} 
+额外提示：{{otherInfo.DATA}}{{otherInfoSplit.DATA}} 
 
-{{randomInfo.DATA}}{{randomInfoSplit.DATA}}
+随机推送：{{randomInfo.DATA}}{{randomInfoSplit.DATA}}
 
 最后，开心每一天！
 ```
@@ -232,9 +232,9 @@ public class WechatConfig {
 有天气的模板
 
 ```
-{{userName.DATA}}， 
-{{date.DATA}} 周{{week.DATA}} 
-今天是我们在一起的{{birthDay3.DATA}}天 
+Dear {{userName.DATA}}， 
+今天是{{date.DATA}} 周{{week.DATA}} 
+我们在一起的{{birthDay3.DATA}}天 
 你的生日还有{{birthDay.DATA}}天 
 我的生日还有{{birthDay1.DATA}}天 
 距离我们下一次纪念还有{{birthDay2.DATA}}天 
@@ -242,9 +242,9 @@ public class WechatConfig {
 今天晚上{{weatherNight.DATA}}，温度{{temperatureNight.DATA}}℃ 
 明天白天{{weatherDay1.DATA}}，温度{{temperatureDay1.DATA}}℃ 
 明天晚上{{weatherNight1.DATA}}，温度{{temperatureNight1.DATA}}℃ 
-{{otherInfo.DATA}}{{otherInfoSplit.DATA}}
+额外提示：{{otherInfo.DATA}}{{otherInfoSplit.DATA}}
 
-{{randomInfo.DATA}}{{randomInfoSplit.DATA}}
+随机推送：{{randomInfo.DATA}}{{randomInfoSplit.DATA}}
 
 最后，开心每一天！
 ```
