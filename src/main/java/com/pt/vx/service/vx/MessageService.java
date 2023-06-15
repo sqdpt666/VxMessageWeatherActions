@@ -112,8 +112,7 @@ public class MessageService {
                 boolean countFlag = birthDay.isCountFlag();
                 String day = null;
                 if (countFlag) {
-                    String passDayChinese = getPassDay(birthDay, chineseFlag);
-                    day = passDayChinese;
+                    day = getPassDay(birthDay, chineseFlag);
                 } else {
                     String nextChineseBirthDay = getNextBirthDay(birthDay, chineseFlag);
                     day = nextChineseBirthDay;
@@ -189,8 +188,6 @@ public class MessageService {
                             setMap(map, KeyConfig.KEY_SUN_RISE, weather.getSunUp());
                             setMap(map, KeyConfig.KEY_SUN_SET, weather.getSunDown());
 
-                            //  buildWeatherOtherInfo(map, weather.getWeatherDay());
-                            //buildWeatherOtherInfo(map, weather.getWeatherNight());
                             list.add(weather.getWeatherDay());
                             list.add(weather.getWeatherNight());
                         }
@@ -222,8 +219,6 @@ public class MessageService {
     /**
      * 构造天气的额外消息
      *
-     * @param map
-     * @param weather
      */
     private void buildWeatherOtherInfo(Map<String, DataInfo> map, BaseWeather weather) {
         for (WeatherOtherInfo weatherOtherInfo : MainConfig.weatherOtherInfos) {
@@ -259,10 +254,12 @@ public class MessageService {
     }
 
     private String getPassDay(BirthDay birthDay, boolean chineseFlag) {
+        LocalDate now = LocalDate.now();
         if (chineseFlag) {
-            return DateUtil.passDayChinese(birthDay.getYear(), birthDay.getMonth(), birthDay.getDay());
+            return DateUtil.countPassChineseDay(birthDay.getYear(), birthDay.getMonth(), birthDay.getDay());
         } else {
-            return DateUtil.passDay(birthDay.getYear(), birthDay.getMonth(), birthDay.getDay());
+            LocalDate of = LocalDate.of(birthDay.getYear(), birthDay.getMonth(), birthDay.getDay());
+            return DateUtil.passDay(of,now);
         }
     }
 
