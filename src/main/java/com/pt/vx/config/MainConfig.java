@@ -70,7 +70,7 @@ public class MainConfig {
      * true 开启
      * false 关闭
      */
-    public static boolean randomMessageColorMode = true;
+    public static boolean randomMessageColorMode = false;
 
     /**
      * 参与随机的颜色
