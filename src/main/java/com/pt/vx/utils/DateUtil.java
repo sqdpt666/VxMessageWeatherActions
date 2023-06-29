@@ -93,10 +93,8 @@ public class DateUtil {
     public static String getNextBirthDay(int month,int day){
         LocalDate now = LocalDate.now();
         int year = now.getYear();
-        int monthValue = now.getMonthValue();
-        int dayOfMonth = now.getDayOfMonth();
 
-        LocalDate birth = LocalDate.of(year, monthValue, dayOfMonth);
+        LocalDate birth = LocalDate.of(year, month, day);
 
         //生日已经过去
         if(birth.isBefore(now)){
