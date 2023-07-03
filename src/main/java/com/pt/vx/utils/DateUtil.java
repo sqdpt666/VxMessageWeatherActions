@@ -8,12 +8,6 @@ import java.time.LocalDate;
 public class DateUtil {
 
 
-    public static void main(String[] args) {
-        BirthDay birthDay = new BirthDay(1999, 8, 11, false, false);
-        System.out.println(getNextBirthDay( birthDay.getMonth(), birthDay.getDay()));
-
-    }
-
     /**
      *
      * @param chineseYear 农历年
@@ -82,6 +76,19 @@ public class DateUtil {
         return source.toEpochDay() - target.toEpochDay() + "";
     }
 
+
+    public static String passDayAbs(LocalDate source,LocalDate target){
+        long day =  source.toEpochDay() - target.toEpochDay();
+        return Math.abs(day) + "";
+    }
+
+    public static String passChineseDayAbs(ChineseDate chineseDate,LocalDate target){
+        int gregorianYear = chineseDate.getGregorianYear();
+        int gregorianMonthBase1 = chineseDate.getGregorianMonthBase1();
+        int gregorianDay = chineseDate.getGregorianDay();
+        LocalDate start = LocalDate.of(gregorianYear, gregorianMonthBase1, gregorianDay);
+        return passDayAbs(start,target);
+    }
 
     /**
      *

@@ -1,5 +1,6 @@
 package com.pt.vx.service.vx;
 
+import cn.hutool.core.date.ChineseDate;
 import cn.hutool.json.JSONUtil;
 import com.pt.vx.config.KeyConfig;
 import com.pt.vx.config.MainConfig;
@@ -256,10 +257,11 @@ public class MessageService {
     private String getPassDay(BirthDay birthDay, boolean chineseFlag) {
         LocalDate now = LocalDate.now();
         if (chineseFlag) {
-            return DateUtil.countPassChineseDay(birthDay.getYear(), birthDay.getMonth(), birthDay.getDay());
+            ChineseDate chineseDate = new ChineseDate(birthDay.getYear(), birthDay.getMonth(), birthDay.getDay());
+            return DateUtil.passChineseDayAbs(chineseDate,now);
         } else {
             LocalDate of = LocalDate.of(birthDay.getYear(), birthDay.getMonth(), birthDay.getDay());
-            return DateUtil.passDay(of,now);
+            return DateUtil.passDayAbs(now,of);
         }
     }
 
